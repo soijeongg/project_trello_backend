@@ -4,7 +4,7 @@
 
 ## 프로젝트 링크
 
-[TRELLO](http://3.39.238.141:3000/api/categories)
+[TRELLO](http://43.203.203.105/)
 
 [노션](https://maroon-yttrium-a81.notion.site/Trello-615eed4f4cd64174b58905f67efb2f99?pvs=4)
 
