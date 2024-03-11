@@ -4,12 +4,11 @@ on:
     types: [closed]
 
 jobs:
-  notification:
+  slack_notification:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Merge Success Notification
         if: github.event.pull_request.merged == true
         uses: 8398a7/action-slack@v3.2.0
