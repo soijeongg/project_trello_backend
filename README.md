@@ -180,6 +180,9 @@ npx prisma init
 
 3. **폴더 및 파일 수정**
 
+   - 프로젝트 폴더 및 파일 생성
+     - 미들웨어(에러, 로깅) 추가
+
    - schema.prisma 파일 수정
      ```plaintext
      datasource db {
@@ -192,13 +195,9 @@ npx prisma init
      ```plaintext
      DATABASE_URL="mysql://[사용자 이름]:[암호]@[RDS 엔드포인트]:3306/trello"
      PORT=3000
-     JWT_SECRET="trello"
      ```
 
-   - 과제 요구사항에 맞게 프로젝트 폴더 및 파일 생성
 
-     - lv5 과제에서는 기존의 lv4 프로젝트의 내용을 복사해서 사용
-     - 기존의 코드에 소프트삭제 추가
 
    - app.js 파일 작성
 
@@ -257,8 +256,6 @@ git branch -a
 ```
 
 ### EC2 배포
-
-### ** nginx + node.js **
 
 [참조 링크](https://velog.io/@jovid18/EC2-nginxnode.js-%EB%A6%AC%EB%B2%84%EC%8A%A4-%ED%94%84%EB%A1%9D%EC%8B%9C)
 
