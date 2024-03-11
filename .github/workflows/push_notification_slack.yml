@@ -1,24 +1,31 @@
-name: slack nofication for push
-on: 
+name: slack notification for push
+on:
   push:
     branches:
       - main
 jobs:
   build:
-    name: push nofitication
+    name: push notification
     runs-on: ubuntu-latest
     permissions:
       contents: read
       actions: read
     steps:
-    - name: Checkout 
-      uses: actions/checkout@v2
-    - name: Notice when a build finishes
-      if: always()
-      uses: 8398a7/action-slack@v3.2.0
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      with:
-        status: ${{job.status}}
-        fields: repo,message,workflow,job,ref
-        author_name: Github Action Slack
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get the last commit message
+        id: last-commit-message
+        run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)" >> $GITHUB_ENV
+
+      - name: Notice when a build finishes
+        if: always()
+        uses: 8398a7/action-slack@v3.2.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          COMMIT_MESSAGE: ${{ env.COMMIT_MESSAGE }}
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,workflow,job,ref,commit
+          author_name: Github Action Slack
+          text: ${{ env.COMMIT_MESSAGE }}
