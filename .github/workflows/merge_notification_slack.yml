@@ -1,0 +1,31 @@
+name: Pull Request Merge/Rejection Notification
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Merge Success Notification
+        if: github.event.pull_request.merged == true
+        uses: 8398a7/action-slack@v3.2.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          author_name: Github Action Slack
+          text: '풀 리퀘스트가 병합되었습니다.\n제목: ${{ github.event.pull_request.title }}\n작성자: @${{ github.event.pull_request.user.login }}\n링크: ${{ github.event.pull_request.html_url }}'
+
+      - name: Rejection Notification
+        if: github.event.pull_request.merged == false
+        uses: 8398a7/action-slack@v3.2.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          author_name: Github Action Slack
+          text: '풀 리퀘스트가 거부되었습니다.\n제목: ${{ github.event.pull_request.title }}\n작성자: @${{ github.event.pull_request.user.login }}\n링크: ${{ github.event.pull_request.html_url }}'

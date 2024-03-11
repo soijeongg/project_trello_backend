@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  slack_notification:
     name: push notification
     runs-on: ubuntu-latest
     permissions:
@@ -28,4 +28,4 @@ jobs:
           status: ${{ job.status }}
           fields: repo,message,workflow,job,ref,commit
           author_name: Github Action Slack
-          text: ${{ env.COMMIT_MESSAGE }}의 커밋이 완료되었습니다.
+          text: main branch에 ${{ env.COMMIT_MESSAGE }}의 커밋이 push 되었습니다.
