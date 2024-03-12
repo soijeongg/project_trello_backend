@@ -8,7 +8,7 @@
 
 [노션](https://maroon-yttrium-a81.notion.site/Trello-615eed4f4cd64174b58905f67efb2f99?pvs=4)
 
-[와이어프레임](https://excalidraw.com/#room=52833607b182367f3f12,M3RCtEw5a-LnSLp855H2iQ)
+[와이어프레임](<https://www.figma.com/file/bxAtoUcRKPOgFI5uzaBaiI/Memo-UI-Kit-(Community)-(Community)?type=design&node-id=0%3A1&mode=design&t=YS5gzWKIkMF008yY-1>)
 
 [개발용 ERD](https://www.erdcloud.com/d/sGpHCntcSzQRnovh2)
 
