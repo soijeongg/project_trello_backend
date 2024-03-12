@@ -18,14 +18,14 @@
 
 ## 프로젝트 진행
 
-- **main repository**에서 `main`(개발) 및 `production`(배포) 브랜치를 만들고, `production` 브랜치는 상시 배포상태 유지.
-- `main`에서 일정 기능이 구현될 때마다 `production` 브랜치로 pull.
+- **main repository**에서 `main(배포) 및 `dev`(개발) 브랜치를 만들고, `main` 브랜치는 상시 배포상태 유지.
+- `dev`에서 일정 기능이 구현될 때마다 `main` 브랜치에서 merge.
 
 ### Main repository 관리자
 
 - 프로젝트 세팅
-- 기능 개발(`main branch`에 업데이트)
-- 배포 업데이트(`production branch` 업데이트 및 EC2 인스턴스 업데이트)
+- 기능 개발(`dev branch`에 업데이트)
+- 배포 업데이트(`main branch` 업데이트 및 EC2 인스턴스 업데이트)
 
 ### Fork repository 관리자
 
@@ -36,20 +36,20 @@
 
 ### 기능 개발
 
-- `main branch`에 직접 개발하지 않고, 예: `feat/addlogin`와 같은 branch를 생성하여 해당 브랜치에서 작업.
-- **Main repository 관리자**는 `main repository(main)`에 push하고 팀원에게 보고.
-- **Fork repository 관리자**는 `fork repository(main)`에 push하고 `main repository(main)`에 pull-request하고 main repo 관리자에게 보고.
+- `dev branch`에 직접 개발하지 않고, 예: `feat/addlogin`와 같은 branch를 생성하여 해당 브랜치에서 작업.
+- **Main repository 관리자**는 `main repository(dev)`에 push하고 팀원에게 보고.
+- **Fork repository 관리자**는 `fork repository(dev)`에 push하고 `main repository(dev)`에 pull-request하고 main repo 관리자에게 보고.
 
 ### 브랜치 개발 방식
 
 1 .feat/api 브랜치 만들기
 
 ```bash
-# main 브랜치로 이동하여 최신 상태 업데이트
-git checkout main
+# dev 브랜치로 이동하여 최신 상태 업데이트
+git checkout dev
 # Fork respositor 관리자는 해당 repository가 synk fork 되어있는지 확인
-git pull origin main
-# main 브랜치에서 feat/api 브랜치 생성
+git pull origin dev
+# dev 브랜치에서 feat/api 브랜치 생성
 git checkout -b feat/api
 ```
 
@@ -60,28 +60,28 @@ git add .
 git commit -m '${type}/{content}`
 ```
 
-3. 주기적으로 main 브랜치의 내용을 `feat/api` 브랜치로 merge하기
+3. 주기적으로 dev 브랜치의 내용을 `feat/api` 브랜치로 merge하기
 
 ```bash
-# main 브랜치로 이동해 최신 변경 사항 가져오기
-git checkout main
+# dev 브랜치로 이동해 최신 변경 사항 가져오기
+git checkout dev
 # Fork respositor 관리자는 해당 repository가 synk fork 되어있는지 확인
-git pull origin main
+git pull origin dev
 # feat/api 브랜치로 이동하여 main 브랜치 변경사항 merge
 git checkout feat/api
-git merge main
+git merge dev
 ```
 
-4. 개발 완료 후 'main`브랜치로`feat/api` 브랜치의 변경 사항 merge 하기
+4. 개발 완료 후 'dev`브랜치로`feat/api` 브랜치의 변경 사항 merge 하기
 
 ```bash
-git checkout main
+git checkout dev
 # Fork respositor 관리자는 해당 repository가 synk fork 되어있는지 확인
 #만약 synkfork가 안되어 있다면
-git pull origin main
-#최신 버전으로 main이 맞춰졌으면
+git pull origin dev
+#dev가 최신 버전으로  맞춰졌으면
 git merge feat/api
-git push origin main
+git push origin dev
 ```
 
 5. `feat/api` 브랜치 삭제하기
@@ -97,13 +97,13 @@ git push origin --delete feat/api
 
 ```bash
 #일정 기능이 구현된 이후
-git checkout production
+git checkout main
 #production branch를 main의 내용으로 update
-git merge main
+git merge dev
 #자동으로 원격 저장소와 같은 이름의 브랜치에 pull
 git pull
 # 이후 aws 배포하고 추후 개발을 위해 다시 main 브랜치로 복귀
-git checkout man
+git checkout dev
 ```
 
 ### 커밋 메시지 형식
@@ -181,6 +181,7 @@ npx prisma init
 3. **폴더 및 파일 수정**
 
    - 프로젝트 폴더 및 파일 생성
+
      - 미들웨어(에러, 로깅) 추가
 
    - schema.prisma 파일 수정
@@ -196,8 +197,6 @@ npx prisma init
      DATABASE_URL="mysql://[사용자 이름]:[암호]@[RDS 엔드포인트]:3306/trello"
      PORT=3000
      ```
-
-
 
    - app.js 파일 작성
 
