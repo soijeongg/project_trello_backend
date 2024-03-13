@@ -8,6 +8,7 @@ export class CardsRepository {
       },
       orderBy: {
         cardOrder: 'asc',
+        updatedAt: 'desc',
       },
     });
     return cards;
@@ -25,6 +26,7 @@ export class CardsRepository {
   };
   createCard = async (
     columnId,
+    cardWriterId,
     cardTitle,
     cardContent,
     cardStartTime,
@@ -37,6 +39,7 @@ export class CardsRepository {
       data: {
         columnId: +columnId,
         cardTitle,
+        cardWriterId: +cardWriterId,
         cardContent,
         cardStartTime,
         cardEndTime,
@@ -49,8 +52,10 @@ export class CardsRepository {
   };
   updateCard = async (
     cardId,
+    cardWriterId,
     columnId,
     cardTitle,
+    cardWriterId,
     cardContent,
     cardStartTime,
     cardEndTime,
@@ -64,6 +69,7 @@ export class CardsRepository {
       data: {
         columnId: +columnId,
         cardTitle,
+        cardWriterId: +cardWriterId,
         cardContent,
         cardStartTime,
         cardEndTime,

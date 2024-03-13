@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const columnIdScehma = Joi.object({
+const columnIdSchema = Joi.object({
   columnId: Joi.number().required(),
 });
 const timeSchema = Joi.object({
@@ -29,4 +29,4 @@ const updateCardSchema = Joi.object({
   cardOrder: Joi.number(),
 });
 
-export { columnIdScehma, createCardSchema, updateCardSchema };
+export { columnIdSchema, createCardSchema, updateCardSchema };
