@@ -11,7 +11,12 @@ export class ColumnRepository {
             boardId: +boardId,
         },
         include:{
-            Cards:true
+            Cards:{
+                select: {
+                    cardTitle: true,
+                    cardWriterId: true
+                }
+            }
         }
         });
         return columns;
