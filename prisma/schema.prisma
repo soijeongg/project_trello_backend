@@ -12,3 +12,87 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  userId      Int         @id @default(autoincrement()) @map("userBoardId")
+  email       String      @unique @map("email")
+  password    String      @map("password")
+  nickname    String      @unique @map("nickname")
+  Boards      Board[]
+  UserBoards  UserBoard[]
+
+  @@map("User")
+}
+
+model Board {
+  boardId       Int         @id @default(autoincrement()) @map("boardId")
+  userId        Int         @map("userId")
+  boardTitle    String      @map("boardTitle")
+  boardWriterId Int         @map("boardWriterId")
+  boardContent  String      @map("boardContent")
+  boardCode     String      @map("boardCode")
+  boardColor    Int         @map("boardColor")
+  User          User        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  Columns       Column[]
+  UserBoards    UserBoard[]
+
+  @@map("Board")
+}
+
+model UserBoard {
+  userBoardId Int      @id @default(autoincrement()) @map("userBoardId")
+  userId      Int      @map("userId")
+  boardId     Int      @map("boardId")
+  User        User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  Board       Board    @relation(fields: [boardId], references: [boardId], onDelete: Cascade)
+
+  @@map("UserBoard")
+}
+
+model Column {
+  columnId      Int       @id @default(autoincrement()) @map("columnId")
+  boardId       Int       @map("boardId")
+  columnTitle   String    @map("columnTitle")
+  columnWriterId Int      @map("columnWriterId")
+  columnOrder   Int       @map("columnOrder")
+  columnColor   Int       @map("columnColor")
+  Board         Board     @relation(fields: [boardId], references: [boardId], onDelete: Cascade)
+  Cards         Card[]
+
+  @@map("Column")
+}
+
+model Card {
+  cardId        Int         @id @default(autoincrement()) @map("cardId")
+  columnId      Int         @map("columnId")
+  cardTitle     String      @map("cardTitle")
+  cardWriterId  Int         @map("cardWriterId")
+  cardContent   String      @map("cardContent")
+  cardStartTime DateTime    @map("cardStartTime")
+  cardEndTime   DateTime    @map("cardEndTime")
+  cardStatus    CardStatus  @default(IN_PROGRESS) @map("cardStatus")
+  cardOrder     Int         @map("cardOrder")
+  cardColor     Int         @map("cardColor")
+  Column        Column      @relation(fields: [columnId], references: [columnId], onDelete: Cascade)
+  Comments      Comment[]
+
+  @@map("Card")
+}
+
+model Comment {
+  commentId       Int       @id @default(autoincrement()) @map("commentId")
+  cardId          Int       @map("cardId")
+  commentWriterId Int       @map("commentWriterId")
+  commentContent  String    @map("commentContent")
+  createdAt       DateTime  @default(now()) @map("createdAt")
+  updatedAt       DateTime  @updatedAt @map("updatedAt")
+  Card            Card      @relation(fields: [cardId], references: [cardId], onDelete: Cascade)
+
+  @@map("Comment")
+}
+
+enum CardStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
