@@ -1,45 +1,46 @@
-import { PrismaClient } from '@prisma/client';
+export class BoardRepository {
+  constructor(prisma) {
+    this.prisma = prisma;
+  }
+  findBoardByCode = async (boardCode) => {
+    return await prisma.board.findUnique({
+      where: {
+        boardCode,
+      },
+    });
+  };
 
-const prisma = new PrismaClient();
+  findAllBoardsForUser = async (userId) => {
+    return await prisma.board.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        Columns: true,
+      },
+    });
+  };
 
-export const findBoardByCode = async (boardCode) => {
-  return await prisma.board.findUnique({
-    where: {
-      boardCode,
-    },
-  });
-};
+  createBoard = async (boardData) => {
+    return await prisma.board.create({
+      data: boardData,
+    });
+  };
 
-export const findAllBoardsForUser = async (userId) => {
-  return await prisma.board.findMany({
-    where: {
-      userId,
-    },
-    include: {
-      Columns: true,
-    },
-  });
-};
+  updateBoardById = async (boardId, boardData) => {
+    return await prisma.board.update({
+      where: {
+        boardId,
+      },
+      data: boardData,
+    });
+  };
 
-export const createBoard = async (boardData) => {
-  return await prisma.board.create({
-    data: boardData,
-  });
-};
-
-export const updateBoardById = async (boardId, boardData) => {
-  return await prisma.board.update({
-    where: {
-      boardId,
-    },
-    data: boardData,
-  });
-};
-
-export const deleteBoardById = async (boardId) => {
-  return await prisma.board.delete({
-    where: {
-      boardId,
-    },
-  });
-};
+  deleteBoardById = async (boardId) => {
+    return await prisma.board.delete({
+      where: {
+        boardId,
+      },
+    });
+  };
+}
