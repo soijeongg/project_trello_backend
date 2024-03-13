@@ -3,9 +3,9 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
-import LogMiddleware from './middlewares/log.middleware.js'
-import notFoundErrorHandler from './middlewares/not_found_error.middleware.js';
-import generalErrorHandler from './middlewares/general_error.middleware.js';
+import LogMiddleware from './middlewares/logMiddleware.js';
+import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
+import generalErrorHandler from './middlewares/generalErrorMiddleware.js';
 import router from './routes/index.js';
 dotenv.config();
 
@@ -19,8 +19,8 @@ const sessionStore = new MySQLStore({
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT,
   database: process.env.DATABASE_NAME,
-  expiration: 1000 * 60 * 60 * 24, 
-  createDatabaseTable: true, 
+  expiration: 1000 * 60 * 60 * 24,
+  createDatabaseTable: true,
 });
 
 app.use(LogMiddleware);

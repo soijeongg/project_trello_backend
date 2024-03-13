@@ -1,4 +1,4 @@
-import { logger } from './log.middleware.js';
+import { logger } from './logMiddleware.js';
 
 export default (err, req, res, next) => {
   logger.error(`Error Status: ${err.status}, Message: ${err.message}`);
