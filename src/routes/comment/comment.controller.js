@@ -1,5 +1,5 @@
 // import { CommentService } from './comment.service.js';
-import { createCommentSchema, cardIdSchema, commentIdSchema } from './columnJoiSchemas.js'
+import { createCommentSchema, cardIdSchema, commentIdSchema } from './comment.JoiSchema.js'
 
 export class CommentController {
     constructor(commentService) {
