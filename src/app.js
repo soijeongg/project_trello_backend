@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import LogMiddleware from './middlewares/log.middleware.js';
 import notFoundErrorHandler from './middlewares/not_found_error.middleware.js';
 import generalErrorHandler from './middlewares/general_error.middleware.js';
-
+import router from './routes/index.js';
 dotenv.config();
 
 const app = express();
@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
   res.send('<h1>trello</h1>');
 });
 
+app.use('/api', router);
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
 

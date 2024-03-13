@@ -93,7 +93,7 @@ git branch -d feat/api
 git push origin --delete feat/api
 ```
 
-### 원격 production branch update
+### 원격 main branch update
 
 ```bash
 #일정 기능이 구현된 이후

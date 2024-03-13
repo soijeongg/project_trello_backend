@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  userId      Int         @id @default(autoincrement()) @map("userBoardId")
+  userId      Int         @id @default(autoincrement()) @map("userId")
   email       String      @unique @map("email")
   password    String      @map("password")
   nickname    String      @unique @map("nickname")
