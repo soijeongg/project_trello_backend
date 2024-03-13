@@ -29,26 +29,36 @@ export class userService{
     }
     return createOne
 }
-// ============================================ 로그인을 해보자 ===============================================================
+//================================================아이디 중복체크를 해보자 ===============================================================================
+    checkEnailed = async(email)=>{
+        let checkI = await this.userRespository.checkEmail(email)
+        if(checkI){
+            const error = new Error("이미 등록된 이메일 입니다 ")
+            error.status = 401;
+            throw error
+    }
+    return checkI
+        }
+    
+// ============================================ 로그인을 해보자 =================================================================================
     logined = async(email, password)=>{
         let findI = await this.userRespository.checkEmail(email)
         if(!findI){
-            const error = new Error('이메일이 일치하지 않습니다 ');
+            const error = new Error('이메일이나 비밀번호가 맞지 않습니다  ');
             error.status = 401;
             throw error;
 
         }
     let checkpasswords = await argon2.verify(findI.password, password);
     if (!checkpasswords) {
-        const error = new Error('비밀번호가 맞지 않습니다 ');
+        const error = new Error('이메일이나 비밀번호가 맞지 않습니다  ');
         error.status = 401;
         throw error;
     }
     return `${findI.nickname},${findI.userId}`;
 
 }
-// ========================================== 회원 정보 수정을 해보자 =======================================================
-// 1. 이메일
+// ========================================== 회원 정보 수정을 해보자 ===========================================================================
     updateUserServiceEmail = async(email,userId)=>{
         //현재 가지고 있는 세션에서 유저 아이디를 가져와 그거를 where로 바꿔준다 
         let updaeteUserE = await this.userRespository.updateEmail(email,userId);
@@ -62,12 +72,14 @@ export class userService{
 
 //2. 닉네임
     updateUserServiceNickname = async(nickname, userId)=>{
+         
+        
         let updatedUserN = await this.userRespository.updateNickname(nickname, userId)
         if(!updatedUserN){
         const error = new Error('수정에 실패했습니다');
         throw error;
         }
-        return updateUserN
+        return updatedUserN
         
     }
 
@@ -109,8 +121,8 @@ updateUserEmailPassword = async(email, password, userId)=>{
 
 
 //6. 비밀번호 닉네임
-updateUserPasswordNickname = async(password, nickname)=>{
-    let updateUSerPN = await this.userRespository.updatePasswordNickname(nickname, password);
+updateUserPasswordNickname = async(password, nickname,userId)=>{
+    let updateUSerPN = await this.userRespository.updatePasswordNickname(nickname, password,userId);
     if(!updateUSerPN){
            const error = new Error('수정에 실패했습니다');
            throw error;
@@ -140,6 +152,7 @@ deleteUserService = async(userId)=>{
     }
     return deleteuser
 }
+
 
 
 }

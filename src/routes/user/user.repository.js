@@ -44,6 +44,7 @@ export class userRespository {
   // ============================================================== 수정=================================================================
   //닉네임만 들어왔을때 업데이트 하는 함수
   updateNickname = async (nickname, userId) => {
+   
     let updatedname = await this.prisma.User.update({
       data: { nickname },
       where: { userId: +userId },
