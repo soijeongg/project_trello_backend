@@ -1,18 +1,32 @@
+import Joi from 'joi';
+
 const columnIdScehma = Joi.object({
   columnId: Joi.number().required(),
 });
-const cardTitleSchema = Joi.object({
-  cardTitle: Joi.string().required(),
-});
-const cardContentSchema = Joi.object({
-  cardContent: Joi.string().required(),
+const timeSchema = Joi.object({
+  year: Joi.number().min(2000).max(3000).required(),
+  month: Joi.number().min(1).max(12).required(),
+  day: Joi.number().min(1).max(31).required(),
+  hour: Joi.number().min(0).max(23).required(),
+  minute: Joi.number().min(0).max(59).required(),
 });
 
-const createCardBodySchema = Joi.object({
+const createCardSchema = Joi.object({
+  columnId: Joi.number().required(),
   cardTitle: Joi.string().required(),
   cardContent: Joi.string().required(),
-  cardStartTime: Joi.date().required(),
-  cardEndTime: Joi.date().required(),
-  cardStatus: Joi.string().required(),
-  cardColor: Joi.string().required(),
+  cardStartTime: timeSchema,
+  cardEndTime: timeSchema,
+  cardStatus: Joi.string().valid('IN_PROGRESS', 'COMPLETED', 'CANCELED'),
 });
+const updateCardSchema = Joi.object({
+  columnId: Joi.number(),
+  cardTitle: Joi.string(),
+  cardContent: Joi.string(),
+  cardStartTime: timeSchema,
+  cardEndTime: timeSchema,
+  cardStatus: Joi.string().valid('IN_PROGRESS', 'COMPLETED', 'CANCELED'),
+  cardOrder: Joi.number(),
+});
+
+export { columnIdScehma, createCardSchema, updateCardSchema };

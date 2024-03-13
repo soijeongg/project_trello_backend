@@ -6,6 +6,9 @@ export class CardsRepository {
       where: {
         columnId: +columnId,
       },
+      orderBy: {
+        cardOrder: 'asc',
+      },
     });
     return cards;
   };
@@ -38,30 +41,34 @@ export class CardsRepository {
         cardStartTime,
         cardEndTime,
         cardStatus,
-        cardOrder,
-        cardColor,
+        cardOrder: +cardOrder,
+        cardColor: +cardColor,
       },
     });
     return card;
   };
   updateCard = async (
     cardId,
+    columnId,
     cardTitle,
     cardContent,
     cardStartTime,
     cardEndTime,
-    cardStatus
+    cardStatus,
+    cardOrder
   ) => {
     const card = await prisma.card.update({
       where: {
         cardId: +cardId,
       },
       data: {
+        columnId: +columnId,
         cardTitle,
         cardContent,
         cardStartTime,
         cardEndTime,
         cardStatus,
+        cardOrder: +cardOrder,
       },
     });
     return card;

@@ -1,15 +1,15 @@
 import { CardsRepository } from './card.repository.js';
-
+getColorCode = () => {
+  return Math.floor(Math.random() * 7);
+};
 export class CardsService {
   CardsRepository = new CardsRepository();
   findAllCardWithColumnId = async (columnId) => {
     const Cards = await this.CardsRepository.findAllCardsWithColumnId(columnId);
-    Cards.sort((a, b) => {
-      return a.cardOrder - b.cardOrder;
-    });
     return Cards;
   };
   createCard = async (columnId, cardData) => {
+    cardData.colorCord = getColorCode();
     const lastCardOrder = await this.CardsRepository.findLastCardOrder(
       cardData.columnId
     );
