@@ -3,30 +3,31 @@
 export class ColumnService {
   constructor(columnRepository) {
     this.columnRepository = columnRepository;
+    // this.prisma = columnRepository.prisma
   }
 
-  validateBoardId = async (boardId) => {
-    const board = await prisma.board.findUnique({
-      where: {
-        boardId: +boardId,
-      },
-    });
+  // validateBoardId = async (boardId) => {
+  //   const board = await this.prisma.board.findUnique({
+  //     where: {
+  //       boardId: +boardId,
+  //     },
+  //   });
 
-    if (!board) {
-      throw new Error('보드X');
-    }
-  };
-  validateColumnId = async (columnId) => {
-    const column = await prisma.board.findUnique({
-      where: {
-        column: +columnId,
-      },
-    });
+  //   if (!board) {
+  //     throw new Error('보드X');
+  //   }
+  // };
+  // validateColumnId = async (columnId) => {
+  //   const column = await this.prisma.column.findUnique({
+  //     where: {
+  //       column: +columnId,
+  //     },
+  //   });
 
-    if (!column) {
-      throw new Error('컬럼X');
-    }
-  };
+  //   if (!column) {
+  //     throw new Error('컬럼X');
+  //   }
+  // };
 
   findAllColumns = async (boardId) => {
     await this.validateBoardId(boardId);
@@ -36,13 +37,13 @@ export class ColumnService {
     return columns;
   };
 
-  createColumn = async (boardId, columnTitle, columnWriterid) => {
-    await this.validateBoardId(boardId);
+  createColumn = async (boardId, columnTitle, columnWriterId) => {
+    // await this.validateBoardId(boardId);
 
     const createColumn = await this.columnRepository.createColumn(
       boardId,
       columnTitle,
-      columnWriterid
+      columnWriterId
     );
 
     return createColumn;
@@ -52,8 +53,8 @@ export class ColumnService {
     boardId,
     columnId,
     columnTitle,
-    columnOrder,
-    columnWriterid
+    columnOrder
+    // columnWriterid
   ) => {
     await this.validateBoardId(columnId);
 
@@ -61,8 +62,8 @@ export class ColumnService {
       boardId,
       columnId,
       columnTitle,
-      columnOrder,
-      columnWriterid
+      columnOrder
+      // columnWriterid
     );
     return updateColumn;
   };
