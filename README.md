@@ -10,11 +10,9 @@
 
 [와이어프레임](<https://www.figma.com/file/bxAtoUcRKPOgFI5uzaBaiI/Memo-UI-Kit-(Community)-(Community)?type=design&node-id=0%3A1&mode=design&t=YS5gzWKIkMF008yY-1>)
 
-[개발용 ERD](https://www.erdcloud.com/d/sGpHCntcSzQRnovh2)
+[ERD](https://drawsql.app/teams/cshcho99s-team/diagrams/trello)
 
-[게시용 ERD](https://drawsql.app/teams/cshcho99s-team/diagrams/trello)
-
-![drawSQL-image-export-2024-02-29 (3)](https://github.com/jovid18/nodejs_assignment_level4/assets/143411145/0e7abf4b-3f53-4b21-9a29-abaf86389f4f)
+![drawSQL-image-export-2024-03-13](https://github.com/jovid18/project_trello_backend/assets/143411145/fa248d8e-6e63-43f1-8cf9-0fca22be0c08)
 
 ## 프로젝트 진행
 
