@@ -116,15 +116,3 @@ export class userRespository {
     return deleteOne;
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
