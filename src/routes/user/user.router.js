@@ -12,6 +12,7 @@ const UserService = new userService(UserRespository)
 const UserController = new userController(UserService)
 
 router.post('/sign-up', UserController.postSignUpcontroller);
+router.post('/idCheck', UserController.idCheckController);
 router.post('/login', UserController.loginController);
 router.put('/user', authMiddleware, UserController.putLoginController);
 router.delete('/user', authMiddleware, UserController.deleteController);

@@ -1,4 +1,4 @@
-import { emailSchema, passwordSchema, nicknameSchema } from "./Joi/user.joi.js"
+import { emailSchema, passwordSchema, nicknameSchema } from "./user.joi.js"
 
 export class userController{
     constructor(userService){
@@ -36,6 +36,24 @@ export class userController{
         }
         catch(error){
             next(error)
+        
+    }
+}
+    //아이디체크하러 들어온다 
+    idCheckController = async(req, res, next)=>{
+        try{
+            let{email} = req.body
+            let emailvalidation = emailSchema.validate({ email });
+            if (emailvalidation.error) {
+              const error = new Error('이메일에는 이메일 형식만 입력해주세요');
+              error.status = 404;
+              throw error;
+            }
+            await this.userService.checkEnailed(email)
+            return res.status(200).json({message:"중복되지 않는 이메일 입니다"})
+
+        }catch(error){
+            next(error)
         }
     }
 
@@ -60,7 +78,7 @@ export class userController{
              }
             let log  = await this.userService.logined(email, password)
             const [nickname, userId] = log.split(",")
-            req.session.user = {userId: userId,nickname: nickname};
+            req.session.user = {userId: userId};
             res.status(200).json({ messages: `${nickname}님 안녕하세요` });
         }
         catch(error){
@@ -107,9 +125,9 @@ export class userController{
             }
             
             
-            let {user} = res.locals
-            let{userId} = user
-            
+            let { userId } = res.locals.user;
+            console.log(userId,12)
+        
             if(email&&!password&&!nickname){
                 let updateEs = await this.userService.updateUserServiceEmail(email, userId)
                 res.status(200).json({message:"성공적으로 수정했습니다"})
@@ -119,18 +137,21 @@ export class userController{
                 res.status(200).json({message:"성공적으로 수정했습니다"})
         }
         if(!email&&!password&&nickname){
-            let updateN2 = await this.userService.updateUserServiceNickname(nickname, password)
+            let updateN2 = await this.userService.updateUserServiceNickname(
+              nickname,
+              userId
+            );
             req.session.user.nickname = nickname;
             res.status(200).json({message:"성공적으로 수정했습니다"})
     }
 
     if(email&&password&&!nickname){
         await this.userService.updateUserEmailPassword(email, password,userId)
-           req.session.user.nickname = nickname
-             .status(200)
-             .json({ message: '성공적으로 수정했습니다' });
+        req.session.user.nickname = nickname
+            res.status(200)
+            .json({ message: '성공적으로 수정했습니다' });
     }
-    if(!email&&password&&nickname){
+    if(!email&&password&&nickname){  
         await this.userService.updateUserPasswordNickname(password, nickname,userId)
         req.session.user.nickname = nickname;
         res.status(200).json({message:"성공적으로 수정했습니다"})
@@ -143,7 +164,7 @@ export class userController{
     }
 
      if(email&&password&&nickname){
-        await this.userService.updateUserPassportNicknameEmail(password, nickname, email,userId)
+        await this.userService.updateUserPassportsNicknameEmail(password, nickname, email,userId)
         req.session.user.nickname = nickname;
          res.status(200).json({message:"성공적으로 수정했습니다"})
      }
