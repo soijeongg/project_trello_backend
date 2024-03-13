@@ -1,8 +1,6 @@
 import express from 'express';
-import cardRoutes from './card/card.router.js';
+import userRouter from "./user/user.router.js"
 
-const router = express.Router();
-
-router.use('/boards/:boardId/columns/:columnId/cards', cardRoutes);
-
+const router  = express.Router()
+router.use("/", userRouter)
 export default router;
