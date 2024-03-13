@@ -4,8 +4,8 @@ export class CardController {
   getCards = async (req, res, next) => {
     try {
       const { columnId } = req.params;
-      const cardData = await CardService.findAllCardWithColumnId(columnId);
-      res.status(200).json(cardData);
+      const cards = await CardService.findAllCardWithColumnId(columnId);
+      res.status(200).json(cards);
     } catch (err) {
       next(err);
     }
