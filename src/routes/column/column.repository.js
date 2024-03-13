@@ -17,25 +17,31 @@ export class ColumnRepository {
                     cardWriterId: true
                 }
             }
-        }
+        },
+        orderBy: {
+        cardOrder: 'asc',
+        updatedAt: 'desc',
+        },
         });
         return columns;
     };
 
-    createColumn = async (boardId, columnTitle,columnWriterid) => {
+    createColumn = async (boardId, columnTitle, columnWriterId) => {
+
+        const randomColor = Math.floor(Math.random() * 7) + 1;
+
         const column = await this.prisma.column.create({
-        where: { 
-            boardId: +boardId
-        },
         data: {
-            columnTitle,
-            columnWriterid:columnWriterid,
+            boardId:+boardId,
+            columnTitle:columnTitle,
+            columnWriterId:columnWriterId,
             columnOrder: (await this.prisma.column.count()) + 1, 
+            columnColor: randomColor
         },
         });
         return column
     };
-    updateColumn = async (boardId, columnId, columnTitle, columnOrder,columnWriterid) => {
+    updateColumn = async (boardId, columnId, columnTitle, columnOrder,columnWriterId) => {
         const newColumn = await this.prisma.column.update({
             where:{
                 boardId:+boardId,
@@ -44,7 +50,7 @@ export class ColumnRepository {
             data:{
                 columnTitle:columnTitle,
                 columnOrder:columnOrder,
-                columnWriterid: columnWriterid
+                columnWriterId: columnWriterId
             }
         })
         return newColumn
