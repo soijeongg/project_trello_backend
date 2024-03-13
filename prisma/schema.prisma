@@ -76,7 +76,7 @@ model Card {
   Column        Column      @relation(fields: [columnId], references: [columnId], onDelete: Cascade)
   Comments      Comment[]
 
-  @@map("Card")
+  @@map("Card") 
 }
 
 model Comment {
