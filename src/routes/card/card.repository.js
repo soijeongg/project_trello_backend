@@ -1,6 +1,7 @@
-import { prisma } from '../utils/prisma/index.js';
-
 export class CardsRepository {
+  construct(prisma) {
+    this.prisma = prisma;
+  }
   findAllCardsWithColumnId = async (columnId) => {
     const cards = await prisma.card.findMany({
       where: {
@@ -55,7 +56,6 @@ export class CardsRepository {
     cardWriterId,
     columnId,
     cardTitle,
-    cardWriterId,
     cardContent,
     cardStartTime,
     cardEndTime,

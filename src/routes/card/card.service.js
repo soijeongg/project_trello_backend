@@ -1,8 +1,7 @@
-import { CardsRepository } from './card.repository.js';
-getColorCode = () => {
+const getColorCode = () => {
   return Math.floor(Math.random() * 7);
 };
-getDateTimeFormat = (timeObject) => {
+const getDateTimeFormat = (timeObject) => {
   const year = +timeObject['year'];
   const month = +timeObject['month'];
   const day = +timeObject['day'];
@@ -14,7 +13,9 @@ getDateTimeFormat = (timeObject) => {
 };
 
 export class CardsService {
-  CardsRepository = new CardsRepository();
+  constructor(CardsRepository) {
+    this.CardsRepository = CardsRepository;
+  }
   findAllCardWithColumnId = async (columnId) => {
     const Cards = await this.CardsRepository.findAllCardsWithColumnId(columnId);
     return Cards;

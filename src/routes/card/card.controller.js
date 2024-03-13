@@ -1,10 +1,12 @@
-import { CardsService } from './card.service.js';
 import {
   columnIdSchema,
   createCardSchema,
   updateCardSchema,
 } from './card.joi.js';
 export class CardsController {
+  constructor(CardsService) {
+    this.CardsService = CardsService;
+  }
   getCards = async (req, res, next) => {
     try {
       const columnIdError = columnIdSchema.validate(req.params).error;
