@@ -5,15 +5,14 @@ import { prisma } from '../utils/prisma/index.js';
 export default async function (req, res, next) {
   try {
    
-     const { userId,nickname } = req.session.user;
+     const { userId } = req.session.user;
 
-     if (!userId || !nickname)
+     if (!userId )
        throw new Error('로그인이 필요합니다.');
       
      const dbUser = await prisma.User.findFirst({
        where: {
          userId: +userId,
-         nickname: nickname,
        },
      });
     if (!dbUser) throw new Error('사용자가 존재하지 않습니다.');
