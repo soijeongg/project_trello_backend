@@ -14,6 +14,14 @@ export class CardsRepository {
     });
     return cards;
   };
+  findCard = async (cardId) => {
+    const card = await prisma.card.findFirst({
+      where: {
+        cardId: +cardId,
+      },
+    });
+    return card;
+  };
   findLastCardOrder = async (columnId) => {
     const lastCard = await prisma.card.findFirst({
       where: {
