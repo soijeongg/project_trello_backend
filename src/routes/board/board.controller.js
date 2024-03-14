@@ -44,10 +44,8 @@ export class BoardController {
 
     try {
       const boardData = req.body;
-      const message = await this.boardService.createBoard(
-        boardData,
-        req.cookies
-      );
+      let { userId } = res.locals.user;
+      const message = await this.boardService.createBoard(boardData, userId);
       res.json({ message });
     } catch (error) {
       res.status(400).json({ error: error.message });
