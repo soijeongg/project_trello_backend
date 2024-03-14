@@ -1,5 +1,5 @@
 export class CardsRepository {
-  construct(prisma) {
+  constructor(prisma) {
     this.prisma = prisma;
   }
   findAllCardsWithColumnId = async (columnId) => {
