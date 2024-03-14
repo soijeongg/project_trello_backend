@@ -83,7 +83,6 @@ export class CardsService {
     }
     cardData.cardStartTime = cardStartTime;
     cardData.cardEndTime = cardEndTime;
-    console.log(cardData);
     const card = await this.CardsRepository.updateCard(cardId, cardData);
     return card;
   };

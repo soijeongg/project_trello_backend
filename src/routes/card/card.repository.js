@@ -65,7 +65,6 @@ export class CardsRepository {
       ...(cardData.cardStatus !== undefined && { cardStatus: cardData.cardStatus }),
       ...(cardData.cardOrder !== undefined && { cardOrder: +cardData.cardOrder }),
     };
-    console.log(updateData);
     const card = await this.prisma.card.update({
       where: {
         cardId: +cardId,
