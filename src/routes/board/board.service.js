@@ -11,7 +11,7 @@ export class BoardService {
     return '보드에 참여하셨습니다.';
   };
 
-  getBoards = async ({ id }) => {
+  getBoards = async (id) => {
     return await this.boardRepository.findAllBoardsForUser(id);
   };
 
@@ -21,7 +21,6 @@ export class BoardService {
       userId: id,
       boardWriterId: id,
     };
-    console.table(newBoardData);
     await this.boardRepository.createBoard(newBoardData);
     return '보드가 생성됐습니다.';
   };
