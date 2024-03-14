@@ -3,7 +3,7 @@ export class BoardRepository {
     this.prisma = prisma;
   }
   findBoardByCode = async (boardCode) => {
-    return await prisma.board.findUnique({
+    return await this.prisma.board.findUnique({
       where: {
         boardCode,
       },
@@ -11,7 +11,7 @@ export class BoardRepository {
   };
 
   findAllBoardsForUser = async (userId) => {
-    return await prisma.board.findMany({
+    return await this.prisma.board.findMany({
       where: {
         userId,
       },
@@ -22,13 +22,13 @@ export class BoardRepository {
   };
 
   createBoard = async (boardData) => {
-    return await prisma.board.create({
+    return await this.prisma.board.create({
       data: boardData,
     });
   };
 
   updateBoardById = async (boardId, boardData) => {
-    return await prisma.board.update({
+    return await this.prisma.board.update({
       where: {
         boardId,
       },
@@ -37,7 +37,7 @@ export class BoardRepository {
   };
 
   deleteBoardById = async (boardId) => {
-    return await prisma.board.delete({
+    return await this.prisma.board.delete({
       where: {
         boardId,
       },

@@ -3,7 +3,7 @@ export class CardsRepository {
     this.prisma = prisma;
   }
   findAllCardsWithColumnId = async (columnId) => {
-    const cards = await prisma.card.findMany({
+    const cards = await this.prisma.card.findMany({
       where: {
         columnId: +columnId,
       },
@@ -15,7 +15,7 @@ export class CardsRepository {
     return cards;
   };
   findCard = async (cardId) => {
-    const card = await prisma.card.findFirst({
+    const card = await this.prisma.card.findFirst({
       where: {
         cardId: +cardId,
       },
@@ -23,7 +23,7 @@ export class CardsRepository {
     return card;
   };
   findLastCardOrder = async (columnId) => {
-    const lastCard = await prisma.card.findFirst({
+    const lastCard = await this.prisma.card.findFirst({
       where: {
         columnId: +columnId,
       },
@@ -44,7 +44,7 @@ export class CardsRepository {
     cardOrder,
     cardColor
   ) => {
-    const card = await prisma.card.create({
+    const card = await this.prisma.card.create({
       data: {
         columnId: +columnId,
         cardTitle,
@@ -70,7 +70,7 @@ export class CardsRepository {
     cardStatus,
     cardOrder
   ) => {
-    const card = await prisma.card.update({
+    const card = await this.prisma.card.update({
       where: {
         cardId: +cardId,
       },
@@ -88,7 +88,7 @@ export class CardsRepository {
     return card;
   };
   deleteCard = async (cardId) => {
-    const card = await prisma.card.delete({
+    const card = await this.prisma.card.delete({
       where: {
         cardId: +cardId,
       },
