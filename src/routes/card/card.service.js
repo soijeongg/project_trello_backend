@@ -8,7 +8,8 @@ const getDateTimeFormat = (timeObject) => {
   const hour = +timeObject['hour'];
   const minute = +timeObject['minute'];
   const date = new Date(year, month - 1, day, hour, minute);
-  const dateTimeFormat = date.toISOString().slice(0, 19).replace('T', ' ');
+  // ISO 8601 형식으로 변환 (UTC 기준)
+  const dateTimeFormat = date.toISOString();
   return dateTimeFormat;
 };
 
@@ -20,9 +21,10 @@ export class CardsService {
     const Cards = await this.CardsRepository.findAllCardsWithColumnId(columnId);
     return Cards;
   };
+  //카드 생성 함수
   createCard = async (columnId, cardWriterId, cardData) => {
     //카드의 색상을 랜덤으로 지정
-    cardData.colorCord = getColorCode();
+    cardData.cardColor = getColorCode();
     //시작시간의 시간 형식을 변경
     cardData.cardStartTime = getDateTimeFormat(cardData.cardStartTime);
     //종료시간의 시간 형식을 변경
@@ -37,9 +39,11 @@ export class CardsService {
       ...cardData,
       cardOrder: lastCardOrder + 1,
     };
+
     const card = await this.CardsRepository.createCard(columnId, cardWriterId, newCardData);
     return card;
   };
+  //카드 업데이트 함수
   updateCard = async (cardId, cardWriterId, cardData) => {
     const targetCard = await this.CardsRepository.findCard(cardId);
     if (!targetCard) {

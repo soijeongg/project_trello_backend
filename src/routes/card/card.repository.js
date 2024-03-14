@@ -30,19 +30,18 @@ export class CardsRepository {
     });
     return lastCard ? lastCard.cardOrder : 0;
   };
-  createCard = async (columnId, cardWriterId, cardTitle, cardContent, cardStartTime, cardEndTime, cardStatus, cardOrder, cardColor) => {
-    console.log(columnId);
+  createCard = async (columnId, cardWriterId, cardData) => {
     const card = await this.prisma.card.create({
       data: {
         columnId: +columnId,
-        cardTitle,
+        cardTitle: cardData.cardTitle,
         cardWriterId: +cardWriterId,
-        cardContent,
-        cardStartTime,
-        cardEndTime,
-        cardStatus,
-        cardOrder: +cardOrder,
-        cardColor: +cardColor,
+        cardContent: cardData.cardContent,
+        cardStartTime: cardData.cardStartTime,
+        cardEndTime: cardData.cardEndTime,
+        cardStatus: cardData.cardStatus,
+        cardOrder: +cardData.cardOrder,
+        cardColor: +cardData.cardColor,
       },
     });
     return card;
