@@ -1,8 +1,8 @@
 import express from 'express';
-import { prisma } from '@prisma/client';
-import { BoardRepository } from './board.repository';
-import { BoardService } from './board.service';
-import { BoardController } from './board.controller';
+import { prisma } from '../../utils/prisma/index.js';
+import { BoardRepository } from './board.repository.js';
+import { BoardService } from './board.service.js';
+import { BoardController } from './board.controller.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
 
 const boardRepository = new BoardRepository(prisma);
