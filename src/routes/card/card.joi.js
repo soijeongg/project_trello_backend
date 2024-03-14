@@ -3,6 +3,10 @@ import Joi from 'joi';
 const columnIdSchema = Joi.object({
   columnId: Joi.number().required(),
 });
+const cardIdSchema = Joi.object({
+  columnId: Joi.number(),
+  cardId: Joi.number().required(),
+});
 const timeSchema = Joi.object({
   year: Joi.number().min(2000).max(3000).required(),
   month: Joi.number().min(1).max(12).required(),
@@ -12,7 +16,6 @@ const timeSchema = Joi.object({
 });
 
 const createCardSchema = Joi.object({
-  columnId: Joi.number().required(),
   cardTitle: Joi.string().required(),
   cardContent: Joi.string().required(),
   cardStartTime: timeSchema,
@@ -29,4 +32,4 @@ const updateCardSchema = Joi.object({
   cardOrder: Joi.number(),
 });
 
-export { columnIdSchema, createCardSchema, updateCardSchema };
+export { columnIdSchema, cardIdSchema, createCardSchema, updateCardSchema };

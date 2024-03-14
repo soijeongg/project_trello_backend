@@ -4,7 +4,7 @@ import { CardsRepository } from './card.repository.js';
 import { CardsService } from './card.service.js';
 import { CardsController } from './card.controller.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const cardsRepository = new CardsRepository(prisma);
 const cardsService = new CardsService(cardsRepository);
 const cardsController = new CardsController(cardsService);
