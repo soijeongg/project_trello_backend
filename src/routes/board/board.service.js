@@ -15,7 +15,7 @@ export class BoardService {
     return await this.boardRepository.findAllBoardsForUser(id);
   };
 
-  createBoard = async (boardData, { id }) => {
+  createBoard = async (boardData, id) => {
     const newBoardData = {
       ...boardData,
       userId: id,
