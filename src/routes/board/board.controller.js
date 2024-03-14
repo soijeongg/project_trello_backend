@@ -14,7 +14,8 @@ export class BoardController {
 
     try {
       const { boardCode } = req.body;
-      const message = await this.boardService.joinBoard(boardCode);
+      let { userId } = res.locals.user;
+      const message = await this.boardService.joinBoard(boardCode, userId);
       res.json({ message });
     } catch (error) {
       res.status(400).json({ error: error.message });
