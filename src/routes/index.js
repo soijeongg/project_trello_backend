@@ -8,6 +8,6 @@ const router = express.Router();
 router.use('/boards', boardRouter);
 router.use('/', columnRouter);
 router.use('/columns/:columnId/cards', cardRoutes);
-router.use('/cards/:cardld/comments', commentRouter);
+router.use('/', commentRouter);
 router.use('/', userRouter);
 export default router;

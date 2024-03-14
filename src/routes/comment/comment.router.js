@@ -12,10 +12,10 @@ const commentRepository = new CommentRepository(prisma)
 const commentService = new CommentService(commentRepository)
 const commentController = new CommentController(commentService)
 
-router.post('/', commentController.createComment);
+router.post('/cards/:cardld/comments', commentController.createComment);
 
-router.put('/:commentId', commentController.updateComment);
+router.put('/cards/:cardld/comments/:commentId', commentController.updateComment);
 
-router.delete('/:commentId', commentController.deleteComment);
+router.delete('/cards/:cardld/comments/:commentId', commentController.deleteComment);
 
 export default router
