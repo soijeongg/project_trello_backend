@@ -10,15 +10,14 @@ export class ColumnController {
 
   getColumns = async (req, res, next) => {
     try {
-      // boardId 유효성 검사
-      const boardIdError = boardIdSchema.validate(req.parmas);
+      const boardIdError = boardIdSchema.validate(req.params).error
       if (boardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
       }
 
-      const { boardId } = req.parmas;
+      const { boardId } = req.params;
 
       const columns = await this.columnService.findAllColumns(boardId);
 
@@ -30,38 +29,26 @@ export class ColumnController {
 
   createColumn = async (req, res, next) => {
     try {
-      // boardId 유효성 검사
-      // const { boardId } = boardIdSchema.validate(req.params)
-      // const boardIdError = boardIdSchema.validate(req.parmas)
-      // console.log( boardIdError );
-      // if(boardIdError){
-      //     const error = new Error('주소 형식이 올바르지 않습니다.');
-      //     error.status = 400;
-      //     throw error;
-      // }
+      const boardIdError = boardIdSchema.validate(req.params).error
+      if (boardIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
 
       const { boardId } = req.params;
-      // console.log(boardId);
-      // const { boardId } = req.params;
-      // if (!boardId) {
-      //     throw new Error("boardId가 필요합니다.");
-      // }
-      console.log('boardId: ', boardId);
-      // columnTitle 유효성 검사
-      // const { error, value } = createColumnSchema.validate(req.body);
-      // if (error) {
-      //     throw new Error(error.message);
-      // }
-      // const { columnTitle } = value;
+
+      const createColumnError = createColumnSchema.validate(req.body).error;
+      if (createColumnError) {
+        const error = new Error(createColumnError.message)
+        error.status = 400;
+        throw error;
+      }
 
       const { columnTitle } = req.body;
-      console.log('columnTitle: ', columnTitle);
-      // const { columnTitle } = createColumnSchema.validate(req.body);
-      // const {columnTitle} = req.body
-      // const columnWriterid = req.user.userId
 
       const columnWriterId = res.locals.user.userId;
-      console.log('columnWriterId: ', columnWriterId);
+
       const createColumn = await this.columnService.createColumn(boardId, columnTitle, columnWriterId);
       return res.status(201).json(createColumn);
     } catch (error) {
@@ -71,16 +58,35 @@ export class ColumnController {
 
   updateColumn = async (req, res, next) => {
     try {
-      // boardId 유효성 검사
-      const { boardId } = boardIdSchema.validate(req.params);
-      // columnId 유효성 검사
-      const { columnId } = columnIdSchema.validate(req.params);
+      const boardIdError = boardIdSchema.validate(req.params).error
+      if (boardIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
+      const { boardId } = req.params;
 
-      const { columnTitle, columnOrder } = createColumnSchema.validate(req.body);
+      const columnIdError = columnIdSchema.validate(req.params).error
+      if (columnIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
+      const { columnId } = req.params;
 
-      const columnWriterid = req.user.userId;
+      const createColumnError = createColumnSchema.validate(req.body).error;
+      if (createColumnError) {
+        const error = new Error(createColumnError.message)
+        error.status = 400;
+        throw error;
+      }
 
-      const newColumn = await this.columnService.updateColumn(boardId, columnId, columnTitle, columnOrder, columnWriterid);
+      const { columnTitle, columnOrder } = req.body;
+      console.log(columnOrder);
+
+      const columnWriterId = res.locals.user.userId;
+
+      const newColumn = await this.columnService.updateColumn(boardId, columnId, columnTitle, columnOrder, columnWriterId);
       return res.status(200).json(newColumn);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -89,10 +95,21 @@ export class ColumnController {
 
   deleteColumn = async (req, res, next) => {
     try {
-      // boardId 유효성 검사
-      const { boardId } = boardIdSchema.validate(req.params);
-      // columnId 유효성 검사
-      const { columnId } = columnIdSchema.validate(req.params);
+      const boardIdError = boardIdSchema.validate(req.params).error
+      if (boardIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
+      const { boardId } = req.params;
+
+      const columnIdError = columnIdSchema.validate(req.params).error
+      if (columnIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
+      const { columnId } = req.params;
 
       const deletedColumn = await this.columnService.deletedColumn(boardId, columnId);
       return res.status(200).json({ message: '삭제완료' });
