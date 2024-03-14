@@ -28,7 +28,7 @@ export class ColumnService {
     columnId,
     columnTitle,
     columnOrder,
-    columnWriterId
+    // columnWriterId
   ) => {
     const column = await this.columnRepository.findColumnById(boardId,columnId)
     if(!column){
@@ -42,11 +42,22 @@ export class ColumnService {
       columnId,
       columnTitle,
       columnOrder,
-      columnWriterId
+      // columnWriterId
     );
     return updateColumn;
   };
-  deletedColumn = async (boardId, columnId) => {
+  deletedColumn = async (boardId, columnId, userId) => {
+    const column = await this.columnRepository.findColumnById(boardId,columnId)
+    if(!column){
+      const error = new Error('컬럼이 존재하지 않습니다.');
+      error.status = 404;
+      throw error;
+    }
+
+    if (column.columnWriterId !== userId) {
+      throw new Error("삭제할 수 있는 권한이 없습니다.");
+  }
+
     const deletedColumn = await this.columnRepository.deletedColumn(boardId, columnId);
     return deletedColumn;
   };
