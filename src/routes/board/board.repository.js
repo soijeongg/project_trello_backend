@@ -25,8 +25,6 @@ export class BoardRepository {
     return await this.prisma.board.create({
       data: {
         ...boardData,
-        boardCode,
-        boardColor,
       },
     });
   };

@@ -1,9 +1,4 @@
-import {
-  joinBoardSchema,
-  createBoardSchema,
-  updateBoardSchema,
-  boardIdSchema,
-} from './Joi/board.joi.js';
+import { joinBoardSchema, createBoardSchema, updateBoardSchema, boardIdSchema } from './board.joi.js';
 
 export class BoardController {
   constructor(boardService) {
@@ -57,9 +52,7 @@ export class BoardController {
       boardId: parseInt(req.params.boardId, 10),
     });
     if (paramValidation.error) {
-      const message = paramValidation.error.details
-        .map((detail) => detail.message)
-        .join(', ');
+      const message = paramValidation.error.details.map((detail) => detail.message).join(', ');
       return res.status(400).json({ error: message });
     }
 
@@ -72,11 +65,7 @@ export class BoardController {
     try {
       const { boardId } = req.params;
       const boardData = req.body;
-      const message = await this.boardService.updateBoard(
-        boardId,
-        boardData,
-        req.cookies
-      );
+      const message = await this.boardService.updateBoard(boardId, boardData, req.cookies);
       res.json({ message });
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -88,9 +77,7 @@ export class BoardController {
       boardId: parseInt(req.params.boardId, 10),
     });
     if (paramValidation.error) {
-      const message = paramValidation.error.details
-        .map((detail) => detail.message)
-        .join(', ');
+      const message = paramValidation.error.details.map((detail) => detail.message).join(', ');
       return res.status(400).json({ error: message });
     }
 
