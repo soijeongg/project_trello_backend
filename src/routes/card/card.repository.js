@@ -55,21 +55,22 @@ export class CardsRepository {
     });
     return card;
   };
-  updateCard = async (cardId, cardWriterId, columnId, cardTitle, cardContent, cardStartTime, cardEndTime, cardStatus, cardOrder) => {
+  updateCard = async (cardId, cardData) => {
+    const updateData = {
+      ...(cardData.columnId !== undefined && { Column: { connect: { columnId: +cardData.columnId } } }),
+      ...(cardData.cardTitle !== undefined && { cardTitle: cardData.cardTitle }),
+      ...(cardData.cardContent !== undefined && { cardContent: cardData.cardContent }),
+      ...(cardData.cardStartTime !== undefined && { cardStartTime: cardData.cardStartTime }),
+      ...(cardData.cardEndTime !== undefined && { cardEndTime: cardData.cardEndTime }),
+      ...(cardData.cardStatus !== undefined && { cardStatus: cardData.cardStatus }),
+      ...(cardData.cardOrder !== undefined && { cardOrder: +cardData.cardOrder }),
+    };
+    console.log(updateData);
     const card = await this.prisma.card.update({
       where: {
         cardId: +cardId,
       },
-      data: {
-        columnId: +columnId,
-        cardTitle,
-        cardWriterId: +cardWriterId,
-        cardContent,
-        cardStartTime,
-        cardEndTime,
-        cardStatus,
-        cardOrder: +cardOrder,
-      },
+      data: updateData,
     });
     return card;
   };

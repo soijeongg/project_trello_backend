@@ -111,7 +111,6 @@ export class userController {
       }
 
       let { userId } = res.locals.user;
-      console.log(userId, 12);
 
       if (email && !password && !nickname) {
         let updateEs = await this.userService.updateUserServiceEmail(email, userId);
