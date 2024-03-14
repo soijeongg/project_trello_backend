@@ -23,7 +23,11 @@ export class BoardRepository {
 
   createBoard = async (boardData) => {
     return await this.prisma.board.create({
-      data: boardData,
+      data: {
+        ...boardData,
+        boardCode,
+        boardColor,
+      },
     });
   };
 

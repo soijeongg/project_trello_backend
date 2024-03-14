@@ -1,3 +1,8 @@
+import crypto from 'crypto';
+// boardColor를 랜덤으로 선택하는 함수
+const getColorCode = () => {
+  return Math.floor(Math.random() * 7);
+};
 export class BoardService {
   constructor(boardRepository) {
     this.boardRepository = boardRepository;
@@ -16,10 +21,18 @@ export class BoardService {
   };
 
   createBoard = async (boardData, id) => {
+    const uniqueInput = `boardData-${Date.now()}-${Math.random()}`;
+    const shasum = crypto.createHash('sha512');
+    shasum.update(uniqueInput);
+    const boardCode = shasum.digest('hex');
+    const boardColor = getColorCode();
+
     const newBoardData = {
       ...boardData,
       userId: id,
       boardWriterId: id,
+      boardCode: boardCode,
+      boardColor: boardColor,
     };
     await this.boardRepository.createBoard(newBoardData);
     return '보드가 생성됐습니다.';
