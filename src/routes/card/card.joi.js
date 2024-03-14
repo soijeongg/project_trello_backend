@@ -12,7 +12,6 @@ const timeSchema = Joi.object({
 });
 
 const createCardSchema = Joi.object({
-  columnId: Joi.number().required(),
   cardTitle: Joi.string().required(),
   cardContent: Joi.string().required(),
   cardStartTime: timeSchema,

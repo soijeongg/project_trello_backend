@@ -29,6 +29,7 @@ export class CardsController {
 
       const createCardError = createCardSchema.validate(req.body).error;
       if (createCardError) {
+        console.log(createCardError);
         const error = new Error('요청 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;

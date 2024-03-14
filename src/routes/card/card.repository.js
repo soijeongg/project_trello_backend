@@ -7,10 +7,7 @@ export class CardsRepository {
       where: {
         columnId: +columnId,
       },
-      orderBy: {
-        cardOrder: 'asc',
-        updatedAt: 'desc',
-      },
+      orderBy: [{ columnOrder: 'asc' }, { updatedAt: 'desc' }],
     });
     return cards;
   };
@@ -33,17 +30,8 @@ export class CardsRepository {
     });
     return lastCard ? lastCard.cardOrder : 0;
   };
-  createCard = async (
-    columnId,
-    cardWriterId,
-    cardTitle,
-    cardContent,
-    cardStartTime,
-    cardEndTime,
-    cardStatus,
-    cardOrder,
-    cardColor
-  ) => {
+  createCard = async (columnId, cardWriterId, cardTitle, cardContent, cardStartTime, cardEndTime, cardStatus, cardOrder, cardColor) => {
+    console.log(columnId);
     const card = await this.prisma.card.create({
       data: {
         columnId: +columnId,
@@ -59,17 +47,7 @@ export class CardsRepository {
     });
     return card;
   };
-  updateCard = async (
-    cardId,
-    cardWriterId,
-    columnId,
-    cardTitle,
-    cardContent,
-    cardStartTime,
-    cardEndTime,
-    cardStatus,
-    cardOrder
-  ) => {
+  updateCard = async (cardId, cardWriterId, columnId, cardTitle, cardContent, cardStartTime, cardEndTime, cardStatus, cardOrder) => {
     const card = await this.prisma.card.update({
       where: {
         cardId: +cardId,

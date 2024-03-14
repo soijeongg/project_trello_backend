@@ -32,13 +32,12 @@ export class CardsService {
       error.status = 400;
       throw error;
     }
-    const lastCardOrder = await this.CardsRepository.findLastCardOrder(
-      cardData.columnId
-    );
-    const card = await this.CardsRepository.createCard(columnId, cardWriterId, {
+    const lastCardOrder = await this.CardsRepository.findLastCardOrder(columnId);
+    const newCardData = {
       ...cardData,
       cardOrder: lastCardOrder + 1,
-    });
+    };
+    const card = await this.CardsRepository.createCard(columnId, cardWriterId, newCardData);
     return card;
   };
   updateCard = async (cardId, cardWriterId, cardData) => {
@@ -63,11 +62,7 @@ export class CardsService {
       error.status = 400;
       throw error;
     }
-    const card = await this.CardsRepository.updateCard(
-      cardId,
-      cardWriterId,
-      cardData
-    );
+    const card = await this.CardsRepository.updateCard(cardId, cardWriterId, cardData);
     if (card) {
       const error = new Error('카드가 존재하지 않습니다.');
       error.status = 404;
