@@ -34,13 +34,16 @@ export class CommentService {
         return updateComment
     }
 
-    deleteComment = async(cardId, commentContent, commentId) => {
+    deleteComment = async(cardId, commentContent, commentId, userId) => {
         const comment = await this.commentRepository.findColumnById(cardId,commentId)
         if(!comment){
           const error = new Error('댓글이 존재하지 않습니다.');
           error.status = 404;
           throw error;
         }
+        if (comment.commentWriterId !== userId) {
+            throw new Error("삭제할 수 있는 권한이 없습니다.");
+          }
 
         const deleteComment = await this.commentRepository.deleteComment(
             (cardId, commentContent, commentId)

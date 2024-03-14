@@ -29,7 +29,6 @@ export class CardsController {
 
       const createCardError = createCardSchema.validate(req.body).error;
       if (createCardError) {
-        console.log(createCardError);
         const error = new Error('요청 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
@@ -47,7 +46,6 @@ export class CardsController {
   updateCard = async (req, res, next) => {
     try {
       const cardIdError = cardIdSchema.validate(req.params).error;
-      console.log(cardIdError);
       if (cardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
@@ -61,8 +59,7 @@ export class CardsController {
       }
       const { cardId } = req.params;
       const cardData = req.body;
-      const cardWriterId = res.locals.user.userId;
-      await this.CardsService.updateCard(cardId, cardWriterId, cardData);
+      await this.CardsService.updateCard(cardId, cardData);
       res.status(200).json({ message: '성공적으로 카드가 수정되었습니다.' });
     } catch (err) {
       next(err);
@@ -70,14 +67,15 @@ export class CardsController {
   };
   deleteCard = async (req, res, next) => {
     try {
-      const CardIdError = CardIdSchema.validate(req.params).error;
+      const CardIdError = cardIdSchema.validate(req.params).error;
       if (CardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
       }
       const { cardId } = req.params;
-      await this.CardsService.deleteCard(cardId);
+      const userId = res.locals.user.userId;
+      await this.CardsService.deleteCard(cardId, userId);
       res.status(200).json({ message: '성공적으로 카드가 삭제되었습니다.' });
     } catch (err) {
       next(err);

@@ -22,6 +22,14 @@ export class BoardRepository {
     });
   };
 
+  findBoardById = async (boardId) => {
+    return await this.prisma.board.findUnique({
+      where: {
+        boardId: boardId,
+      },
+    });
+  };
+
   createBoard = async (boardData) => {
     return await this.prisma.board.create({
       data: {

@@ -50,15 +50,24 @@ export class CardsService {
     return card;
   };
   //카드 업데이트 함수
-  updateCard = async (cardId, cardWriterId, cardData) => {
+  updateCard = async (cardId, cardData) => {
+    const targetCard = await this.CardsRepository.findCard(cardId);
     if (!targetCard) {
       const error = new Error('카드가 존재하지 않습니다.');
       error.status = 404;
       throw error;
     }
-    console.log('33333333');
-    const cardStartTime = targetCard.cardStartTime;
-    const cardEndTime = targetCard.cardEndTime;
+    if (cardData.columnId) {
+      const column = await this.CardsRepository.findColumn(cardData.columnId);
+      if (!column) {
+        const error = new Error('수정하려는 컬럼 번호에 해당하는 컬럼이 존재하지 않습니다.');
+        error.status = 404;
+        throw error;
+      }
+    }
+
+    let cardStartTime = targetCard.cardStartTime;
+    let cardEndTime = targetCard.cardEndTime;
     //시작시간을 수정하는 경우 시간 형식을 변경
     if (cardData.cardStartTime) {
       cardStartTime = getDateTimeFormat(cardData.cardStartTime);
@@ -72,19 +81,21 @@ export class CardsService {
       error.status = 400;
       throw error;
     }
-    const card = await this.CardsRepository.updateCard(cardId, cardWriterId, cardData);
-    if (card) {
-      const error = new Error('카드가 존재하지 않습니다.');
-      error.status = 404;
-      throw error;
-    }
+    cardData.cardStartTime = cardStartTime;
+    cardData.cardEndTime = cardEndTime;
+    const card = await this.CardsRepository.updateCard(cardId, cardData);
     return card;
   };
-  deleteCard = async (cardId) => {
+  deleteCard = async (cardId, userId) => {
     const targetCard = await this.CardsRepository.findCard(cardId);
     if (!targetCard) {
       const error = new Error('카드가 존재하지 않습니다.');
       error.status = 404;
+      throw error;
+    }
+    if (userId !== targetCard.cardWriterId) {
+      const error = new Error('카드를 삭제할 권한이 없습니다.');
+      error.status = 403;
       throw error;
     }
     const card = await this.CardsRepository.deleteCard(cardId);

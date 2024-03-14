@@ -32,23 +32,21 @@ export class BoardService {
     const boardCode = shasum.digest('hex');
     const boardColor = getColorCode();
 
-    const newBoardData = {
+    await this.boardRepository.createBoard({
       ...boardData,
       userId: userId,
       boardWriterId: userId,
       boardCode,
       boardColor,
-    };
-    await this.boardRepository.createBoard(newBoardData);
+    });
     return '보드가 생성됐습니다.';
   };
 
   createUserBoard = async (userId, id) => {
-    const newBoardData = {
+    await this.boardRepository.createBoard({
       userId: id,
       boardWriterId: userId,
-    };
-    await this.boardRepository.createBoard(newBoardData);
+    });
     return '보드가 생성됐습니다.';
   };
 
@@ -57,7 +55,15 @@ export class BoardService {
     return '보드가 수정됐습니다.';
   };
 
-  deleteBoard = async (boardId) => {
+  deleteBoard = async (boardId, userId) => {
+    const board = await this.boardRepository.findBoardById(boardId);
+    if (!board) {
+      throw new Error('해당 보드가 존재하지 않습니다.');
+    }
+    if (board.userId !== userId) {
+      throw new Error('보드의 창작자만 삭제할 수 있습니다.');
+    }
+
     await this.boardRepository.deleteBoardById(boardId);
     return '보드가 삭제됐습니다.';
   };

@@ -92,8 +92,9 @@ export class CommentController {
         throw error;
       }
 
+      const userId = res.locals.user.userId;
 
-      const deleteComment = await this.commentService.deleteComment(cardId, commentId);
+      const deleteComment = await this.commentService.deleteComment(cardId, commentId, userId);
       return res.status(200);
     } catch (error) {
       res.status(400).json({ error: error.message });

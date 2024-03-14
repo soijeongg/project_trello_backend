@@ -10,7 +10,7 @@ export class ColumnController {
 
   getColumns = async (req, res, next) => {
     try {
-      const boardIdError = boardIdSchema.validate(req.params).error
+      const boardIdError = boardIdSchema.validate(req.params).error;
       if (boardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
@@ -29,7 +29,7 @@ export class ColumnController {
 
   createColumn = async (req, res, next) => {
     try {
-      const boardIdError = boardIdSchema.validate(req.params).error
+      const boardIdError = boardIdSchema.validate(req.params).error;
 
       if (boardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
@@ -41,7 +41,7 @@ export class ColumnController {
 
       const createColumnError = createColumnSchema.validate(req.body).error;
       if (createColumnError) {
-        const error = new Error(createColumnError.message)
+        const error = new Error(createColumnError.message);
         error.status = 400;
         throw error;
       }
@@ -59,36 +59,32 @@ export class ColumnController {
 
   updateColumn = async (req, res, next) => {
     try {
-
       const { boardId } = req.params;
 
-      const boardIdError = boardIdSchema.validate({boardId}).error;
-      console.log(boardIdError);
+      const boardIdError = boardIdSchema.validate({ boardId }).error;
       if (boardIdError) {
-          const error = new Error('boardId 주소 형식이 올바르지 않습니다.');
-          error.status = 400;
-          throw error;
+        const error = new Error('boardId 주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
       }
 
       const { columnId } = req.params;
 
-      const columnIdError = columnIdSchema.validate({columnId}).error;
-      console.log("asdsfafasasf:", columnIdError);
+      const columnIdError = columnIdSchema.validate({ columnId }).error;
       if (columnIdError !== undefined) {
-          const error = new Error('columnId 주소 형식이 올바르지 않습니다.');
-          error.status = 400;
-          throw error;
+        const error = new Error('columnId 주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
       }
 
       const createColumnError = createColumnSchema.validate(req.body).error;
       if (createColumnError) {
-        const error = new Error(createColumnError.message)
+        const error = new Error(createColumnError.message);
         error.status = 400;
         throw error;
       }
 
       const { columnTitle, columnOrder } = req.body;
-      console.log(columnOrder);
 
       // const columnWriterId = res.locals.user.userId;
 
@@ -103,7 +99,7 @@ export class ColumnController {
     try {
       const { boardId } = req.params;
 
-      const boardIdError = boardIdSchema.validate({boardId}).error
+      const boardIdError = boardIdSchema.validate({ boardId }).error;
       if (boardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
@@ -112,7 +108,7 @@ export class ColumnController {
 
       const { columnId } = req.params;
 
-      const columnIdError = columnIdSchema.validate({columnId}).error
+      const columnIdError = columnIdSchema.validate({ columnId }).error;
       if (columnIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;

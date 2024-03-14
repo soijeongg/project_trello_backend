@@ -85,7 +85,8 @@ export class BoardController {
 
     try {
       const boardId = parseInt(req.params.boardId, 10);
-      const message = await this.boardService.deleteBoard(boardId, req.cookies);
+      let { userId } = res.locals.user;
+      const message = await this.boardService.deleteBoard(boardId, userId);
       res.json({ message });
     } catch (error) {
       res.status(400).json({ error: error.message });
