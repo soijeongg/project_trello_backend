@@ -6,7 +6,7 @@ import commentRouter from './comment/comment.router.js';
 import userRouter from './user/user.router.js';
 const router = express.Router();
 router.use('/boards', boardRouter);
-router.use('/boards/:boardId/columns', columnRouter);
+router.use('/', columnRouter);
 router.use('/columns/:columnId/cards', cardRoutes);
 router.use('/cards/:cardld/comments', commentRouter);
 router.use('/', userRouter);
