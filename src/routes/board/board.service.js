@@ -30,7 +30,7 @@ export class BoardService {
     return '보드가 생성됐습니다.';
   };
 
-  createBoard = async (boardData, id) => {
+  createBoard = async (boardData, userId) => {
     const uniqueInput = `boardData-${Date.now()}-${Math.random()}`;
     const shasum = crypto.createHash('sha512');
     shasum.update(uniqueInput);
@@ -39,8 +39,8 @@ export class BoardService {
 
     const newBoardData = {
       ...boardData,
-      userId: id,
-      boardWriterId: id,
+      userId: userId,
+      boardWriterId: userId,
       boardCode,
       boardColor,
     };
