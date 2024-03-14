@@ -7,10 +7,19 @@ export class CardsRepository {
       where: {
         columnId: +columnId,
       },
-      orderBy: [{ columnOrder: 'asc' }, { updatedAt: 'desc' }],
+      orderBy: [{ cardOrder: 'asc' }, { updatedAt: 'desc' }],
     });
     return cards;
   };
+  findColumn = async (columnId) => {
+    const column = await this.prisma.column.findFirst({
+      where: {
+        columnId: +columnId,
+      },
+    });
+    return column;
+  };
+
   findCard = async (cardId) => {
     const card = await this.prisma.card.findFirst({
       where: {

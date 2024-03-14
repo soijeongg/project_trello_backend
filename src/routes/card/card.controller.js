@@ -1,4 +1,4 @@
-import { columnIdSchema, createCardSchema, updateCardSchema } from './card.joi.js';
+import { columnIdSchema, cardIdSchema, createCardSchema, updateCardSchema } from './card.joi.js';
 export class CardsController {
   constructor(CardsService) {
     this.CardsService = CardsService;
@@ -46,8 +46,9 @@ export class CardsController {
   };
   updateCard = async (req, res, next) => {
     try {
-      const columnIdError = columnIdSchema.validate(req.params).error;
-      if (columnIdError) {
+      const cardIdError = cardIdSchema.validate(req.params).error;
+      console.log(cardIdError);
+      if (cardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
@@ -69,8 +70,8 @@ export class CardsController {
   };
   deleteCard = async (req, res, next) => {
     try {
-      const columnIdError = columnIdSchema.validate(req.params).error;
-      if (columnIdError) {
+      const CardIdError = CardIdSchema.validate(req.params).error;
+      if (CardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;

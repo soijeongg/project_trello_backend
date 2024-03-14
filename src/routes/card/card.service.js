@@ -23,6 +23,12 @@ export class CardsService {
   };
   //카드 생성 함수
   createCard = async (columnId, cardWriterId, cardData) => {
+    const column = await this.CardsRepository.findColumn(columnId);
+    if (!column) {
+      const error = new Error('컬럼이 존재하지 않습니다.');
+      error.status = 404;
+      throw error;
+    }
     //카드의 색상을 랜덤으로 지정
     cardData.cardColor = getColorCode();
     //시작시간의 시간 형식을 변경
@@ -45,12 +51,12 @@ export class CardsService {
   };
   //카드 업데이트 함수
   updateCard = async (cardId, cardWriterId, cardData) => {
-    const targetCard = await this.CardsRepository.findCard(cardId);
     if (!targetCard) {
       const error = new Error('카드가 존재하지 않습니다.');
       error.status = 404;
       throw error;
     }
+    console.log('33333333');
     const cardStartTime = targetCard.cardStartTime;
     const cardEndTime = targetCard.cardEndTime;
     //시작시간을 수정하는 경우 시간 형식을 변경
