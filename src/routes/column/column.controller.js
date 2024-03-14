@@ -86,9 +86,9 @@ export class ColumnController {
 
       const { columnTitle, columnOrder } = req.body;
 
-      const columnWriterId = res.locals.user.userId;
+      // const columnWriterId = res.locals.user.userId;
 
-      const newColumn = await this.columnService.updateColumn(boardId, columnId, columnTitle, columnOrder, columnWriterId);
+      const newColumn = await this.columnService.updateColumn(boardId, columnId, columnTitle, columnOrder);
       return res.status(200).json(newColumn);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -115,7 +115,9 @@ export class ColumnController {
         throw error;
       }
 
-      const deletedColumn = await this.columnService.deletedColumn(boardId, columnId);
+      const userId = res.locals.user.userId;
+
+      const deletedColumn = await this.columnService.deletedColumn(boardId, columnId, userId);
       return res.status(200).json({ message: '삭제완료' });
     } catch (error) {
       res.status(400).json({ error: error.message });

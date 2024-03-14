@@ -7,6 +7,13 @@ export class CommentService {
       }
 
     createComment = async( cardId, commentContent,commentWriterId) => {
+        const card = await this.commentRepository.findColumnById(cardId)
+        if(!card){
+          const error = new Error('카드가 존재하지 않습니다.');
+          error.status = 404;
+          throw error;
+        }
+
         const createComment = await this.commentRepository.createComment(
             cardId, commentContent,commentWriterId
         )
@@ -14,6 +21,13 @@ export class CommentService {
     }
 
     updateComment = async(cardId, commentContent, commentId,commentWriterId) => {
+        const comment = await this.commentRepository.findColumnById(cardId,commentId)
+        if(!comment){
+          const error = new Error('댓글이 존재하지 않습니다.');
+          error.status = 404;
+          throw error;
+        }
+
         const updateComment = await this.commentRepository.updateComment(
             cardId, commentContent, commentId,commentWriterId
         )
@@ -21,6 +35,13 @@ export class CommentService {
     }
 
     deleteComment = async(cardId, commentContent, commentId) => {
+        const comment = await this.commentRepository.findColumnById(cardId,commentId)
+        if(!comment){
+          const error = new Error('댓글이 존재하지 않습니다.');
+          error.status = 404;
+          throw error;
+        }
+
         const deleteComment = await this.commentRepository.deleteComment(
             (cardId, commentContent, commentId)
         )

@@ -5,8 +5,6 @@ export class ColumnRepository {
     this.prisma = prisma;
   }
 
-
-
   findAllColumns = async (boardId) => {
     const columns = await this.prisma.column.findMany({
       where: {
@@ -25,6 +23,24 @@ export class ColumnRepository {
     return columns;
   };
 
+  findBoardById = async (boardId) => {
+    const board = await this.prisma.board.findFirst({
+      where: {
+        boardId: +boardId,
+      },
+    });
+    return board;
+  };
+  findColumnById = async (boardId, columnId) => {
+    const column = await this.prisma.column.findFirst({
+      where: {
+        boardId: +boardId,
+        columnId: +columnId,
+      },
+    });
+    return column;
+  };
+
   createColumn = async (boardId, columnTitle, columnWriterId) => {
     const randomColor = Math.floor(Math.random() * 7) + 1;
 
@@ -39,7 +55,7 @@ export class ColumnRepository {
     });
     return column;
   };
-  updateColumn = async (boardId, columnId, columnTitle, columnOrder, columnWriterId) => {
+  updateColumn = async (boardId, columnId, columnTitle, columnOrder) => {
     const newColumn = await this.prisma.column.update({
       where: {
         boardId: +boardId,
@@ -48,7 +64,7 @@ export class ColumnRepository {
       data: {
         columnTitle: columnTitle,
         columnOrder: +columnOrder,
-        columnWriterId: +columnWriterId,
+        // columnWriterId: +columnWriterId,
       },
     });
     return newColumn;
