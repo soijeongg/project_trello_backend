@@ -56,7 +56,7 @@ export class ColumnService {
 
     if (column.columnWriterId !== userId) {
       throw new Error("삭제할 수 있는 권한이 없습니다.");
-  }
+    }
 
     const deletedColumn = await this.columnRepository.deletedColumn(boardId, columnId);
     return deletedColumn;
