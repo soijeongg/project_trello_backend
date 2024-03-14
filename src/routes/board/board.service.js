@@ -41,8 +41,8 @@ export class BoardService {
       ...boardData,
       userId: id,
       boardWriterId: id,
-      boardCode: boardCode,
-      boardColor: boardColor,
+      boardCode,
+      boardColor,
     };
     await this.boardRepository.createBoard(newBoardData);
     return '보드가 생성됐습니다.';
