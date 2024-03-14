@@ -31,13 +31,13 @@ export class ColumnRepository {
         const randomColor = Math.floor(Math.random() * 7) + 1;
 
         const column = await this.prisma.column.create({
-        data: {
+            data: {
             boardId:+boardId,
-            columnTitle:columnTitle,
-            columnWriterId:columnWriterId,
+            columnTitle,
+            columnWriterId:+columnWriterId,
             columnOrder: (await this.prisma.column.count()) + 1, 
             columnColor: randomColor
-        },
+        }
         });
         return column
     };
