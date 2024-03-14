@@ -36,21 +36,23 @@ export class CommentController {
 
   updateComment = async (req, res, next) => {
     try {
-      const cardIdError = cardIdSchema.validate(req.params).error
+      const { cardId } = req.params
+
+      const cardIdError = cardIdSchema.validate({ cardId }).error
       if (cardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
       }
-      const { cardId } = req.params
 
-      const commentIdError = commentIdSchema.validate(req.params).error
+      const { commentId } = req.params
+
+      const commentIdError = commentIdSchema.validate({ commentId }).error
       if (commentIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
       }
-      const { commentId } = req.params
 
       const createCommentError = createCommentSchema.validate(req.body).error
       if (createCommentError) {
@@ -72,21 +74,24 @@ export class CommentController {
 
   deleteComment = async (req, res, next) => {
     try {
-      const cardIdError = cardIdSchema.validate(req.params).error
+      const { cardId } = req.params
+
+      const cardIdError = cardIdSchema.validate({ cardId }).error
       if (cardIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
       }
-      const { cardId } = req.params
 
-      const commentIdError = commentIdSchema.validate(req.params).error
+      const { commentId } = req.params
+
+      const commentIdError = commentIdSchema.validate({ commentId }).error
       if (commentIdError) {
         const error = new Error('주소 형식이 올바르지 않습니다.');
         error.status = 400;
         throw error;
       }
-      const { commentId } = req.params
+
 
       const deleteComment = await this.commentService.deleteComment(cardId, commentId);
       return res.status(200);
