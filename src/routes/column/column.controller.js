@@ -1,5 +1,5 @@
 // import { ColumnService } from './column.service.js'
-import { createColumnSchema, boardIdSchema, columnIdSchema } from './columnJoiSchemas.js'
+import { createColumnSchema, boardIdSchema, columnIdSchema } from './column.joi.js';
 export class ColumnController {
     constructor(columnService) {
         this.columnService = columnService;

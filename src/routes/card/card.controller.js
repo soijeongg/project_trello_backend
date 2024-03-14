@@ -1,8 +1,5 @@
-import {
-  columnIdSchema,
-  createCardSchema,
-  updateCardSchema,
-} from './card.joi.js';
+import { columnIdSchema, createCardSchema, updateCardSchema } from './card.joi.js';
+
 export class CardsController {
   constructor(CardsService) {
     this.CardsService = CardsService;
