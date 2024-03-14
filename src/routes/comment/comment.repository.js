@@ -5,32 +5,32 @@ export class CommentRepository{
         this.prisma = prisma;
         }
 
-    createComment = async(boardId, columnId, cardId, commentContent) => {
+    createComment = async(cardId, commentContent,commentWriterId) => {
         const createComment = await this.prisma.comment.create({
-            where:{
-                cardId:+cardId
-            },
             data:{
-                commentContent
+                cardId:+cardId,
+                commentContent,
+                commentWriterId:+commentWriterId
             }
         })
         return createComment
     }
 
-    updateComment = async(boardId, columnId, cardId, commentContent, commentId) => {
+    updateComment = async(cardId, commentContent, commentId,commentWriterId) => {
         const updateComment = await this.prisma.comment.update({
             where:{
                 cardId:+cardId,
                 commentId:+commentId
             },
             data:{
-                commentContent:commentContent
+                commentContent:commentContent,
+                commentWriterId:+commentWriterId
             }
         })
         return updateComment
     }
 
-    deleteComment = async(boardId, columnId, cardId, commentContent, commentId) => {
+    deleteComment = async(cardId, commentId) => {
         await this.prisma.comment.delete({
             where:{
                 cardId:+cardId,
