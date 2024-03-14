@@ -112,6 +112,7 @@ export class userController {
 
       let { userId } = res.locals.user;
 
+
       if (email && !password && !nickname) {
         let updateEs = await this.userService.updateUserServiceEmail(email, userId);
         res.status(200).json({ message: '성공적으로 수정했습니다' });
@@ -122,30 +123,30 @@ export class userController {
       }
       if (!email && !password && nickname) {
         let updateN2 = await this.userService.updateUserServiceNickname(nickname, userId);
-        req.session.user.nickname = nickname;
+        
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
 
       if (email && password && !nickname) {
         await this.userService.updateUserEmailPassword(email, password, userId);
-        req.session.user.nickname = nickname;
+     
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
       if (!email && password && nickname) {
         await this.userService.updateUserPasswordNickname(password, nickname, userId);
-        req.session.user.nickname = nickname;
+        
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
 
       if (email && !password && nickname) {
         await this.userService.updateUserEmailNickname(email, nickname, userId);
-        req.session.user.nickname = nickname;
+        
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
 
       if (email && password && nickname) {
         await this.userService.updateUserPassportsNicknameEmail(password, nickname, email, userId);
-        req.session.user.nickname = nickname;
+        
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
     } catch (error) {
