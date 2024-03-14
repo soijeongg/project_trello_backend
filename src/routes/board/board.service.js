@@ -8,11 +8,15 @@ export class BoardService {
     this.boardRepository = boardRepository;
   }
 
-  joinBoard = async (boardCode) => {
+  joinBoard = async (boardCode, userId) => {
     const board = await this.boardRepository.findBoardByCode(boardCode);
     if (!board) {
       throw new Error('해당 보드가 존재하지 않습니다.');
     }
+    await this.boardRepository.createUserBoard({
+      userId: userId,
+      boardId: board.boardId,
+    });
     return '보드에 참여하셨습니다.';
   };
 
@@ -21,16 +25,7 @@ export class BoardService {
     return boards;
   };
 
-  createUserBoard = async (userId, id) => {
-    const newBoardData = {
-      userId: id,
-      boardWriterId: userId,
-    };
-    await this.boardRepository.createBoard(newBoardData);
-    return '보드가 생성됐습니다.';
-  };
-
-  createBoard = async (boardData, id) => {
+  createBoard = async (boardData, userId) => {
     const uniqueInput = `boardData-${Date.now()}-${Math.random()}`;
     const shasum = crypto.createHash('sha512');
     shasum.update(uniqueInput);
@@ -39,10 +34,19 @@ export class BoardService {
 
     const newBoardData = {
       ...boardData,
-      userId: id,
-      boardWriterId: id,
+      userId: userId,
+      boardWriterId: userId,
       boardCode,
       boardColor,
+    };
+    await this.boardRepository.createBoard(newBoardData);
+    return '보드가 생성됐습니다.';
+  };
+
+  createUserBoard = async (userId, id) => {
+    const newBoardData = {
+      userId: id,
+      boardWriterId: userId,
     };
     await this.boardRepository.createBoard(newBoardData);
     return '보드가 생성됐습니다.';

@@ -31,7 +31,7 @@ export class BoardRepository {
   };
 
   createUserBoard = async (userBoardData) => {
-    return await this.prisma.UserBoards.create({
+    return await this.prisma.UserBoard.create({
       data: {
         ...userBoardData,
       },

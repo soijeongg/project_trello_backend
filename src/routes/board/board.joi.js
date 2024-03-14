@@ -6,7 +6,6 @@ export const joinBoardSchema = Joi.object({
 
 export const createBoardSchema = Joi.object({
   boardTitle: Joi.string().required(),
-  boardWriterId: Joi.number().integer().required(),
   boardContent: Joi.string().required(),
 });
 
