@@ -6,16 +6,16 @@ export class CommentService {
         this.commentRepository = commentRepository;
       }
 
-    createComment = async( cardId, commentContent) => {
+    createComment = async( cardId, commentContent,commentWriterId) => {
         const createComment = await this.commentRepository.createComment(
-            cardId, commentContent
+            cardId, commentContent,commentWriterId
         )
         return createComment
     }
 
-    updateComment = async(cardId, commentContent, commentId) => {
+    updateComment = async(cardId, commentContent, commentId,commentWriterId) => {
         const updateComment = await this.commentRepository.updateComment(
-            cardId, commentContent, commentId
+            cardId, commentContent, commentId,commentWriterId
         )
         return updateComment
     }
