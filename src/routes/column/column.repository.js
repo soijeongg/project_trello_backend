@@ -25,6 +25,24 @@ export class ColumnRepository {
     return columns;
   };
 
+  findBoardById = async(boardId) => {
+    const board = await this.prisma.board.findFirst({
+        where:{
+            boardId:+boardId
+        }
+    })
+    return board
+  }
+  findColumnById = async(boardId, columnId) => {
+    const column = await this.prisma.column.findFirst({
+        wher:{
+            boardId:+boardId,
+            columnId:+columnId
+        }
+    })
+    return column
+  }
+
   createColumn = async (boardId, columnTitle, columnWriterId) => {
     const randomColor = Math.floor(Math.random() * 7) + 1;
 

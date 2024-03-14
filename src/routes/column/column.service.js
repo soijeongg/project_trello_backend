@@ -13,6 +13,12 @@ export class ColumnService {
     return columns;
   };
   createColumn = async (boardId, columnTitle, columnWriterId) => {
+    const board = await this.columnRepository.findBoardById(boardId)    
+    if(!board){
+      const error = new Error('보드가 존재하지 않습니다.');
+      error.status = 404;
+      throw error;
+    }
 
     const createColumn = await this.columnRepository.createColumn(boardId, columnTitle, columnWriterId);
     return createColumn;
@@ -24,6 +30,13 @@ export class ColumnService {
     columnOrder,
     columnWriterId
   ) => {
+    const column = await this.columnRepository.findColumnById(boardId,columnId)
+    if(!column){
+      const error = new Error('컬럼이 존재하지 않습니다.');
+      error.status = 404;
+      throw error;
+    }
+
     const updateColumn = await this.columnRepository.updateColumn(
       boardId,
       columnId,
