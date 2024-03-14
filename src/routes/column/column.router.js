@@ -6,8 +6,8 @@ import { ColumnRepository} from './column.repository.js';
 
 const router = express.Router();
 const columnRepository = new ColumnRepository(prisma);
-const columnService = new ColumnService();
-const columnController = new ColumnController();
+const columnService = new ColumnService(columnRepository);
+const columnController = new ColumnController(columnService);
 
 router.get('/', columnController.getColumns);
 

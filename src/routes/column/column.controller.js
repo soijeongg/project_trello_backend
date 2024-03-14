@@ -3,16 +3,22 @@ import { createColumnSchema, boardIdSchema, columnIdSchema } from './columnJoiSc
 export class ColumnController {
     constructor(columnService) {
         this.columnService = columnService;
-        this.boardIdSchema = boardIdSchema;
-        this.columnIdSchema = columnIdSchema;
-        this.createColumnSchema = createColumnSchema;
+        // this.boardIdSchema = boardIdSchema;
+        // this.columnIdSchema = columnIdSchema;
+        // this.createColumnSchema = createColumnSchema;
     }
 
         getColumns = async(req,res,next)=>{
             try{
                 // boardId 유효성 검사
-                const { boardId } = await this.boardIdSchema.validateAsync(req.params);
+                const boardIdError = boardIdSchema.validate(req.parmas)
+                if(boardIdError){
+                    const error = new Error('주소 형식이 올바르지 않습니다.');
+                    error.status = 400;
+                    throw error;
+                }
 
+                const { boardId } = req.parmas
                 const columns = await this.columnService.findAllColumns(boardId)
                 
                 return res.status(200).json(columns)
@@ -24,16 +30,17 @@ export class ColumnController {
         createColumn = async(req,res,next) => {
             try{
                 // boardId 유효성 검사
-                const { boardId } = await this.boardIdSchema.validateAsync(req.params);
-                // const { boardId } = req.params
+                const { boardId } = boardIdSchema.validate(req.params)
 
-                const { columnTitle } = await this.createColumnSchema.validateAsync(req.body);
-                const columnWriterid = req.user.userId
+                const { columnTitle } = createColumnSchema.validate(req.body);
+                // const columnWriterid = req.user.userId
+
+                const columnWriterId = res.locals.user.userId
 
                 const createColumn = await this.columnService.createColumn(
                     boardId,
                     columnTitle,
-                    columnWriterid                    
+                    columnWriterId                    
                 )
                 return res.status(201).json(createColumn)
             }catch(error){
@@ -44,11 +51,11 @@ export class ColumnController {
         updateColumn = async(req, res, next) => {
             try{
                 // boardId 유효성 검사
-                const { boardId } = await this.boardIdSchema.validateAsync(req.params);
+                const { boardId } = boardIdSchema.validate(req.params)
                 // columnId 유효성 검사
-                const { columnId } = await this.columnIdSchema.validateAsync(req.params);
+                const { columnId } = columnIdSchema.validate(req.params);
 
-                const { columnTitle, columnOrder } = await this.createColumnSchema.validateAsync(req.body);
+                const { columnTitle, columnOrder } = createColumnSchema.validate(req.body);
     
                 const columnWriterid = req.user.userId
 
@@ -64,10 +71,10 @@ export class ColumnController {
         deleteColumn = async(req,res,next) => {
             try{
         // boardId 유효성 검사
-                const { boardId } = await this.boardIdSchema.validateAsync(req.params);
+                const { boardId } = boardIdSchema.validate(req.params)
                 // columnId 유효성 검사
-                const { columnId } = await this.columnIdSchema.validateAsync(req.params);
-    
+                const { columnId } = columnIdSchema.validate(req.params);
+            
                 const deletedColumn = await this.columnService.deletedColumn(
                     boardId,columnId
                 )
