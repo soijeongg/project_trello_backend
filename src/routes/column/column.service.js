@@ -1,80 +1,23 @@
-// import { ColumnRepository } from './column.repository.js';
+import express from 'express';
+import { prisma } from '../../utils/prisma/index.js';
+import { ColumnController } from './column.controller.js';
+import { ColumnService } from './column.service.js';
+import { ColumnRepository} from './column.repository.js';
+import authMiddleware from '../../middlewares/authMiddleware.js';
 
-export class ColumnService {
-  constructor(columnRepository) {
-    this.columnRepository = columnRepository;
-    // this.prisma = columnRepository.prisma
-  }
 
-  // validateBoardId = async (boardId) => {
-  //   const board = await this.prisma.board.findUnique({
-  //     where: {
-  //       boardId: +boardId,
-  //     },
-  //   });
 
-  //   if (!board) {
-  //     throw new Error('보드X');
-  //   }
-  // };
-  // validateColumnId = async (columnId) => {
-  //   const column = await this.prisma.column.findUnique({
-  //     where: {
-  //       column: +columnId,
-  //     },
-  //   });
+const router = express.Router();
+const columnRepository = new ColumnRepository(prisma);
+const columnService = new ColumnService(columnRepository);
+const columnController = new ColumnController(columnService);
 
-  //   if (!column) {
-  //     throw new Error('컬럼X');
-  //   }
-  // };
+router.get('/', authMiddleware,columnController.getColumns);
 
-  findAllColumns = async (boardId) => {
-    await this.validateBoardId(boardId);
+router.post('/boards/:boardId/columns', authMiddleware,columnController.createColumn);
 
-    const columns = await this.columnRepository.findAllColumns(boardId);
+router.put('/:columnId', authMiddleware,columnController.updateColumn);
 
-    return columns;
-  };
+router.delete('/:columnId', authMiddleware,columnController.deleteColumn);
 
-  createColumn = async (boardId, columnTitle, columnWriterId) => {
-    // await this.validateBoardId(boardId);
-
-    const createColumn = await this.columnRepository.createColumn(
-      boardId,
-      columnTitle,
-      columnWriterId
-    );
-
-    return createColumn;
-  };
-
-  updateColumn = async (
-    boardId,
-    columnId,
-    columnTitle,
-    columnOrder
-    // columnWriterid
-  ) => {
-    await this.validateBoardId(columnId);
-
-    const updateColumn = await this.columnRepository.updateColumn(
-      boardId,
-      columnId,
-      columnTitle,
-      columnOrder
-      // columnWriterid
-    );
-    return updateColumn;
-  };
-
-  deletedColumn = async (boardId, columnId) => {
-    await this.validateBoardId(columnId);
-
-    const deletedColumn = await this.columnRepository.deletedColumn(
-      boardId,
-      columnId
-    );
-    return deletedColumn;
-  };
-}
+export default router;

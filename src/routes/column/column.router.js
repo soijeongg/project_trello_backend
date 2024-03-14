@@ -3,18 +3,21 @@ import { prisma } from '../../utils/prisma/index.js';
 import { ColumnController } from './column.controller.js';
 import { ColumnService } from './column.service.js';
 import { ColumnRepository} from './column.repository.js';
+import authMiddleware from '../../middlewares/authMiddleware.js';
+
+
 
 const router = express.Router();
 const columnRepository = new ColumnRepository(prisma);
 const columnService = new ColumnService(columnRepository);
 const columnController = new ColumnController(columnService);
 
-router.get('/', columnController.getColumns);
+router.get('/', authMiddleware,columnController.getColumns);
 
-router.post('/', columnController.createColumn);
+router.post('/boards/:boardId/columns', authMiddleware,columnController.createColumn);
 
-router.put('/:columnId', columnController.updateColumn);
+router.put('/:columnId', authMiddleware,columnController.updateColumn);
 
-router.delete('/:columnId', columnController.deleteColumn);
+router.delete('/:columnId', authMiddleware,columnController.deleteColumn);
 
 export default router;
