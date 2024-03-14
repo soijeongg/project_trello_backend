@@ -3,6 +3,51 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import argon2 from 'argon2';
+import { prisma } from '../src/utils/prisma/index.js';
+
+// 사용자 정보를 세션에 저장
+passport.serializeUser((user, done) => {
+  done(null, user.userId);
+});
+
+passport.deserializeUser(async (userId, done) => {
+  try {
+    const user = await prisma.User.findFirst({ where: { userId } });
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
+passport.use(
+  'local',
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+    async (email, password, done) => {
+      try {
+        // 사용자 데이터베이스에서 이메일로 사용자 찾기
+        const user = await prisma.User.findFirst({ where: { email: email } });
+        if (!user) {
+          return done(null, false, { message: '유저를 찾을 수 없습니다.' });
+        }
+        // 비밀번호 확인
+        const isValidPassword = await argon2.verify(user.password, password);
+        if (!isValidPassword) {
+          return done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
+        }
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
 import LogMiddleware from './middlewares/logMiddleware.js';
 import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
 import generalErrorHandler from './middlewares/generalErrorMiddleware.js';
@@ -46,6 +91,11 @@ app.use(
     },
   })
 );
+// Passport 초기화 및 세션 사용
+app.use(passport.initialize());
+app.use(passport.session());
+import '../config/passport.js';
+
 
 app.use('/api', router);
 app.use(notFoundErrorHandler);
