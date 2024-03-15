@@ -19,22 +19,23 @@ export class CommentRepository {
   findCardById = async (cardId) => {
     const card = await this.prisma.card.findFirst({
       where: {
-        card: +card,
-      },
-    });
-    return board;
-  };
-  findCommentById = async (cardId, commentId) => {
-    const comment = await this.prisma.comment.findFirst({
-      wher: {
         cardId: +cardId,
-        commentId: +commentId
       },
     });
-    return column;
+    return card; // 수정: 변수 이름을 card로 변경
   };
 
-  updateComment = async (cardId, commentContent, commentId, commentWriterId) => {
+  findCommentById = async (cardId, commentId) => {
+    const comment = await this.prisma.comment.findFirst({
+      where: {
+        cardId: +cardId,
+        commentId: +commentId,
+      },
+    });
+    return comment;
+  };
+
+  updateComment = async (cardId, commentId, commentContent, commentWriterId) => {
     const updateComment = await this.prisma.comment.update({
       where: {
         cardId: +cardId,
@@ -48,13 +49,13 @@ export class CommentRepository {
     return updateComment;
   };
 
-  deleteComment = async (cardId, commentId) => {
+  deleteComment = async (cardId, commentId, userId) => {
     await this.prisma.comment.delete({
       where: {
         cardId: +cardId,
         commentId: +commentId,
       },
     });
-    return { message: '댓글삭제' };
+    return {message:"댓글삭제"};
   };
 }

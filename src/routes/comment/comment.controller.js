@@ -8,13 +8,17 @@ export class CommentController {
 
   createComment = async (req, res, next) => {
     try {
-      const cardIdError = cardIdSchema.validate(req.params).error
-      if (cardIdError) {
-        const error = new Error('주소 형식이 올바르지 않습니다.');
-        error.status = 400;
-        throw error;
-      }
+      // const cardIdError = cardIdSchema.validate(req.params).error
+      // if (cardIdError) {
+      //   const error = new Error('주소 형식이 올바르지 않습니다.');
+      //   error.status = 400;
+      //   throw error;
+      // }
       const { cardId } = req.params
+
+      console.log("-----------------------------------");
+      console.log(cardId);
+      console.log("-----------------------------------");
 
       const createCommentError = createCommentSchema.validate(req.body).error
       if (createCommentError) {
@@ -53,6 +57,8 @@ export class CommentController {
         error.status = 400;
         throw error;
       }
+
+
 
       const createCommentError = createCommentSchema.validate(req.body).error
       if (createCommentError) {
@@ -95,7 +101,7 @@ export class CommentController {
       const userId = res.locals.user.userId;
 
       const deleteComment = await this.commentService.deleteComment(cardId, commentId, userId);
-      return res.status(200);
+      return res.status(200).json(deleteComment);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
