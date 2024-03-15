@@ -29,7 +29,7 @@ const updateCardSchema = Joi.object({
   cardStartTime: timeSchema,
   cardEndTime: timeSchema,
   cardStatus: Joi.string().valid('IN_PROGRESS', 'COMPLETED', 'CANCELED'),
-  cardOrder: Joi.number(),
+  cardOrder: Joi.number().min(1),
 });
 
 export { columnIdSchema, cardIdSchema, createCardSchema, updateCardSchema };

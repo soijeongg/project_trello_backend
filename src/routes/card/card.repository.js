@@ -1,7 +1,10 @@
+import nodemon from 'nodemon';
+
 export class CardsRepository {
   constructor(prisma) {
     this.prisma = prisma;
   }
+
   findAllCardsWithColumnId = async (columnId) => {
     const cards = await this.prisma.card.findMany({
       where: {
@@ -55,15 +58,75 @@ export class CardsRepository {
     });
     return card;
   };
-  updateCard = async (cardId, cardData) => {
+  updateOnlyColumnId = async (cardId, columnId) => {
+    const card = await this.prisma.card.update({
+      where: {
+        cardId: +cardId,
+      },
+      data: {
+        columnId: +columnId,
+      },
+    });
+    return card;
+  };
+  updateOnlyCardOrder = async (cardId, cardOrder) => {
+    const card = await this.prisma.card.update({
+      where: {
+        cardId: +cardId,
+      },
+      data: {
+        cardOrder: +cardOrder,
+      },
+    });
+    return card;
+  };
+  updateCardOrderWithSwap = async (columnId, targetOrder, nowOrder) => {
+    const cards = await this.prisma.card.findMany({
+      where: {
+        columnId: +columnId,
+      },
+      orderBy: {
+        cardOrder: 'asc',
+      },
+    });
+    cards.forEach((card) => {
+      console.log(card.cardOrder);
+    });
+    console.log(nowOrder, targetOrder);
+    if (nowOrder < targetOrder) {
+      for (let i = nowOrder - 1; i < targetOrder - 1; i++) {
+        let tempOrder = cards[i].cardOrder;
+        cards[i].cardOrder = cards[i + 1].cardOrder;
+        cards[i + 1].cardOrder = tempOrder;
+      }
+    } else if (nowOrder > targetOrder) {
+      for (let i = nowOrder - 1; i > targetOrder - 1; i--) {
+        let tempOrder = cards[i].cardOrder;
+        cards[i].cardOrder = cards[i - 1].cardOrder;
+        cards[i - 1].cardOrder = tempOrder;
+      }
+    }
+    cards.forEach((card) => {
+      console.log(card.cardOrder);
+    });
+    for (let i = 0; i < cards.length; i++) {
+      await this.prisma.card.update({
+        where: {
+          cardId: cards[i].cardId,
+        },
+        data: {
+          cardOrder: cards[i].cardOrder,
+        },
+      });
+    }
+  };
+  updateCardWithOutOrderAndComlumnId = async (cardId, cardData) => {
     const updateData = {
-      ...(cardData.columnId !== undefined && { Column: { connect: { columnId: +cardData.columnId } } }),
       ...(cardData.cardTitle !== undefined && { cardTitle: cardData.cardTitle }),
       ...(cardData.cardContent !== undefined && { cardContent: cardData.cardContent }),
       ...(cardData.cardStartTime !== undefined && { cardStartTime: cardData.cardStartTime }),
       ...(cardData.cardEndTime !== undefined && { cardEndTime: cardData.cardEndTime }),
       ...(cardData.cardStatus !== undefined && { cardStatus: cardData.cardStatus }),
-      ...(cardData.cardOrder !== undefined && { cardOrder: +cardData.cardOrder }),
     };
     const card = await this.prisma.card.update({
       where: {
@@ -80,5 +143,25 @@ export class CardsRepository {
       },
     });
     return card;
+  };
+  cardOrderCompression = async (columnId) => {
+    const cards = await this.prisma.card.findMany({
+      where: {
+        columnId: +columnId,
+      },
+      orderBy: {
+        cardOrder: 'asc',
+      },
+    });
+    for (let i = 0; i < cards.length; i++) {
+      await this.prisma.card.update({
+        where: {
+          cardId: cards[i].cardId,
+        },
+        data: {
+          cardOrder: i + 1,
+        },
+      });
+    }
   };
 }

@@ -40,18 +40,18 @@ export class CardsService {
       error.status = 400;
       throw error;
     }
+    //카드의 순서를 결정하기 위해 컬럼에 속한 카드 중 가장 마지막 카드의 순서를 가져옴
     const lastCardOrder = await this.CardsRepository.findLastCardOrder(columnId);
     const newCardData = {
       ...cardData,
       cardOrder: lastCardOrder + 1,
     };
-
     const card = await this.CardsRepository.createCard(columnId, cardWriterId, newCardData);
     return card;
   };
   //카드 업데이트 함수
   updateCard = async (cardId, cardData) => {
-    const targetCard = await this.CardsRepository.findCard(cardId);
+    let targetCard = await this.CardsRepository.findCard(cardId);
     if (!targetCard) {
       const error = new Error('카드가 존재하지 않습니다.');
       error.status = 404;
@@ -83,7 +83,25 @@ export class CardsService {
     }
     cardData.cardStartTime = cardStartTime;
     cardData.cardEndTime = cardEndTime;
-    const card = await this.CardsRepository.updateCard(cardId, cardData);
+    //cardData에는  카드의 변경 요청 사항이 담겨있음
+    //targetData는 변경하려는 카드의 정보가 담겨있음
+    if (cardData.columnId) {
+      // 변경하려는 컬럼의 마지막 카드의 순서를 가져옴
+      const lastCardOrder = await this.CardsRepository.findLastCardOrder(cardData.columnId);
+      if (!cardData.cardOrder) {
+        cardData.cardOrder = lastCardOrder + 1;
+      }
+      let beforeColumnId = targetCard.columnId;
+      await this.CardsRepository.updateOnlyColumnId(cardId, cardData.columnId);
+      await this.CardsRepository.updateOnlyCardOrder(cardId, lastCardOrder + 1);
+      targetCard = await this.CardsRepository.findCard(cardId);
+      await this.CardsRepository.updateCardOrderWithSwap(targetCard.columnId, targetCard.cardOrder, cardData.cardOrder);
+      const card = await this.CardsRepository.updateCardWithOutOrderAndComlumnId(cardId, cardData);
+      await this.CardsRepository.cardOrderCompression(beforeColumnId);
+      return card;
+    }
+    await this.CardsRepository.updateCardOrderWithSwap(targetCard.columnId, targetCard.cardOrder, cardData.cardOrder);
+    const card = await this.CardsRepository.updateCardWithOutOrderAndComlumnId(cardId, cardData);
     return card;
   };
   deleteCard = async (cardId, userId) => {
@@ -98,7 +116,9 @@ export class CardsService {
       error.status = 403;
       throw error;
     }
+    let beforeColumnId = targetCard.columnId;
     const card = await this.CardsRepository.deleteCard(cardId);
+    await this.CardsRepository.cardOrderCompression(beforeColumnId);
     return card;
   };
 }
