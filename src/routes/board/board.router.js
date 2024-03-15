@@ -11,10 +11,25 @@ const boardController = new BoardController(boardService);
 
 const router = express.Router();
 
-router.post('/joinPage', authMiddleware, boardController.joinBoard);
-router.get('/', authMiddleware, boardController.getBoards);
-router.post('/', authMiddleware, boardController.createBoard);
-router.put('/:boardId', authMiddleware, boardController.updateBoard);
-router.delete('/:boardId', authMiddleware, boardController.deleteBoard);
+router.post(
+  '/joinPage', // authMiddleware,
+  boardController.joinBoard
+);
+router.get(
+  '/', // authMiddleware,
+  boardController.getBoards
+);
+router.post(
+  '/', // authMiddleware,
+  boardController.createBoard
+);
+router.put(
+  '/:boardId', // authMiddleware,
+  boardController.updateBoard
+);
+router.delete(
+  '/:boardId', // authMiddleware,
+  boardController.deleteBoard
+);
 
 export default router;

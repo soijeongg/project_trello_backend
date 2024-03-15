@@ -38,16 +38,28 @@ router.post('/login', (req, res, next) => {
     }
   })(req, res, next);
 });
-router.get('/user/get', authMiddleware, UserController.getLoginController);
-router.put('/user', authMiddleware, UserController.putLoginController);
-router.delete('/user', authMiddleware, UserController.deleteController);
-router.delete('/logout', authMiddleware, (req, res, next) => {
-  req.logOut(function (err) {
-    if (err) {
-      return next(err);
-    }
-    return res.json({ message: '로그아웃' });
-  });
-});
+router.get(
+  '/user/get', //authMiddleware,
+  UserController.getLoginController
+);
+router.put(
+  '/user', //authMiddleware,
+  UserController.putLoginController
+);
+router.delete(
+  '/user', //authMiddleware,
+  UserController.deleteController
+);
+router.delete(
+  '/logout', //authMiddleware,
+  (req, res, next) => {
+    req.logOut(function (err) {
+      if (err) {
+        return next(err);
+      }
+      return res.json({ message: '로그아웃' });
+    });
+  }
+);
 
 export default router;

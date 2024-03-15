@@ -12,8 +12,11 @@ import generalErrorHandler from './middlewares/generalErrorMiddleware.js';
 import router from './routes/index.js';
 dotenv.config();
 
+import tempLogin from './middlewares/temp_login.js'; //    authMiddleware가동시 제거
+
 const app = express();
 const PORT = process.env.PORT;
+app.use(tempLogin);   //    authMiddleware가동시 제거
 
 const MySQLStore = expressMySQLSession(expressSession); // express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
 const sessionStore = new MySQLStore({
