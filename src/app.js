@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
 import passport from 'passport';
+import cors from 'cors';
 import { prisma } from '../src/utils/prisma/index.js';
 import LogMiddleware from './middlewares/logMiddleware.js';
 import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
@@ -14,7 +15,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-const MySQLStore = expressMySQLSession(expressSession);// express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
+const MySQLStore = expressMySQLSession(expressSession); // express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
 const sessionStore = new MySQLStore({
   user: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
@@ -40,6 +41,7 @@ app.use(
 );
 
 app.use(LogMiddleware);
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false })); // url-encoded 형식의 데이터를 파싱할 수 있도록 미들웨어를 추가. extended: false 옵션은 Node.js의 기본 쿼리 문자열 파서를 사용하여 URL-encoded 데이터를 파싱
@@ -65,7 +67,6 @@ passport.deserializeUser(async (userId, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 import '../config/passport.js';
-
 
 app.use('/api', router);
 app.use(notFoundErrorHandler);
