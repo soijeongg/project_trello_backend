@@ -3,6 +3,21 @@ export class CardsController {
   constructor(CardsService) {
     this.CardsService = CardsService;
   }
+  getColumn = async (req, res, next) => {
+    try {
+      const columnIdError = columnIdSchema.validate(req.params).error;
+      if (columnIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
+      const { columnId } = req.params;
+      const column = await this.CardsService.findColumn(columnId);
+      res.status(200).json(column);
+    } catch (err) {
+      next(err);
+    }
+  };
   getCards = async (req, res, next) => {
     try {
       const columnIdError = columnIdSchema.validate(req.params).error;

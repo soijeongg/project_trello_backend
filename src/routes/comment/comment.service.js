@@ -1,11 +1,20 @@
 // import { CommentRepository } from './comment.repository.js';
 
-
 export class CommentService {
   constructor(commentRepository) {
     this.commentRepository = commentRepository;
   }
+  getComments = async (cardId) => {
+    const card = await this.commentRepository.findCardById(cardId);
+    if (!card) {
+      const error = new Error('카드가 존재하지 않습니다.');
+      error.status = 404;
+      throw error;
+    }
 
+    const comments = await this.commentRepository.getComments(cardId);
+    return comments;
+  };
   createComment = async (cardId, commentContent, commentWriterId) => {
     const card = await this.commentRepository.findCardById(cardId);
     if (!card) {

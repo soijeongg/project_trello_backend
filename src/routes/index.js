@@ -7,7 +7,7 @@ import userRouter from './user/user.router.js';
 const router = express.Router();
 router.use('/boards', boardRouter);
 router.use('/', columnRouter);
-router.use('/columns/:columnId/cards', cardRoutes);
+router.use('/columns/:columnId', cardRoutes);
 router.use('/', commentRouter);
 router.use('/', userRouter);
 export default router;

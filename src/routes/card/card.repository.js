@@ -4,6 +4,14 @@ export class CardsRepository {
   constructor(prisma) {
     this.prisma = prisma;
   }
+  findColumn = async (columnId) => {
+    const column = await this.prisma.column.findFirst({
+      where: {
+        columnId: +columnId,
+      },
+    });
+    return column;
+  };
 
   findAllCardsWithColumnId = async (columnId) => {
     const cards = await this.prisma.card.findMany({

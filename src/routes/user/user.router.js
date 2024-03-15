@@ -39,19 +39,19 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 router.get(
-  '/user/get', //authMiddleware,
+  '/user/get', authMiddleware,
   UserController.getLoginController
 );
 router.put(
-  '/user', //authMiddleware,
+  '/user', authMiddleware,
   UserController.putLoginController
 );
 router.delete(
-  '/user', //authMiddleware,
+  '/user', authMiddleware,
   UserController.deleteController
 );
 router.delete(
-  '/logout', //authMiddleware,
+  '/logout', authMiddleware,
   (req, res, next) => {
     req.logOut(function (err) {
       if (err) {

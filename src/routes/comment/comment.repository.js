@@ -4,6 +4,14 @@ export class CommentRepository {
   constructor(prisma) {
     this.prisma = prisma;
   }
+  getComments = async (cardId) => {
+    const card = await this.prisma.card.findFirst({
+      where: {
+        cardId: +cardId,
+      },
+    });
+    return card;
+  };
 
   createComment = async (cardId, commentContent, commentWriterId) => {
     const createComment = await this.prisma.comment.create({
@@ -56,6 +64,6 @@ export class CommentRepository {
         commentId: +commentId,
       },
     });
-    return {message:"댓글삭제"};
+    return { message: '댓글삭제' };
   };
 }

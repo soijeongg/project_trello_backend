@@ -17,6 +17,10 @@ export class CardsService {
   constructor(CardsRepository) {
     this.CardsRepository = CardsRepository;
   }
+  findColumn = async (columnId) => {
+    const column = await this.CardsRepository.findColumn(columnId);
+    return column;
+  };
   findAllCardWithColumnId = async (columnId) => {
     const Cards = await this.CardsRepository.findAllCardsWithColumnId(columnId);
     return Cards;

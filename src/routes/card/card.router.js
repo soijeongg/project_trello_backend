@@ -9,21 +9,10 @@ const cardsRepository = new CardsRepository(prisma);
 const cardsService = new CardsService(cardsRepository);
 const cardsController = new CardsController(cardsService);
 
-router.get(
-  '/', // authMiddleware,
-  cardsController.getCards
-);
-router.post(
-  '/', // authMiddleware,
-  cardsController.createCard
-);
-router.put(
-  '/:cardId', // authMiddleware,
-  cardsController.updateCard
-);
-router.delete(
-  '/:cardId', //authMiddleware,
-  cardsController.deleteCard
-);
+router.get('/', authMiddleware, cardsController.getColumn);
+router.get('/cards', authMiddleware, cardsController.getCards);
+router.post('/cards', authMiddleware, cardsController.createCard);
+router.put('/cards/:cardId', authMiddleware, cardsController.updateCard);
+router.delete('/cards/:cardId', authMiddleware, cardsController.deleteCard);
 
 export default router;
