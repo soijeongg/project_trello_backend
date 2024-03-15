@@ -28,4 +28,4 @@ jobs:
           status: ${{ job.status }}
           fields: repo,message,workflow,job,ref,commit
           author_name: Github Action Slack
-          text: main branch에 ${{ env.COMMIT_MESSAGE }}의 커밋이 push 되었습니다.
+          text: dev branch에 ${{ env.COMMIT_MESSAGE }}의 커밋이 push 되었습니다.
