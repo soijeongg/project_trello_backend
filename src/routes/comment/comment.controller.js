@@ -5,6 +5,21 @@ export class CommentController {
   constructor(commentService) {
     this.commentService = commentService;
   }
+  getCard = async (req, res, next) => {
+    try {
+      const cardIdError = cardIdSchema.validate(req.params).error;
+      if (cardIdError) {
+        const error = new Error('주소 형식이 올바르지 않습니다.');
+        error.status = 400;
+        throw error;
+      }
+      const { cardId } = req.params;
+      const comments = await this.commentService.getCard(cardId);
+      return res.status(200).json(comments);
+    } catch (error) {
+      next(error);
+    }
+  };
   getComments = async (req, res, next) => {
     try {
       const cardIdError = cardIdSchema.validate(req.params).error;

@@ -10,6 +10,8 @@ const router = express.Router();
 const commentRepository = new CommentRepository(prisma);
 const commentService = new CommentService(commentRepository);
 const commentController = new CommentController(commentService);
+router.get('/cards/:cardId', authMiddleware, commentController.getCard);
+
 router.get('/cards/:cardId/comments', authMiddleware, commentController.getComments);
 
 router.post('/cards/:cardId/comments', authMiddleware, commentController.createComment);

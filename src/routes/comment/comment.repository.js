@@ -4,13 +4,21 @@ export class CommentRepository {
   constructor(prisma) {
     this.prisma = prisma;
   }
-  getComments = async (cardId) => {
+  getCard = async (cardId) => {
     const card = await this.prisma.card.findFirst({
       where: {
         cardId: +cardId,
       },
     });
     return card;
+  };
+  getComments = async (cardId) => {
+    const comments = await this.prisma.comment.findMany({
+      where: {
+        cardId: +cardId,
+      },
+    });
+    return comments;
   };
 
   createComment = async (cardId, commentContent, commentWriterId) => {

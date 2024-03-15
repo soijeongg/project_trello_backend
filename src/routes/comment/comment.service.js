@@ -4,6 +4,17 @@ export class CommentService {
   constructor(commentRepository) {
     this.commentRepository = commentRepository;
   }
+  getCard = async (cardId) => {
+    const card = await this.commentRepository.findCardById(cardId);
+    if (!card) {
+      const error = new Error('카드가 존재하지 않습니다.');
+      error.status = 404;
+      throw error;
+    }
+
+    const comments = await this.commentRepository.getCard(cardId);
+    return comments;
+  };
   getComments = async (cardId) => {
     const card = await this.commentRepository.findCardById(cardId);
     if (!card) {
