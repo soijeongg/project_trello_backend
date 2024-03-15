@@ -12,11 +12,8 @@ import generalErrorHandler from './middlewares/generalErrorMiddleware.js';
 import router from './routes/index.js';
 dotenv.config();
 
-import tempLogin from './middlewares/temp_login.js'; //    authMiddleware가동시 제거
-
 const app = express();
 const PORT = process.env.PORT;
-app.use(tempLogin);   //    authMiddleware가동시 제거
 
 const MySQLStore = expressMySQLSession(expressSession); // express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
 const sessionStore = new MySQLStore({
@@ -44,7 +41,12 @@ app.use(
 );
 
 app.use(LogMiddleware);
-app.use(cors());
+app.use(
+  cors({
+    origin: true, // 요청이 온 도메인을 허용
+    credentials: true, // 쿠키를 포함한 요청을 허용
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false })); // url-encoded 형식의 데이터를 파싱할 수 있도록 미들웨어를 추가. extended: false 옵션은 Node.js의 기본 쿼리 문자열 파서를 사용하여 URL-encoded 데이터를 파싱
