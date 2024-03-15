@@ -3,7 +3,7 @@ import passport from 'passport';
 import { prisma } from '../../utils/prisma/index.js';
 import { userController } from './user.controller.js';
 import { userService } from './user.service.js';
-import {  userRespository } from './user.repository.js';
+import { userRespository } from './user.repository.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
 
 let router = express.Router();
@@ -27,9 +27,8 @@ router.post('/login', (req, res, next) => {
         if (err) {
           return next(err);
         }
-        req.user = user
+        req.user = user;
         res.locals.user = user;
-        
 
         return res.json({ message: `${user.nickname}님 환영합니다!~` });
       });
@@ -38,28 +37,17 @@ router.post('/login', (req, res, next) => {
     }
   })(req, res, next);
 });
-router.get(
-  '/user/get', authMiddleware,
-  UserController.getLoginController
-);
-router.put(
-  '/user', authMiddleware,
-  UserController.putLoginController
-);
-router.delete(
-  '/user', authMiddleware,
-  UserController.deleteController
-);
-router.delete(
-  '/logout', authMiddleware,
-  (req, res, next) => {
-    req.logOut(function (err) {
-      if (err) {
-        return next(err);
-      }
-      return res.json({ message: '로그아웃' });
-    });
-  }
-);
+router.get('/user/get', authMiddleware, UserController.getLoginController);
+router.post('/user/get', authMiddleware, UserController.getNickNameController);
+router.put('/user', authMiddleware, UserController.putLoginController);
+router.delete('/user', authMiddleware, UserController.deleteController);
+router.delete('/logout', authMiddleware, (req, res, next) => {
+  req.logOut(function (err) {
+    if (err) {
+      return next(err);
+    }
+    return res.json({ message: '로그아웃' });
+  });
+});
 
 export default router;

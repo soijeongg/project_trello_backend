@@ -78,16 +78,29 @@ export class userController {
     }
   };
   //==========================================닉네임을 보내러 들어온다=========================================
-  getLoginController = async(req, res, next)=>{
-    try{
+  getLoginController = async (req, res, next) => {
+    try {
       let { userId } = res.locals.user;
       let name = await this.userService.getNickname(userId);
-      res.status(200).json({message:name})
-    }catch(error){
-      next(error)
+      res.status(200).json({ message: name });
+    } catch (error) {
+      next(error);
     }
-  }
-
+  };
+  getNickNameController = async (req, res, next) => {
+    try {
+      let userId = req.body.userId;
+      if (!userId) {
+        const error = new Error('userId가 필요합니다');
+        error.status = 401;
+        throw error;
+      }
+      let name = await this.userService.getNickname(userId);
+      res.status(200).json({ message: name });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   //자 이제 회원정보 바꾸러 들어온다
   putLoginController = async (req, res, next) => {
@@ -123,7 +136,6 @@ export class userController {
 
       let { userId } = res.locals.user;
 
-
       if (email && !password && !nickname) {
         let updateEs = await this.userService.updateUserServiceEmail(email, userId);
         res.status(200).json({ message: '성공적으로 수정했습니다' });
@@ -134,30 +146,30 @@ export class userController {
       }
       if (!email && !password && nickname) {
         let updateN2 = await this.userService.updateUserServiceNickname(nickname, userId);
-        
+
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
 
       if (email && password && !nickname) {
         await this.userService.updateUserEmailPassword(email, password, userId);
-     
+
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
       if (!email && password && nickname) {
         await this.userService.updateUserPasswordNickname(password, nickname, userId);
-        
+
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
 
       if (email && !password && nickname) {
         await this.userService.updateUserEmailNickname(email, nickname, userId);
-        
+
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
 
       if (email && password && nickname) {
         await this.userService.updateUserPassportsNicknameEmail(password, nickname, email, userId);
-        
+
         res.status(200).json({ message: '성공적으로 수정했습니다' });
       }
     } catch (error) {
