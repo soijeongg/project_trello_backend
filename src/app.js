@@ -4,76 +4,18 @@ import dotenv from 'dotenv';
 import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import argon2 from 'argon2';
 import { prisma } from '../src/utils/prisma/index.js';
-
-// 사용자 정보를 세션에 저장
-passport.serializeUser((user, done) => {
-  done(null, user.userId);
-});
-
-passport.deserializeUser(async (userId, done) => {
-  try {
-    const user = await prisma.User.findFirst({ where: { userId } });
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
-
-passport.use(
-  'local',
-  new LocalStrategy(
-    {
-      usernameField: 'email',
-      passwordField: 'password',
-    },
-    async (email, password, done) => {
-      try {
-        // 사용자 데이터베이스에서 이메일로 사용자 찾기
-        const user = await prisma.User.findFirst({ where: { email: email } });
-        if (!user) {
-          return done(null, false, { message: '유저를 찾을 수 없습니다.' });
-        }
-        // 비밀번호 확인
-        const isValidPassword = await argon2.verify(user.password, password);
-        if (!isValidPassword) {
-          return done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
-        }
-        return done(null, user);
-      } catch (error) {
-        return done(error);
-      }
-    }
-  )
-);
 import LogMiddleware from './middlewares/logMiddleware.js';
 import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
 import generalErrorHandler from './middlewares/generalErrorMiddleware.js';
 import router from './routes/index.js';
 dotenv.config();
 
-const app = express(); // Express 애플리케이션 인스턴스를 생성하는 부분입니다. express() 함수를 호출함으로써, Express 앱이 시작되고 이 인스턴스를 사용해 라우팅, 미들웨어 등을 설정합니다.
+const app = express();
 const PORT = process.env.PORT;
 
-// 사용자 정보를 세션에 저장
-passport.serializeUser((user, done) => {
-  done(null, user.userId);
-});
-
-passport.deserializeUser(async (userId, done) => {
-  try {
-    const user = await prisma.User.findFirst({ where: { userId } });
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
-
-const MySQLStore = expressMySQLSession(expressSession); // express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
+const MySQLStore = expressMySQLSession(expressSession);// express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
 const sessionStore = new MySQLStore({
-  // 저장할 mysql 정보를 설정. 즉, express-mysql-session에 저장할 정보를 설정
   user: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   host: process.env.DATABASE_HOST,
@@ -84,8 +26,8 @@ const sessionStore = new MySQLStore({
 });
 
 app.use(
-  // 세션 정보의 활용 방식을 설정. 즉, express-session의 정보를 경우마다 어떻게 쓸건지 설정하는 것.
   expressSession({
+    // 세션 정보의 활용 방식을 설정. 즉, express-session의 정보를 경우마다 어떻게 쓸건지 설정하는 것.
     secret: process.env.JWT_SECRET, // 세션을 암호화하는 비밀 키를 설정
     resave: false, // 클라이언트의 요청이 올 때마다 세션을 새롭게 저장할 지 설정, 변경사항이 없어도 다시 저장
     saveUninitialized: false,
@@ -96,11 +38,6 @@ app.use(
     },
   })
 );
-// Passport 초기화 및 세션 사용
-app.use(passport.initialize());
-app.use(passport.session());
-import '../config/passport.js';
-
 
 app.use(LogMiddleware);
 app.use(express.json());
@@ -110,9 +47,25 @@ app.get('/', (req, res) => {
   res.send('<h1>trello</h1>');
 });
 
+// 사용자 정보를 세션에 저장
+passport.serializeUser((user, done) => {
+  done(null, user.userId);
+});
+
+passport.deserializeUser(async (userId, done) => {
+  try {
+    const user = await prisma.User.findFirst({ where: { userId } });
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
+// Passport 초기화 및 세션 사용
 app.use(passport.initialize());
 app.use(passport.session());
 import '../config/passport.js';
+
 
 app.use('/api', router);
 app.use(notFoundErrorHandler);
