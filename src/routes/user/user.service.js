@@ -58,6 +58,17 @@ export class userService{
     return `${findI.nickname},${findI.userId}`;
 
 }
+//====================================닉네임을 보내보자==================================
+    getNickname = async(userId)=>{
+        let nicknameGet = await this.userRespository.findNickname(userId);
+        if(!nicknameGet){
+            const error = new Error('닉네임을 가져오는데 실패했습니다');
+            throw error;
+        }
+        return nicknameGet
+    }
+
+
 // ========================================== 회원 정보 수정을 해보자 ===========================================================================
     updateUserServiceEmail = async(email,userId)=>{
         //현재 가지고 있는 세션에서 유저 아이디를 가져와 그거를 where로 바꿔준다 

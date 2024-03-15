@@ -77,6 +77,17 @@ export class userController {
       next(error);
     }
   };
+  //==========================================닉네임을 보내러 들어온다=========================================
+  getLoginController = async(req, res, next)=>{
+    try{
+      let { userId } = res.locals.user;
+      let name = await this.userService.getNickname(userId);
+      res.status(200).json({message:name})
+    }catch(error){
+      next(error)
+    }
+  }
+
 
   //자 이제 회원정보 바꾸러 들어온다
   putLoginController = async (req, res, next) => {
