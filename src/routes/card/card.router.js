@@ -16,3 +16,5 @@ router.put('/cards/:cardId', authMiddleware, cardsController.updateCard);
 router.delete('/cards/:cardId', authMiddleware, cardsController.deleteCard);
 
 export default router;
+
+
