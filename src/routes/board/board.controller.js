@@ -6,6 +6,7 @@ export class BoardController {
   }
 
   joinBoard = async (req, res) => {
+   
     const { error } = joinBoardSchema.validate(req.body);
     if (error) {
       const message = error.details.map((detail) => detail.message).join(', ');
@@ -14,11 +15,12 @@ export class BoardController {
 
     try {
       const { boardCode } = req.body;
+      
       let { userId } = res.locals.user;
       const message = await this.boardService.joinBoard(boardCode, userId);
       res.json({ message });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   };
 
@@ -40,11 +42,13 @@ export class BoardController {
     }
 
     try {
+      
       const boardData = req.body;
-      let { userId } = res.locals.user;
+       let { userId } = res.locals.user;
       const message = await this.boardService.createBoard(boardData, userId);
       res.json({ message });
     } catch (error) {
+      console.log(error)
       res.status(400).json({ error: error.message });
     }
   };
@@ -92,4 +96,16 @@ export class BoardController {
       res.status(400).json({ error: error.message });
     }
   };
+
+  findUserBoard = async(req, res)=>{
+    try{
+     let { userId } = res.locals.user;
+     let findManyUserBoard = await this.boardService.finduserBoard(userId)
+     res.json(findManyUserBoard)
+
+  }catch(error){
+    console.log(error)
+    res.status(400).json({error:error.message})
+  }
+}
 }

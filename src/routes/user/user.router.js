@@ -25,6 +25,7 @@ router.post('/login', (req, res, next) => {
       }
       req.login(user, async (err) => {
         if (err) {
+          console.log(err)
           return next(err);
         }
         req.user = user;
@@ -37,11 +38,11 @@ router.post('/login', (req, res, next) => {
     }
   })(req, res, next);
 });
-router.get('/user/get', authMiddleware, UserController.getLoginController);
-router.post('/user/get', authMiddleware, UserController.getNickNameController);
-router.put('/user', authMiddleware, UserController.putLoginController);
-router.delete('/user', authMiddleware, UserController.deleteController);
-router.delete('/logout', authMiddleware, (req, res, next) => {
+router.get('/user/get', authMiddleware,UserController.getLoginController);//authMiddleware;
+router.post('/user/get', authMiddleware,UserController.getNickNameController);//authMiddleware;
+router.put('/user', authMiddleware,UserController.putLoginController);//authMiddleware;
+router.delete('/user', authMiddleware,UserController.deleteController);//authMiddleware;
+router.delete('/logout',authMiddleware,  (req, res, next) => {
   req.logOut(function (err) {
     if (err) {
       return next(err);
@@ -49,5 +50,5 @@ router.delete('/logout', authMiddleware, (req, res, next) => {
     return res.json({ message: '로그아웃' });
   });
 });
-
+//authMiddleware;
 export default router;

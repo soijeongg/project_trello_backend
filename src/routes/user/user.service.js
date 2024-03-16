@@ -61,6 +61,7 @@ export class userService{
 //====================================닉네임을 보내보자==================================
     getNickname = async(userId)=>{
         let nicknameGet = await this.userRespository.findNickname(userId);
+        
         if(!nicknameGet){
             const error = new Error('닉네임을 가져오는데 실패했습니다');
             throw error;

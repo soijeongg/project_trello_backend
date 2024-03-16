@@ -77,4 +77,13 @@ export class BoardService {
     await this.boardRepository.deleteBoardById(boardId);
     return '보드가 삭제됐습니다.';
   };
+
+
+  finduserBoard = async(userId)=>{
+    let findBoards = await this.boardRepository.findUserIdInuserBoard(userId);
+    if(!findBoards){
+      throw new Error("해당 보드가 존재하지 않습니다")
+    }
+    return findBoards
+  }
 }
