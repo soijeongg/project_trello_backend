@@ -45,6 +45,9 @@ export class CommentService {
       error.status = 404;
       throw error;
     }
+    if (comment.commentWriterId !== commentWriterId) {
+      throw new Error('수정할 수 있는 권한이 없습니다.');
+    }
 
     const updateComment = await this.commentRepository.updateComment(cardId, commentId, commentContent, commentWriterId);
     return updateComment;
