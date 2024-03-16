@@ -18,6 +18,7 @@ export class BoardRepository {
       },
       include: {
         Columns: true,
+        User: true,
       },
     });
   };
