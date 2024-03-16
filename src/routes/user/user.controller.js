@@ -94,6 +94,7 @@ export class userController {
       let userId = req.body.userId;
       if (!userId) {
         const error = new Error('userId가 필요합니다');
+        console.log(error)
         error.status = 401;
         throw error;
       }

@@ -30,7 +30,6 @@ router.post('/login', (req, res, next) => {
         }
         req.user = user;
         res.locals.user = user;
-        console.log(user)
 
         return res.json({ message: `${user.nickname}님 환영합니다!~` });
       });
