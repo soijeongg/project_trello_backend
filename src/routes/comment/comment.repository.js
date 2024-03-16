@@ -17,6 +17,7 @@ export class CommentRepository {
       where: {
         cardId: +cardId,
       },
+      orderBy: [{ createdAt: 'desc' }],
     });
     return comments;
   };
