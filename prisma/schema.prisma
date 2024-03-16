@@ -75,7 +75,6 @@ model Card {
   cardOrder     Int         @map("cardOrder")
   cardColor     Int         @map("cardColor")
   updatedAt     DateTime    @updatedAt @map("updatedAt")
-  writer        User        @relation(fields: [cardWriterId], references: [userId])
   Column        Column      @relation(fields: [columnId], references: [columnId], onDelete: Cascade)
   Comments      Comment[]
 
