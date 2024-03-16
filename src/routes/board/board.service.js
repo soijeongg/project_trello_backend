@@ -22,14 +22,24 @@ export class BoardService {
 
   getBoards = async (userId) => {
     const boards = await this.boardRepository.findAllBoardsForUser(userId);
-    return boards;
+
+    // 작성자 닉네임 포함하여 새로운 객체 배열 생성
+    const modifiedBoards = boards.map((board) => ({
+      ...board,
+      writerNickname: board.User.nickname, // User에서 닉네임 추가
+      boardCode: board.boardCode.substring(0, 10), // boardCode 수정
+    }));
+
+    return modifiedBoards;
   };
 
   createBoard = async (boardData, userId) => {
     const uniqueInput = `boardData-${Date.now()}-${Math.random()}`;
     const shasum = crypto.createHash('sha512');
     shasum.update(uniqueInput);
-    const boardCode = shasum.digest('hex');
+    let boardCode = shasum.digest('hex');
+    boardCode = boardCode.substring(0, 10);
+
     const boardColor = getColorCode();
 
     await this.boardRepository.createBoard({

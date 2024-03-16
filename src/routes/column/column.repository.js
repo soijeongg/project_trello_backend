@@ -10,14 +10,14 @@ export class ColumnRepository {
       where: {
         boardId: +boardId,
       },
-      // include:{
-      //     Cards:{
-      //         select: {
-      //             cardTitle: true,
-      //             cardWriterId: true
-      //         }
-      //     }
-      // },
+      include: {
+        Cards: {
+          select: {
+            cardTitle: true,
+            cardWriterId: true,
+          },
+        },
+      },
       orderBy: { columnOrder: 'asc' },
     });
     return columns;
