@@ -40,9 +40,9 @@ model Board {
 }
 
 model UserBoard {
-  userBoardId Int      @id @default(autoincrement()) @map("userBoardId")
-  userId      Int      @map("userId")
-  boardId     Int      @map("boardId")
+  userBoardId         Int      @id @default(autoincrement()) @map("userBoardId")
+  userId              Int      @map("userId")
+  boardId             Int      @map("boardId")
   User        User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   Board       Board    @relation(fields: [boardId], references: [boardId], onDelete: Cascade)
 

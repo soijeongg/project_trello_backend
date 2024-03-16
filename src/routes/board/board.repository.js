@@ -67,8 +67,11 @@ export class BoardRepository {
   // UserBoard에서 내 userid를 가지고 가져온다
   findUserIdInuserBoard = async (userId) => {
     let findOne = await this.prisma.UserBoard.findMany({
-      where:{
-        userId:+userId
+      where: {
+        userId: +userId,
+      },
+      include: {
+        User: true,
       },
     });
     
