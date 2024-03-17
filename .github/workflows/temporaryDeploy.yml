@@ -34,5 +34,5 @@ jobs:
             cd project_trello_backend
             git pull origin main
             yarn install
-            pm2 reload all
+            pm2 restart all
           EOF
