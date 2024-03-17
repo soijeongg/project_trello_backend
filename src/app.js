@@ -51,10 +51,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false })); // url-encoded 형식의 데이터를 파싱할 수 있도록 미들웨어를 추가. extended: false 옵션은 Node.js의 기본 쿼리 문자열 파서를 사용하여 URL-encoded 데이터를 파싱
 app.get('/', (req, res) => {
-  res.send('<h1>trello</h1>');
+  res.send('<h1>trello!</h1>');
 });
-
-
 
 // Passport 초기화 및 세션 사용
 app.use(passport.initialize());
