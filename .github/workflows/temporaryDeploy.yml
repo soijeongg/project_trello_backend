@@ -28,12 +28,10 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
-          # 여기에 필요한 다른 환경 변수들도 추가
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             cd project_trello_backend
             git pull origin main
-            echo "PORT=$PORT"
             yarn install
             pm2 list | grep src/app.js && pm2 restart src/app.js || pm2 start src/app.js
           EOF
