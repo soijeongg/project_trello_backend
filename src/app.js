@@ -54,19 +54,7 @@ app.get('/', (req, res) => {
   res.send('<h1>trello</h1>');
 });
 
-// 사용자 정보를 세션에 저장
-passport.serializeUser((user, done) => {
-  done(null, user.userId);
-});
 
-passport.deserializeUser(async (userId, done) => {
-  try {
-    const user = await prisma.User.findFirst({ where: { userId } });
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
 
 // Passport 초기화 및 세션 사용
 app.use(passport.initialize());
