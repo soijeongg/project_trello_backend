@@ -33,5 +33,5 @@ jobs:
             cd project_trello_backend
             git pull origin main
             yarn install
-            pm2 list | grep src/app.js && pm2 restart src/app.js || pm2 start src/app.js
+            pm2 list | grep src/app.js && pm2 restart src/app.js -f || pm2 start src/app.js
           EOF
