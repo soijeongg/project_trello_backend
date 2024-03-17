@@ -31,7 +31,7 @@ jobs:
           # 여기에 필요한 다른 환경 변수들도 추가
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /project_trello_backend
+            cd project_trello_backend
             git pull origin main
             yarn install
             pm2 reload all
