@@ -56,7 +56,6 @@ export class ColumnRepository {
     return column;
   };
   updateColumn = async (boardId, columnId, columnTitle, columnOrder) => {
-
     //현재 현재컬름의 Order를 찾기 위함
     const currentColumn = await this.prisma.column.findUnique({
       where: {
@@ -79,7 +78,7 @@ export class ColumnRepository {
       },
     });
 
-    const maxOrder = maxOrderColumn.columnOrder
+    const maxOrder = maxOrderColumn.columnOrder;
 
     //입력한 Order가 최대 Order보다 클경우 대비
     const finalOrder = Math.min(requestedOrder, maxOrder);
@@ -123,49 +122,51 @@ export class ColumnRepository {
       },
       data: {
         columnOrder: finalOrder,
-        columnTitle:columnTitle
+        columnTitle: columnTitle,
       },
     });
-    return {message: "수정 완료"}
+    return { message: '수정 완료' };
   };
 
   deletedColumn = async (boardId, columnId) => {
-      // 삭제될 열.
-  const deletedColumn = await this.prisma.column.findUnique({
-    where: {
-      boardId: +boardId,
-      columnId: +columnId,
-    },
-  });
-    // 삭제된 열보다 큰 columnOrder를 가진 열들
-    const columnsToUpdate = await this.prisma.column.findMany({
-      where: {
-        boardId: +boardId,
-        columnOrder: {
-          gt: deletedColumn.columnOrder,
+    try {
+      const deletedColumn = await this.prisma.column.findFirst({
+        where: {
+          columnId: +columnId,
         },
-      },
-    });
-
-    await this.prisma.column.delete({
-      where: {
-        boardId: +boardId,
-        columnId: +columnId,
-      },
-    });
-
-    for (const column of columnsToUpdate){
-      await this.prisma.column.update({
+      });
+      // 삭제된 열보다 큰 columnOrder를 가진 열들
+      const columnsToUpdate = await this.prisma.column.findMany({
         where: {
           boardId: +boardId,
-          columnId: column.columnId,
+          columnOrder: {
+            gt: deletedColumn.columnOrder,
+          },
         },
-        data: {
-          columnOrder: column.columnOrder-1
-        },
-      })
-    }
+      });
+      console.log(columnsToUpdate);
 
-    return { message: '컬럼삭제' };
+      await this.prisma.column.delete({
+        where: {
+          columnId: +columnId,
+        },
+      });
+
+      for (const column of columnsToUpdate) {
+        await this.prisma.column.update({
+          where: {
+            columnId: column.columnId,
+          },
+          data: {
+            columnOrder: column.columnOrder - 1,
+          },
+        });
+      }
+
+      return { message: '컬럼삭제' };
+    } catch (error) {
+      console.log(`에러생김 ㅋㅋㅋㅋㅋ: ${error}`);
+    }
   };
 }
+ 
