@@ -45,6 +45,9 @@ export class ColumnRepository {
     const randomColor = Math.floor(Math.random() * 7) + 1;
 
     const column = await this.prisma.column.create({
+      where: {
+        boardId: +boardId,
+      },
       data: {
         boardId: +boardId,
         columnTitle,
@@ -57,7 +60,7 @@ export class ColumnRepository {
   };
   updateColumn = async (boardId, columnId, columnTitle, columnOrder) => {
     //현재 현재컬름의 Order를 찾기 위함
-    const currentColumn = await this.prisma.column.findUnique({
+    const currentColumn = await this.prisma.column.findFirst({
       where: {
         boardId: +boardId,
         columnId: +columnId,
