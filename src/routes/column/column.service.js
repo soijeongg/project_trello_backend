@@ -19,9 +19,10 @@ export class ColumnService {
       error.status = 404;
       throw error;
     }
-    const columnOrder = await this.columnRepository.findAllColumns(boardId); // 현재 해당 보드에 몇개의 컬럼이 있는지 저장
-
+    const columnnum = await this.columnRepository.findAllColumns(boardId); // 현재 해당 보드에 몇개의 컬럼이 있는지 저장
+    const columnOrder = columnnum.length; 
     const createColumn = await this.columnRepository.createColumn(boardId, columnTitle, columnOrder, columnWriterId);
+
     return createColumn;
   };
   updateColumn = async (
