@@ -16,6 +16,9 @@ router.get('/', authMiddleware, boardController.getBoards); //authMiddleware,
 router.post('/', authMiddleware,boardController.createBoard); //authMiddleware, 
 router.put('/:boardId',authMiddleware, boardController.updateBoard); //authMiddleware, 
 router.delete('/:boardId', authMiddleware, boardController.deleteBoard); //authMiddleware, 
+//user>UserBoard 접근
 router.get('/userBoard', authMiddleware, boardController.findUserBoard);
+//board>UserBoard 접근
+router.get('/:boardId/userBoard', authMiddleware, boardController.findUserBoard2);
 
 export default router;

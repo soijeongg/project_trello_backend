@@ -64,18 +64,31 @@ export class BoardRepository {
     });
   };
 
-  // UserBoard에서 내 userid를 가지고 가져온다
+  // user > UserBoard 접근
   findUserIdInuserBoard = async (userId) => {
     let findOne = await this.prisma.UserBoard.findMany({
       where: {
         userId: +userId,
       },
+    });
+
+    return findOne;
+  };
+  // board > UserBoard 접근
+  findUserIdInuserBoard2 = async (boardId) => {
+    console.log(boardId);
+    let findTwo = await this.prisma.UserBoard.findMany({
+      where: {
+        boardId: +boardId,
+      },
       include: {
         User: true,
       },
     });
-    
-    return findOne;
-  };
-}
+    if (!findTwo) {
+      throw new Error('해당 보드가 존재하지 않습니다');
+    }
 
+    return findTwo;
+  };
+};

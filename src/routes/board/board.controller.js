@@ -6,7 +6,6 @@ export class BoardController {
   }
 
   joinBoard = async (req, res) => {
-   
     const { error } = joinBoardSchema.validate(req.body);
     if (error) {
       const message = error.details.map((detail) => detail.message).join(', ');
@@ -15,7 +14,6 @@ export class BoardController {
 
     try {
       const { boardCode } = req.body;
-      
       let { userId } = res.locals.user;
       const message = await this.boardService.joinBoard(boardCode, userId);
       res.json({ message });
@@ -42,13 +40,12 @@ export class BoardController {
     }
 
     try {
-      
       const boardData = req.body;
-       let { userId } = res.locals.user;
+      let { userId } = res.locals.user;
       const message = await this.boardService.createBoard(boardData, userId);
       res.json({ message });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       res.status(400).json({ error: error.message });
     }
   };
@@ -97,15 +94,29 @@ export class BoardController {
     }
   };
 
-  findUserBoard = async(req, res)=>{
-    try{
-     let { userId } = res.locals.user;
-     let findManyUserBoard = await this.boardService.finduserBoard(userId)
-     res.json(findManyUserBoard)
+  //user에서 UserBoard로 접근
+  findUserBoard = async (req, res) => {
+    try {
+      let { userId } = res.locals.user;
+      let findManyUserBoard = await this.boardService.finduserBoard(userId);
+      res.json(findManyUserBoard);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: error.message });
+    }
+  };
 
-  }catch(error){
-    console.log(error)
-    res.status(400).json({error:error.message})
-  }
+  //board에서 UserBoard로 접근
+  findUserBoard2 = async (req, res) => {
+    try {
+      let { boardId } = req.params;
+
+      let findManyUserBoard2 = await this.boardService.finduserBoard2(boardId);
+      res.json(findManyUserBoard2);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: error.message });
+    }
+  };
 }
-}
+

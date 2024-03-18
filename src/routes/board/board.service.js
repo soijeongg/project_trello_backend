@@ -78,12 +78,19 @@ export class BoardService {
     return '보드가 삭제됐습니다.';
   };
 
-
-  finduserBoard = async(userId)=>{
+  finduserBoard = async (userId) => {
     let findBoards = await this.boardRepository.findUserIdInuserBoard(userId);
-    if(!findBoards){
-      throw new Error("해당 보드가 존재하지 않습니다")
+    if (!findBoards) {
+      throw new Error('해당 보드가 존재하지 않습니다');
     }
-    return findBoards
-  }
+    return findBoards;
+  };
+
+  finduserBoard2 = async (boardId) => {
+    let findBoards2 = await this.boardRepository.findUserIdInuserBoard2(boardId);
+    if (!findBoards2) {
+      throw new Error('해당 보드가 존재하지 않습니다');
+    }
+    return findBoards2;
+  };
 }
