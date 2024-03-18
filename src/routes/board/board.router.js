@@ -13,6 +13,7 @@ const router = express.Router();
 
 router.post('/joinPage', authMiddleware,boardController.joinBoard); //authMiddleware, 
 router.get('/', authMiddleware, boardController.getBoards); //authMiddleware, 
+router.get('/:boardId', authMiddleware, boardController.getBoardsId); //authMiddleware,
 router.post('/', authMiddleware,boardController.createBoard); //authMiddleware, 
 router.put('/:boardId',authMiddleware, boardController.updateBoard); //authMiddleware, 
 router.delete('/:boardId', authMiddleware, boardController.deleteBoard); //authMiddleware, 

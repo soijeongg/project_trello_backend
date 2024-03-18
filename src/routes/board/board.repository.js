@@ -24,9 +24,12 @@ export class BoardRepository {
   };
 
   findBoardById = async (boardId) => {
-    return await this.prisma.board.findUnique({
+    return await this.prisma.board.findMany({
       where: {
-        boardId: boardId,
+        boardId: +boardId,
+      },
+      include: {
+        User: true,
       },
     });
   };

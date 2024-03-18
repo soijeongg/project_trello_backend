@@ -33,6 +33,20 @@ export class BoardService {
     return modifiedBoards;
   };
 
+  getBoardsId = async (boardId) => {
+    const boards = await this.boardRepository.findBoardById(boardId);
+
+    // 작성자 닉네임 포함하여 새로운 객체 배열 생성
+    const boardInfo = boards.map((board) => ({
+      boardTitle: board.boardTitle,
+      writerNickname: board.User.nickname, // User에서 닉네임 추가
+      boardCode: board.boardCode.substring(0, 10), // boardCode 수정
+      boardContent: board.boardContent,
+    }));
+
+    return boardInfo;
+  };
+
   createBoard = async (boardData, userId) => {
     const uniqueInput = `boardData-${Date.now()}-${Math.random()}`;
     const shasum = crypto.createHash('sha512');

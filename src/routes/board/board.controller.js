@@ -32,6 +32,16 @@ export class BoardController {
     }
   };
 
+  getBoardsId = async (req, res) => {
+    try {
+      const boardId = req.params.boardId;
+      const boards = await this.boardService.getBoardsId(boardId);
+      res.json(boards);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  };
+
   createBoard = async (req, res) => {
     const { error } = createBoardSchema.validate(req.body);
     if (error) {
