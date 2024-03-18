@@ -76,7 +76,6 @@ export class BoardRepository {
   };
   // board > UserBoard 접근
   findUserIdInuserBoard2 = async (boardId) => {
-    console.log(boardId);
     let findTwo = await this.prisma.UserBoard.findMany({
       where: {
         boardId: +boardId,

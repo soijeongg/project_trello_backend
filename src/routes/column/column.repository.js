@@ -145,8 +145,6 @@ export class ColumnRepository {
           },
         },
       });
-      console.log(columnsToUpdate);
-
       await this.prisma.column.delete({
         where: {
           columnId: +columnId,
@@ -166,7 +164,7 @@ export class ColumnRepository {
 
       return { message: '컬럼삭제' };
     } catch (error) {
-      console.log(`에러생김 ㅋㅋㅋㅋㅋ: ${error}`);
+      return res.status(404).json({ message: '컬럼이 존재하지 않습니다.' });
     }
   };
 }
