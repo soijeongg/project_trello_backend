@@ -7,7 +7,7 @@ import { prisma } from '../src/utils/prisma/index.js';
 passport.serializeUser((user, done) => {
   done(null, user.userId);
 });
-
+//세션을 검사해 사용자 식별 후 req.user에 저장함
 passport.deserializeUser(async (userId, done) => {
   try {
     const user = await prisma.User.findFirst({ where: { userId } });
@@ -38,6 +38,8 @@ passport.use("local", new LocalStrategy({
     return done(error);
   }
 }));
+
+//========================구글 로그인을 만들어보자 =============================
 
 
 
