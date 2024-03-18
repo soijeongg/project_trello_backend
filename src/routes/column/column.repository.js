@@ -41,23 +41,21 @@ export class ColumnRepository {
     return column;
   };
 
-  createColumn = async (boardId, columnTitle, columnWriterId) => {
+  createColumn = async (boardId, columnTitle, columnOrder, columnWriterId) => {
     const randomColor = Math.floor(Math.random() * 7) + 1;
 
     const column = await this.prisma.column.create({
-      where: {
-        boardId: +boardId,
-      },
       data: {
         boardId: +boardId,
         columnTitle,
         columnWriterId: +columnWriterId,
-        columnOrder: (await this.prisma.column.count()) + 1,
+        columnOrder: +columnOrder + 1,
         columnColor: randomColor,
       },
     });
     return column;
   };
+
   updateColumn = async (boardId, columnId, columnTitle, columnOrder) => {
     //현재 현재컬름의 Order를 찾기 위함
     const currentColumn = await this.prisma.column.findFirst({
