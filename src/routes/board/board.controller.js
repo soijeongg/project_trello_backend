@@ -55,7 +55,6 @@ export class BoardController {
       const message = await this.boardService.createBoard(boardData, userId);
       res.json({ message });
     } catch (error) {
-      console.log(error);
       res.status(400).json({ error: error.message });
     }
   };
@@ -111,7 +110,6 @@ export class BoardController {
       let findManyUserBoard = await this.boardService.finduserBoard(userId);
       res.json(findManyUserBoard);
     } catch (error) {
-      console.log(error);
       res.status(400).json({ error: error.message });
     }
   };
@@ -124,7 +122,6 @@ export class BoardController {
       let findManyUserBoard2 = await this.boardService.finduserBoard2(boardId);
       res.json(findManyUserBoard2);
     } catch (error) {
-      console.log(error);
       res.status(400).json({ error: error.message });
     }
   };

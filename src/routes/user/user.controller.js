@@ -80,12 +80,11 @@ export class userController {
   //==========================================닉네임을 보내러 들어온다=========================================
   getLoginController = async (req, res, next) => {
     try {
-      
       let { userId } = res.locals.user;
-      
+
       let name = await this.userService.getNickname(userId);
       res.status(200).json({ message: name });
-    } catch (error) { 
+    } catch (error) {
       next(error);
     }
   };
@@ -94,7 +93,6 @@ export class userController {
       let userId = req.body.userId;
       if (!userId) {
         const error = new Error('userId가 필요합니다');
-        console.log(error)
         error.status = 401;
         throw error;
       }
@@ -195,7 +193,6 @@ export class userController {
   logoutController = async (req, res, next) => {
     req.session.destroy((err) => {
       if (err) {
-        console.error('세션 파기 중 오류 발생:', err);
         return res.status(500).json({ message: '서버 오류' });
       }
       //

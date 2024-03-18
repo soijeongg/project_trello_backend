@@ -97,10 +97,6 @@ export class CardsRepository {
         cardOrder: 'asc',
       },
     });
-    cards.forEach((card) => {
-      console.log(card.cardOrder);
-    });
-    console.log(nowOrder, targetOrder);
     if (nowOrder < targetOrder) {
       for (let i = nowOrder - 1; i < targetOrder - 1; i++) {
         let tempOrder = cards[i].cardOrder;
@@ -114,9 +110,6 @@ export class CardsRepository {
         cards[i - 1].cardOrder = tempOrder;
       }
     }
-    cards.forEach((card) => {
-      console.log(card.cardOrder);
-    });
     for (let i = 0; i < cards.length; i++) {
       await this.prisma.card.update({
         where: {
