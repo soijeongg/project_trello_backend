@@ -28,7 +28,6 @@ router.post('/login',isNotLoggin, (req, res, next) => {
       }//여기로 넘어가 세션 req.session에 저장된다
       req.login(user, async (err) => {
         if (err) {
-          console.log(err)
           return next(err);
         }
        
