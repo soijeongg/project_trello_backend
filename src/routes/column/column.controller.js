@@ -67,7 +67,6 @@ export class ColumnController {
         error.status = 400;
         throw error;
       }
-
       const { columnId } = req.params;
 
       const columnIdError = columnIdSchema.validate({ columnId }).error;
@@ -77,18 +76,27 @@ export class ColumnController {
         throw error;
       }
 
-      const createColumnError = createColumnSchema.validate(req.body).error;
+      const columns = await this.columnService.findAllColumns(boardId);
+      const existingColumn = columns.find((c) => c.columnId === Number(columnId));
+
+      if (!existingColumn) {
+        const error = new Error('존재하지 않는 컬럼입니다.');
+        error.status = 404;
+        throw error;
+      }
+
+      const updateData = {};
+      updateData.columnTitle = req.body.columnTitle !== undefined && req.body.columnTitle !== '' ? req.body.columnTitle : existingColumn.columnTitle;
+      updateData.columnOrder = req.body.columnOrder !== undefined && req.body.columnOrder !== '' ? req.body.columnOrder : existingColumn.columnOrder;
+
+      const createColumnError = createColumnSchema.validate(updateData).error;
       if (createColumnError) {
         const error = new Error(createColumnError.message);
         error.status = 400;
         throw error;
       }
 
-      const { columnTitle, columnOrder } = req.body;
-
-      // const columnWriterId = res.locals.user.userId;
-
-      const newColumn = await this.columnService.updateColumn(boardId, columnId, columnTitle, columnOrder);
+      const newColumn = await this.columnService.updateColumn(boardId, columnId, updateData.columnTitle, updateData.columnOrder);
       return res.status(200).json(newColumn);
     } catch (error) {
       res.status(400).json({ error: error.message });
