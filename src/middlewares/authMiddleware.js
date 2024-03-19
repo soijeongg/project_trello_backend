@@ -2,7 +2,6 @@ import passport from 'passport';
 
 export default function authMiddleware(req, res, next) {
   if (req.isAuthenticated()) {
-    //console.log(req.user);
     res.locals.user = req.user;
 
     return next();

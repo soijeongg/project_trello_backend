@@ -42,6 +42,7 @@ export class BoardService {
       writerNickname: board.User.nickname, // User에서 닉네임 추가
       boardCode: board.boardCode.substring(0, 10), // boardCode 수정
       boardContent: board.boardContent,
+      boardThumbnail: board.boardThumbnail,
     }));
 
     return boardInfo;
@@ -56,12 +57,17 @@ export class BoardService {
 
     const boardColor = getColorCode();
 
-    await this.boardRepository.createBoard({
+    const createBoard = await this.boardRepository.createBoard({
       ...boardData,
       userId: userId,
       boardWriterId: userId,
       boardCode,
       boardColor,
+    });
+    const boardId = createBoard.boardId;
+    await this.boardRepository.createUserBoard({
+      userId: userId,
+      boardId: boardId,
     });
     return '보드가 생성됐습니다.';
   };

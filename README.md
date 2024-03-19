@@ -12,7 +12,7 @@
 
 [ERD](https://drawsql.app/teams/cshcho99s-team/diagrams/trello)
 
-![drawSQL-image-export-2024-03-13](https://github.com/jovid18/project_trello_backend/assets/143411145/fa248d8e-6e63-43f1-8cf9-0fca22be0c08)
+![drawSQL-image-export-2024-03-19](https://github.com/jovid18/project_trello_backend/assets/143411145/469871c4-33e2-42da-8b82-cad8f91ec4df)
 
 ## 프로젝트 진행
 

@@ -24,10 +24,7 @@ const errorFileTransport = new winstonDaily({
 });
 
 const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   transports: [
     new winston.transports.Console(),
     infoFileTransport,
@@ -42,9 +39,7 @@ export default function (req, res, next) {
 
   res.on('finish', () => {
     const duration = new Date().getTime() - start;
-    logger.info(
-      `Method: ${req.method}, URL: ${req.url}, Status: ${res.statusCode}, Duration: ${duration}ms`
-    );
+    logger.info(`Method: ${req.method}, URL: ${req.url}, Status: ${res.statusCode}, Duration: ${duration}ms`);
   });
 
   next();
