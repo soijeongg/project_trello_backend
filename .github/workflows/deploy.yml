@@ -1,5 +1,5 @@
 name: Deploy to EC2
-#@ㅇ적용한다
+#@ㅇ적용한ㄴ
 on:
   push:
     branches:
