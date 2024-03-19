@@ -25,8 +25,8 @@ jobs:
           docker push ${{ secrets.DOCKER_REPO }}/trello
 
       - name: SSH into EC2 instance and restart Docker container
-        uses: appleboy/ssh-action@v0.1.4
-        id: deploy
+        uses: appleboy/ssh-action@master
+
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
