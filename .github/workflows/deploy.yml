@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
 
     steps:
       - name: Checkout repository
@@ -21,17 +22,15 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_REPO }}/trello .
-          docker push ${{ secrets.DOCKER_REPO }}/trello
-
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          PORT: ${{ secrets.PORT }}
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+                --docker build --build-arg DATABASE_URL=${{ env.DATABASE_URL }} \
+                 --build-arg PORT=${{ env.PORT }} \
+                 --build-arg DATABASE_HOST=${{ env.DATABASE_HOST }} \
+                 --build-arg DATABASE_NAME=${{ env.DATABASE_NAME }} \
+                 --build-arg DATABASE_USERNAME=${{ env.DATABASE_USERNAME }} \
+                 --build-arg DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }} \
+                 --build-arg JWT_SECRET=${{ env.JWT_SECRET }} \
+                 -t ${{ secrets.DOCKER_REPO }}/trello .
+                docker push ${{ secrets.DOCKER_REPO }}/trello
 
       - name: SSH into EC2 instance and restart Docker container
         uses: appleboy/ssh-action@master
