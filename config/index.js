@@ -4,6 +4,7 @@ import argon2 from 'argon2';
 import { prisma } from '../src/utils/prisma/index.js';
 
 // 사용자 정보를 세션에 저장
+export default function passportConfig() {
 passport.serializeUser((user, done) => {
   done(null, user.userId);
 });
@@ -37,9 +38,6 @@ passport.use("local", new LocalStrategy({
   } catch (error) {
     return done(error);
   }
-}));
+}))
 
-//========================구글 로그인을 만들어보자 =============================
-
-
-
+}
