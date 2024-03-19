@@ -24,6 +24,15 @@ jobs:
           docker build -t ${{ secrets.DOCKER_REPO }}/trello .
           docker push ${{ secrets.DOCKER_REPO }}/trello
 
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PORT: ${{ secrets.PORT }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
       - name: SSH into EC2 instance and restart Docker container
         uses: appleboy/ssh-action@master
 
