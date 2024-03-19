@@ -51,6 +51,7 @@ export class BoardController {
 
     try {
       const boardData = req.body;
+      if (req.file) boardData.boardThumbnail = req.file.location;
       let { userId } = res.locals.user;
       const message = await this.boardService.createBoard(boardData, userId);
       res.json({ message });
@@ -126,4 +127,3 @@ export class BoardController {
     }
   };
 }
-

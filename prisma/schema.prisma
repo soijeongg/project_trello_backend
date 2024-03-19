@@ -25,19 +25,21 @@ model User {
 }
 
 model Board {
-  boardId       Int         @id @default(autoincrement()) @map("boardId")
-  userId        Int         @map("userId")
-  boardTitle    String      @map("boardTitle")
-  boardWriterId Int         @map("boardWriterId")
-  boardContent  String      @map("boardContent")
-  boardCode     String      @map("boardCode")
-  boardColor    Int         @map("boardColor")
-  User          User        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  Columns       Column[]
-  UserBoards    UserBoard[]
+  boardId         Int         @id @default(autoincrement()) @map("boardId")
+  userId          Int         @map("userId")
+  boardTitle      String      @map("boardTitle")
+  boardWriterId   Int         @map("boardWriterId")
+  boardContent    String      @map("boardContent")
+  boardCode       String      @map("boardCode")
+  boardColor      Int         @map("boardColor")
+  boardThumbnail  String?     @map("boardThumbnail")
+  User            User        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  Columns         Column[]
+  UserBoards      UserBoard[]
 
   @@map("Board")
 }
+
 
 model UserBoard {
   userBoardId Int      @id @default(autoincrement()) @map("userBoardId")
