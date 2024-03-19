@@ -28,9 +28,10 @@ jobs:
         uses: appleboy/ssh-action@master
 
         with:
+          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{secrets.REMOTE_PRIVATE_KEY }}
+
           port: 22
           script: |
             sudo  docker stop trello
