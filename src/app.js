@@ -5,6 +5,7 @@ import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
 import passport from 'passport';
 import cors from 'cors';
+import passportConfig from '../config/index.js';
 import { prisma } from '../src/utils/prisma/index.js';
 import LogMiddleware from './middlewares/logMiddleware.js';
 import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
@@ -57,7 +58,7 @@ app.get('/', (req, res) => {
 // Passport 초기화 및 세션 사용
 app.use(passport.initialize());
 app.use(passport.session());
-import '../config/passport.js';
+passportConfig(passport);
 
 app.use('/api', router);
 app.use(notFoundErrorHandler);
