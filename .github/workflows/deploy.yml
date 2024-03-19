@@ -30,7 +30,8 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+          password: ${{secrets.REMOTE_PRIVATE_KEY }}
+          port: 3000
           script: |
             sudo  docker stop trello
             sudo docker rm trello
