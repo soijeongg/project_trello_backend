@@ -1,31 +1,14 @@
-name: CI/CD Workflow
+name: Continuous Deployment Workflow
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: yarn install
-      - name: Lint
-        run: yarn lint
-      - name: Test
-        run: yarn test
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
