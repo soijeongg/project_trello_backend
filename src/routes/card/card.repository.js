@@ -22,14 +22,6 @@ export class CardsRepository {
     });
     return cards;
   };
-  findColumn = async (columnId) => {
-    const column = await this.prisma.column.findFirst({
-      where: {
-        columnId: +columnId,
-      },
-    });
-    return column;
-  };
 
   findCard = async (cardId) => {
     const card = await this.prisma.card.findFirst({

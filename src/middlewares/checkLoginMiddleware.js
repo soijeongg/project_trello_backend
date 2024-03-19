@@ -1,14 +1,9 @@
-import passport from "passport";
+import passport from 'passport';
 
-export default  function isNotLoggin (req,res, next){
-    if(!req.isAuthenticated()){
-        next()
-    }
-    else{
-        
-       return res.json({message:"이미 로그인 된상태 입니다"})
-    }
-
-
-
+export default function isNotLoggin(req, res, next) {
+  if (!req.isAuthenticated()) {
+    next();
+  } else {
+    return res.json({ message: '이미 로그인 된상태 입니다' });
+  }
 }

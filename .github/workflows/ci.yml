@@ -2,9 +2,7 @@ name: Continuous Integration Workflow
 
 on:
   pull_request:
-    branches: [main]
-  push:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   build:

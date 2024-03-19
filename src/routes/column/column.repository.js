@@ -164,8 +164,7 @@ export class ColumnRepository {
 
       return { message: '컬럼삭제' };
     } catch (error) {
-      return res.status(404).json({ message: '컬럼이 존재하지 않습니다.' });
+      return { error: '컬럼이 존재하지 않습니다.' };
     }
   };
 }
- 
