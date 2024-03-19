@@ -38,12 +38,12 @@ const upload = multer({
 });
 router.post('/joinPage', authMiddleware, boardController.joinBoard); //authMiddleware,
 router.get('/', authMiddleware, boardController.getBoards); //authMiddleware,
+router.get('/userBoard', authMiddleware, boardController.findUserBoard);
 router.get('/:boardId', authMiddleware, boardController.getBoardsId); //authMiddleware,
 router.post('/', authMiddleware, upload.single('boardThumbnail'), boardController.createBoard); //authMiddleware,
 router.put('/:boardId', authMiddleware, boardController.updateBoard); //authMiddleware,
 router.delete('/:boardId', authMiddleware, boardController.deleteBoard); //authMiddleware,
 //user>UserBoard 접근
-router.get('/userBoard', authMiddleware, boardController.findUserBoard);
 //board>UserBoard 접근
 router.get('/:boardId/userBoard', authMiddleware, boardController.findUserBoard2);
 
