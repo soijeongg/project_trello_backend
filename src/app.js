@@ -15,7 +15,6 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import sharedsession from 'express-socket.io-session';
 
-
 dotenv.config();
 
 const app = express();
