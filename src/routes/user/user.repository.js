@@ -1,7 +1,6 @@
 //가입에 필요  chekemail,checknickname  이둘은 유니크
-//그리고 이 둘을 통과햐면 prisma.User를 통해  만들어준다 
+//그리고 이 둘을 통과햐면 prisma.User를 통해  만들어준다
 import argon2 from 'argon2';
-
 
 export class userRespository {
   constructor(prisma) {
@@ -40,18 +39,17 @@ export class userRespository {
     return createOne;
   };
   // ==========================들어온 userid를 가지고 닉네임을 보내보자 =========================================================================
-  findNickname = async(userId)=>{
+  findNickname = async (userId) => {
     let nicknameOne = await this.prisma.User.findFirst({
-      where:{userId:userId}
-    })
+      where: { userId: userId },
+    });
     let userNickname = nicknameOne.nickname;
     return userNickname;
-  }
+  };
 
   // ============================================================== 수정=================================================================
   //닉네임만 들어왔을때 업데이트 하는 함수
   updateNickname = async (nickname, userId) => {
-   
     let updatedname = await this.prisma.User.update({
       data: { nickname },
       where: { userId: +userId },

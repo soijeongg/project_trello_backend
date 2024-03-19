@@ -5,6 +5,7 @@ import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
 import passport from 'passport';
 import cors from 'cors';
+import passportConfig from '../config/index.js';
 import { prisma } from '../src/utils/prisma/index.js';
 import LogMiddleware from './middlewares/logMiddleware.js';
 import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
@@ -71,7 +72,7 @@ app.use(
 // );
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false })); // url-encoded 형식의 데이터를 파싱할 수 있도록 미들웨어를 추가. extended: false 옵션은 Node.js의 기본 쿼리 문자열 파서를 사용하여 URL-encoded 데이터를 파싱
+app.use(express.urlencoded({ extended: true })); // url-encoded 형식의 데이터를 파싱할 수 있도록 미들웨어를 추가. extended: false 옵션은 Node.js의 기본 쿼리 문자열 파서를 사용하여 URL-encoded 데이터를 파싱
 app.get('/', (req, res) => {
   res.send('<h1>Trello</h1>');
 });
@@ -79,7 +80,7 @@ app.get('/', (req, res) => {
 // Passport 초기화 및 세션 사용
 app.use(passport.initialize());
 app.use(passport.session());
-import '../config/passport.js';
+passportConfig(passport);
 
 app.use('/api', router);
 app.use(notFoundErrorHandler);
