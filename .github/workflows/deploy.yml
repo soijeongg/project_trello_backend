@@ -23,7 +23,7 @@ jobs:
         run: docker pull soijeong/trello
 
       - name: SSH into EC2 instance and restart Docker container
-        uses: appleboy/ssh-action@v0.5.6
+        uses: appleboy/ssh-action@v0.1.4
         id: deploy
         with:
           host: ${{ secrets.EC2_HOST }}
