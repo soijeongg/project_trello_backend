@@ -26,7 +26,7 @@ const io = new Server(httpServer, {
     methods: ['GET', 'POST'], // 허용할 HTTP 메소드
     credentials: true, // 쿠키를 포함한 요청을 허용
   },
-});
+}); 
 
 const PORT = process.env.PORT;
 
