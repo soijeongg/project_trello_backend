@@ -17,7 +17,8 @@
         "trailingComma": "es5",
         "tabWidth": 2,
         "semi": true,
-        "arrowParens": "always"
+        "arrowParens": "always",
+        "endOfLine": "lf"
       }
     ],
     "no-unused-vars": "warn"
