@@ -47,7 +47,7 @@ jobs:
             sudo docker ps -a
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
             sudo docker images
-            sudo docker run -d --name ${{ secrets.DOCKER_REPO }} -p 3000:3000 --env-file .env ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+            sudo docker run -d --name ${{ secrets.DOCKER_REPO }} -p 3000:3000  ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
             sudo docker ps -a
             sudo docker system prune -a -f
             sudo docker images
