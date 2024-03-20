@@ -116,7 +116,7 @@ export class ColumnRepository {
     }
 
     // 변경된 타이틀 업데이트
-    const filnalUpdateColumn = await this.prisma.column.update({
+    const finalUpdateColumn = await this.prisma.column.update({
       where: {
         boardId: +boardId,
         columnId: +columnId,

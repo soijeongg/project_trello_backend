@@ -1,8 +1,28 @@
 import { joinBoardSchema, createBoardSchema, updateBoardSchema, boardIdSchema } from './board.joi.js';
 
+const getCurrentTimeAndPlusOneDay = () => {
+  const currentTime = new Date();
+  const plusOneDay = new Date(currentTime.getTime() + 24 * 60 * 60 * 1000);
+
+  const formatTime = (date) => ({
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+  });
+
+  return {
+    startTime: formatTime(currentTime),
+    endTime: formatTime(plusOneDay),
+  };
+};
+
 export class BoardController {
-  constructor(boardService) {
+  constructor(boardService, columnService, cardService) {
     this.boardService = boardService;
+    this.columnService = columnService;
+    this.cardService = cardService;
   }
 
   joinBoard = async (req, res) => {
@@ -53,10 +73,32 @@ export class BoardController {
       const boardData = req.body;
       if (req.file) boardData.boardThumbnail = req.file.location;
       let { userId } = res.locals.user;
-      const message = await this.boardService.createBoard(boardData, userId);
-      res.json({ message });
+      // board 생성하는 부분
+      const createdBoard = await this.boardService.createBoard(boardData, userId);
+
+      // default column 생성하는 부분
+      const boardId = createdBoard.boardId;
+      const childColumnData = {
+        columnTitle: '기본 Column',
+      };
+      const createChildColumn = await this.columnService.createColumn(boardId, childColumnData.columnTitle, userId);
+
+      // default column의 default card 생성하는 부분
+      const columnId = createChildColumn.columnId;
+      const columnWriterId = createChildColumn.columnWriterId;
+      const { startTime, endTime } = getCurrentTimeAndPlusOneDay();
+      const childCardData = {
+        cardTitle: '기본 Card',
+        cardContent: '기본 Card입니다.',
+        cardStartTime: startTime,
+        cardEndTime: endTime,
+        cardStatus: 'IN_PROGRESS',
+      };
+      const createChildCard = await this.cardService.createCard(columnId, columnWriterId, childCardData);
+
+      return res.json({ board: createdBoard, createChildColumn, createChildCard });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   };
 
