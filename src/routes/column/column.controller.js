@@ -1,11 +1,28 @@
 // import { ColumnService } from './column.service.js'
 import { createColumnSchema, boardIdSchema, columnIdSchema } from './column.joi.js';
+
+const getCurrentTimeAndPlusOneDay = () => {
+  const currentTime = new Date();
+  const plusOneDay = new Date(currentTime.getTime() + 24 * 60 * 60 * 1000);
+
+  const formatTime = (date) => ({
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+  });
+
+  return {
+    startTime: formatTime(currentTime),
+    endTime: formatTime(plusOneDay),
+  };
+};
+
 export class ColumnController {
-  constructor(columnService) {
+  constructor(columnService, cardService) {
     this.columnService = columnService;
-    // this.boardIdSchema = boardIdSchema;
-    // this.columnIdSchema = columnIdSchema;
-    // this.createColumnSchema = createColumnSchema;
+    this.cardService = cardService;
   }
 
   getColumns = async (req, res, next) => {
@@ -28,30 +45,40 @@ export class ColumnController {
   };
 
   createColumn = async (req, res, next) => {
+    const boardIdError = boardIdSchema.validate(req.params).error;
+    if (boardIdError) {
+      const error = new Error('주소 형식이 올바르지 않습니다.');
+      error.status = 400;
+      throw error;
+    }
+    const createColumnError = createColumnSchema.validate(req.body).error;
+    if (createColumnError) {
+      const error = new Error(createColumnError.message);
+      error.status = 400;
+      throw error;
+    }
+
     try {
-      const boardIdError = boardIdSchema.validate(req.params).error;
-
-      if (boardIdError) {
-        const error = new Error('주소 형식이 올바르지 않습니다.');
-        error.status = 400;
-        throw error;
-      }
-
       const { boardId } = req.params;
 
-      const createColumnError = createColumnSchema.validate(req.body).error;
-      if (createColumnError) {
-        const error = new Error(createColumnError.message);
-        error.status = 400;
-        throw error;
-      }
-
       const { columnTitle } = req.body;
-
       const columnWriterId = res.locals.user.userId;
-
+      // column 생성하는 부분
       const createColumn = await this.columnService.createColumn(boardId, columnTitle, columnWriterId);
-      return res.status(201).json(createColumn);
+      const columnId = createColumn.columnId;
+      // default card 생성하는 부분
+      const { startTime, endTime } = getCurrentTimeAndPlusOneDay();
+
+      const childCardData = {
+        cardTitle: '기본 Card',
+        cardContent: '기본 Card입니다.',
+        cardStartTime: startTime,
+        cardEndTime: endTime,
+        cardStatus: 'IN_PROGRESS',
+      };
+      const createChildCard = await this.cardService.createCard(columnId, columnWriterId, childCardData);
+
+      res.status(201).json({ createColumn, createChildCard });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -99,7 +126,7 @@ export class ColumnController {
       const newColumn = await this.columnService.updateColumn(boardId, columnId, updateData.columnTitle, updateData.columnOrder);
       return res.status(200).json(newColumn);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   };
 

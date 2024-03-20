@@ -10,6 +10,7 @@ export class ColumnService {
     const columns = await this.columnRepository.findAllColumns(boardId);
     return columns;
   };
+
   createColumn = async (boardId, columnTitle, columnWriterId) => {
     const board = await this.columnRepository.findBoardById(boardId);
     if (!board) {
