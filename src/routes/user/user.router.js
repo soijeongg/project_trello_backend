@@ -3,13 +3,13 @@ import passport from 'passport';
 import { prisma } from '../../utils/prisma/index.js';
 import { userController } from './user.controller.js';
 import { userService } from './user.service.js';
-import { userRespository } from './user.repository.js';
+import { userRepository } from './user.repository.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
 import isNotLoggin from '../../middlewares/checkLoginMiddleware.js';
 
 let router = express.Router();
 
-const UserRespository = new userRespository(prisma);
+const UserRespository = new userRepository(prisma);
 const UserService = new userService(UserRespository);
 const UserController = new userController(UserService);
 
