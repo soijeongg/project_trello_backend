@@ -42,6 +42,7 @@ jobs:
             echo DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} >> .env
             echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
             echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+            cat .env
 
             sudo  docker stop trello
             sudo docker rm trello
