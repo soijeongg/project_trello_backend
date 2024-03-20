@@ -69,7 +69,8 @@ export class BoardService {
       userId: userId,
       boardId: boardId,
     });
-    return '보드가 생성됐습니다.';
+
+    return createBoard;
   };
 
   createUserBoard = async (userId, id) => {

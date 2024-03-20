@@ -3,14 +3,26 @@ import { prisma } from '../../utils/prisma/index.js';
 import { BoardRepository } from './board.repository.js';
 import { BoardService } from './board.service.js';
 import { BoardController } from './board.controller.js';
+import { ColumnService } from '../column/column.service.js'; // boardController에서 columnService를 사용하기 위해 import!!
+import { ColumnRepository } from '../column/column.repository.js'; // boardController에서 columnService를 사용하기 위해 import!!
+import { CardsService } from '../card/card.service.js'; // boardController에서 cardsService를 사용하기 위해 import!!
+import { CardsRepository } from '../card/card.repository.js'; // boardController에서 cardsService를 사용하기 위해 import!!
 import authMiddleware from '../../middlewares/authMiddleware.js';
 import { S3Client } from '@aws-sdk/client-s3';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import path from 'path';
+
+// boardController에서 columnService를 사용하기 위해 사용!!
+const cardRepository = new CardsRepository(prisma);
+const cardService = new CardsService(cardRepository);
+// boardController에서 cardsService를 사용하기 위해 import!!
+const columnRepository = new ColumnRepository(prisma);
+const columnService = new ColumnService(columnRepository);
+// board의 계층
 const boardRepository = new BoardRepository(prisma);
 const boardService = new BoardService(boardRepository);
-const boardController = new BoardController(boardService);
+const boardController = new BoardController(boardService, columnService, cardService);
 
 const router = express.Router();
 
