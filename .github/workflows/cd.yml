@@ -1,5 +1,4 @@
 name: Deploy to EC2
-#@ㅇ적용한ㅇsㄴ
 on:
   push:
     branches:
