@@ -73,6 +73,7 @@ export class BoardController {
       const boardData = req.body;
       if (req.file) boardData.boardThumbnail = req.file.location;
       let { userId } = res.locals.user;
+
       // board 생성하는 부분
       const createdBoard = await this.boardService.createBoard(boardData, userId);
 

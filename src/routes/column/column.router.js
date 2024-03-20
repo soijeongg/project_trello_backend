@@ -15,8 +15,6 @@ const cardRepository = new CardsRepository(prisma);
 const cardService = new CardsService(cardRepository);
 const columnController = new ColumnController(columnService, cardService);
 
-
-
 router.get('/boards/:boardId/columns', authMiddleware, columnController.getColumns);
 
 router.post('/boards/:boardId/columns', authMiddleware, columnController.createColumn);

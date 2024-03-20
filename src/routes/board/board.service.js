@@ -69,6 +69,7 @@ export class BoardService {
       userId: userId,
       boardId: boardId,
     });
+
     return createBoard;
   };
 
