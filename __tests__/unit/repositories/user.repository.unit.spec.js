@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { UserRepository } from '../../../src/routes/user/user.repository.js';
+import { userRepository } from '../../../src/routes/user/user.repository.js';
 
 let mockPrisma = {
   User: {
@@ -11,7 +11,8 @@ let mockPrisma = {
   },
 };
 
-let userRepository = new UserRepository(mockPrisma);
+// 'userRepository'를 'userRepositoryInstance'로 변경했습니다.
+let userRepositoryInstance = new userRepository(mockPrisma);
 
 describe('User Repository Unit Test', () => {
   // 각 test가 실행되기 전에 실행됩니다.
@@ -24,7 +25,7 @@ describe('User Repository Unit Test', () => {
     const mockReturn = { email: mockEmail }; // 예상 반환값
     mockPrisma.User.findFirst.mockReturnValue(Promise.resolve(mockReturn));
 
-    const result = await userRepository.checkEmail(mockEmail);
+    const result = await userRepositoryInstance.checkEmail(mockEmail);
 
     expect(mockPrisma.User.findFirst).toHaveBeenCalledTimes(1);
     expect(mockPrisma.User.findFirst).toHaveBeenCalledWith({
@@ -42,7 +43,7 @@ describe('User Repository Unit Test', () => {
     const mockReturn = { id: 1, ...mockUser };
     mockPrisma.User.create.mockReturnValue(Promise.resolve(mockReturn));
 
-    const result = await userRepository.createUser(mockUser.email, mockUser.password, mockUser.nickname);
+    const result = await userRepositoryInstance.createUser(mockUser.email, mockUser.password, mockUser.nickname);
 
     expect(mockPrisma.User.create).toHaveBeenCalledTimes(1);
     expect(mockPrisma.User.create).toHaveBeenCalledWith({
@@ -60,7 +61,7 @@ describe('User Repository Unit Test', () => {
     const mockReturn = { userId, nickname: newNickname };
     mockPrisma.User.update.mockReturnValue(Promise.resolve(mockReturn));
 
-    const result = await userRepository.updateNickname(newNickname, userId);
+    const result = await userRepositoryInstance.updateNickname(newNickname, userId);
 
     expect(mockPrisma.User.update).toHaveBeenCalledTimes(1);
     expect(mockPrisma.User.update).toHaveBeenCalledWith({
