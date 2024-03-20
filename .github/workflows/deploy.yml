@@ -13,6 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -20,7 +21,16 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_REPO }}/trello .
+          docker build \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --build-arg PORT=${{ secrets.PORT }} \
+            --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
+            --build-arg DATABASE_PORT=${{ secrets.DATABASE_PORT }} \
+            --build-arg DATABASE_NAME=${{ secrets.DATABASE_NAME }} \
+            --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
+            --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
+            -t ${{ secrets.DOCKER_REPO }}/trello .
           docker push ${{ secrets.DOCKER_REPO }}/trello
 
       - name: SSH into EC2 instance and restart Docker container
@@ -33,16 +43,6 @@ jobs:
 
           port: 22
           script: |
-            touch .env
-            echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-            echo PORT=${{ secrets.PORT }} >> .env
-            echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
-            echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
-            echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
-            echo DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} >> .env
-            echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
-            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-
             sudo  docker stop trello
             sudo docker rm trello
             sudo docker pull ${{ secrets.DOCKER_REPO }}/trello
