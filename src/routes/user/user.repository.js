@@ -2,7 +2,7 @@
 //그리고 이 둘을 통과햐면 prisma.User를 통해  만들어준다
 import argon2 from 'argon2';
 
-export class userRespository {
+export class UserRepository {
   constructor(prisma) {
     this.prisma = prisma;
   }
