@@ -34,14 +34,14 @@ jobs:
           port: 22
           script: |
             touch .env
-            echo API_KEY=${{ secrets.DATABASE_URL }} >> .env
-            echo API_KEY=${{ secrets.PORT }} >> .env
-            echo API_KEY=${{ secrets.DATABASE_HOST }} >> .env
-            echo API_KEY=${{ secrets.DATABASE_PORT }} >> .env
-            echo API_KEY=${{ secrets.DATABASE_NAME }} >> .env
-            echo API_KEY=${{ secrets.DATABASE_USERNAME }} >> .env
-            echo API_KEY=${{ secrets.DATABASE_PASSWORD }} >> .env
-            echo API_KEY=${{ secrets.JWT_SECRET }} >> .env
+            echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+            echo PORT=${{ secrets.PORT }} >> .env
+            echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
+            echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+            echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
+            echo DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} >> .env
+            echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
+            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
 
             sudo  docker stop trello
             sudo docker rm trello
