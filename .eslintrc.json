@@ -23,5 +23,5 @@
     ],
     "no-unused-vars": "warn"
   },
-  "ignorePatterns": ["__tests__/**/*"]
+  "ignorePatterns": ["__tests__/**/*", "node_modules/"]
 }
