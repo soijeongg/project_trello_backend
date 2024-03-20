@@ -1,5 +1,5 @@
 name: Deploy to EC2
-#@ㅇ적용한다
+#@ㅇ적용한ㅇsㄴ
 on:
   push:
     branches:
@@ -18,23 +18,32 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_REPO }}/trello .
+          docker build \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --build-arg PORT=${{ secrets.PORT }} \
+            --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
+            --build-arg DATABASE_PORT=${{ secrets.DATABASE_PORT }} \
+            --build-arg DATABASE_NAME=${{ secrets.DATABASE_NAME }} \
+            --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
+            --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
+            -t ${{ secrets.DOCKER_REPO }}/trello .
           docker push ${{ secrets.DOCKER_REPO }}/trello
 
       - name: SSH into EC2 instance and restart Docker container
-        uses: appleboy/ssh-action@v0.1.4
-        id: deploy
+        uses: appleboy/ssh-action@master
+
         with:
+          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+
+          port: 22
           script: |
             sudo  docker stop trello
             sudo docker rm trello
             sudo docker pull ${{ secrets.DOCKER_REPO }}/trello
-            docker-compose up -d
-            docker run -d --name trello -p 3000:3000 ${{ secrets.DOCKER_REPO }}/trello
-             docker rmi -f $(docker images -f "dangling=true" -q)
+            docker run -d --name trello -p 3000:3000  --env-file .env ${{ secrets.DOCKER_REPO }}/trello
+            docker system prune -a
