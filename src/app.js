@@ -28,7 +28,7 @@ const io = new Server(httpServer, {
   },
 });
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT) || 3000;
 
 const MySQLStore = expressMySQLSession(expressSession); // express-session 미들웨어가 세션 정보를 메모리에 저장하는 대신, express-mysql-session을 사용해 MySQL 데이터베이스에 세션 정보를 저장
 const sessionStore = new MySQLStore({
