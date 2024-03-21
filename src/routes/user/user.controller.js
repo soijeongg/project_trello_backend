@@ -200,4 +200,20 @@ export class userController {
       res.status(200).json({ message: '로그아웃 되었습니다' });
     });
   };
+
+  //이메일 인증 컨트롤러를 만든다 .
+  getVerifyController = async (req, res, next) => {
+    try {
+      const { token } = req.query;
+      const result = await this.userService.verifyUserEmail(token);
+
+      if (!result) {
+        return res.status(400).send('유효하지 않은 토큰입니다.');
+      }
+      //res.send('<h1>인증완료 </h1>');
+      return res.send('<h1>인증완료 </h1> <a href="https://www.nodejstrello.site/">메인페이지로 가기</a>');
+    } catch (error) {
+      next(error);
+    }
+  };
 }
