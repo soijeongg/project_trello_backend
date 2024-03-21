@@ -51,7 +51,7 @@ app.use(LogMiddleware);
 app.use(
   cors({
     origin: true, // 프론트엔드 서버 주소
-    credentials: true, // 쿠키를 포함한 요청을 허용!
+    credentials: true, // 쿠키를 포함한 요청을 허용
   })
 );
 
