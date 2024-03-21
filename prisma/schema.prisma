@@ -19,6 +19,8 @@ model User {
   password    String      @map("password")
   nickname    String      @unique @map("nickname")
   provider    String?     @map("provider")
+  isVerified  Boolean     @default(false)   @map("isVerified")
+  verificationToken   String    @unique           @map("verificationToken")
   Boards      Board[]
   UserBoards  UserBoard[]
 

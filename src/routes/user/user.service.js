@@ -1,4 +1,5 @@
 import argon2 from 'argon2';
+import { sendVerificationEmail, generateRandomPassword } from '../../../config/mailer.js';
 export class userService {
   constructor(userRespository) {
     this.userRespository = userRespository;
@@ -20,13 +21,17 @@ export class userService {
       error.status = 401;
       throw error;
     }
+
+    const verificationToken = generateRandomPassword();
     //이걸 통과했다면 이제 만들어보자
-    let createOne = await this.userRespository.createUser(email, password, nickname);
+    let createOne = await this.userRespository.createUser(email, password, nickname, verificationToken);
     if (!createOne) {
       const error = new Error('회원가입에 실패했습니다 다시 시도해주세요');
       error.status = 500;
       throw error;
     }
+    await sendVerificationEmail(email, verificationToken);
+
     return createOne;
   };
   //================================================아이디 중복체크를 해보자 ===============================================================================
@@ -146,5 +151,16 @@ export class userService {
       throw error;
     }
     return deleteuser;
+  };
+
+  //=================================이메일 인증을 위한 서비스 함수를 만들자==========================================================
+  verifyUserEmail = async (token) => {
+    let findUser = await this.userRespository.findUserByToken(token);
+    if (!findUser) {
+      const error = new Error('만료되었거나 없는 토큰 입니다');
+      throw error;
+    }
+    let checkEmail = await this.userRespository.updateStatus(findUser.userId);
+    return checkEmail;
   };
 }

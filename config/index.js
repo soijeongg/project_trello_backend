@@ -56,7 +56,7 @@ export default function passportConfig() {
       {
         clientID: process.env.GOOGLE_ID, // 구글 로그인에서 발급받은 REST API 키
         clientSecret: process.env.GOOGLE_SECRET,
-        callbackURL: 'http://localhost:3000/api/auth/google/callback', // 구글 로그인 Redirect URI 경로
+        callbackURL: 'https://api.nodejstrello.site/api/auth/google/callback', // 구글 로그인 Redirect URI 경로
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -72,6 +72,7 @@ export default function passportConfig() {
                 password: generateRandomPassword(), // 가상의 비밀번호 할당
                 nickname: profile.displayName,
                 provider: 'google', // 사용자가 Google을 통해 인증되었음을 나타내는 필드 추가
+                isVerified: true,
               },
             });
             done(null, newUser);

@@ -31,10 +31,10 @@ export class userRepository {
   };
 
   //3. 들어온 email nickname, password를 가지고 검사하기
-  createUser = async (email, password, nickname) => {
+  createUser = async (email, password, nickname, verificationToken) => {
     const hashedPassword = await argon2.hash(password);
     let createOne = await this.prisma.User.create({
-      data: { email, nickname, password: hashedPassword },
+      data: { email, nickname, password: hashedPassword, verificationToken },
     });
     return createOne;
   };
@@ -119,5 +119,24 @@ export class userRepository {
       where: { userId: +userId },
     });
     return deleteOne;
+  };
+
+  //==========================================================이메일인증=====================================================
+  findUserByToken = async (token) => {
+    return await this.prisma.User.findUnique({
+      where: {
+        verificationToken: token,
+      },
+    });
+  };
+  updateStatus = async (userId) => {
+    return await this.prisma.User.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        isVerified: true,
+      },
+    });
   };
 }

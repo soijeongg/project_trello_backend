@@ -24,6 +24,9 @@ router.post('/login', isNotLoggin, (req, res, next) => {
       if (!user) {
         return res.status(401).json({ message: info });
       } //여기로 넘어가 세션 req.session에 저장된다
+      if (!user.isVerified) {
+        return res.status(401).json({ message: '이메일 인증이 필요합니다' });
+      }
       req.login(user, async (err) => {
         if (err) {
           return next(err);
@@ -36,6 +39,8 @@ router.post('/login', isNotLoggin, (req, res, next) => {
     }
   })(req, res, next);
 });
+
+router.get('/verify', UserController.getVerifyController);
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get(
   '/auth/google/callback',
