@@ -14,15 +14,19 @@ datasource db {
 }
 
 model User {
-  userId      Int         @id @default(autoincrement()) @map("userId")
-  email       String      @unique @map("email")
-  password    String      @map("password")
-  nickname    String      @unique @map("nickname")
-  Boards      Board[]
-  UserBoards  UserBoard[]
+  userId            Int         @id @default(autoincrement()) @map("userId")
+  email             String      @unique @map("email")
+  password          String      @map("password")
+  nickname          String      @unique @map("nickname")
+  provider          String?     @map("provider")
+  isVerified        Boolean     @default(false) @map("isVerified")
+  verificationToken String      @unique @map("verificationToken")
+  Boards            Board[]
+  UserBoards        UserBoard[]
 
   @@map("User")
 }
+
 
 model Board {
   boardId         Int         @id @default(autoincrement()) @map("boardId")

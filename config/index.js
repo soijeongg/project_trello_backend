@@ -1,7 +1,13 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import argon2 from 'argon2';
 import { prisma } from '../src/utils/prisma/index.js';
+import crypto from 'crypto';
+
+function generateRandomPassword() {
+  return crypto.randomBytes(16).toString('hex');
+}
 
 // 사용자 정보를 세션에 저장
 export default function passportConfig() {
@@ -40,6 +46,40 @@ export default function passportConfig() {
           return done(null, user);
         } catch (error) {
           return done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_ID, // 구글 로그인에서 발급받은 REST API 키
+        clientSecret: process.env.GOOGLE_SECRET,
+        callbackURL: 'https://api.nodejstrello.site/api/auth/google/callback', // 구글 로그인 Redirect URI 경로
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const exUser = await prisma.User.findFirst({
+            where: { email: profile.emails[0].value, provider: 'google' },
+          });
+          if (exUser) {
+            done(null, exUser);
+          } else {
+            const newUser = await prisma.User.create({
+              data: {
+                email: profile.emails[0].value,
+                password: generateRandomPassword(), // 가상의 비밀번호 할당
+                nickname: profile.displayName,
+                provider: 'google', // 사용자가 Google을 통해 인증되었음을 나타내는 필드 추가
+                isVerified: true,
+              },
+            });
+            done(null, newUser);
+          }
+        } catch (error) {
+          console.error(error);
+          done(error);
         }
       }
     )

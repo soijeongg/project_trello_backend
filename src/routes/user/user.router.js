@@ -24,6 +24,9 @@ router.post('/login', isNotLoggin, (req, res, next) => {
       if (!user) {
         return res.status(401).json({ message: info });
       } //여기로 넘어가 세션 req.session에 저장된다
+      if (!user.isVerified) {
+        return res.status(401).json({ message: '이메일 인증이 필요합니다' });
+      }
       req.login(user, async (err) => {
         if (err) {
           return next(err);
@@ -36,6 +39,17 @@ router.post('/login', isNotLoggin, (req, res, next) => {
     }
   })(req, res, next);
 });
+
+router.get('/verify', UserController.getVerifyController);
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }), //? 그리고 passport 로그인 전략에 의해 googleStrategy로 가서 구글계정 정보와 DB를 비교해서 회원가입시키거나 로그인 처리하게 한다.
+  (req, res) => {
+    res.redirect('https://www.nodejstrello.site/');
+  }
+);
+
 router.get('/user/get', authMiddleware, UserController.getLoginController); //authMiddleware;
 router.post('/user/get', authMiddleware, UserController.getNickNameController); //authMiddleware;
 router.put('/user', authMiddleware, UserController.putLoginController); //authMiddleware;

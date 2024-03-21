@@ -46,7 +46,7 @@ export class BoardController {
     try {
       let { userId } = res.locals.user; // 로그인한 사용자의 아이디를 response 객체에서 locals 객체에 있는 user 객체에서 가져옴
       const boards = await this.boardService.getBoards(userId);
-      res.json(boards);
+      return res.json(boards);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
