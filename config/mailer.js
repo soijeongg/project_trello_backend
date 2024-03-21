@@ -11,7 +11,7 @@ export function generateRandomPassword() {
 const transporter = nodemailer.createTransport({
   service: 'naver',
   host: 'smtp.naver.com',
-  port: 587,
+  port: 465,
   secure: false,
   requireTLS: true,
   auth: {
