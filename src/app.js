@@ -126,7 +126,7 @@ io.on('connection', async (socket) => {
   socket.on('chat message', (msg) => {
     const roomToEmit = currentRoom || 'main'; // 현재 방이 없으면 기본 방으로 설정
     io.to(roomToEmit).emit('chat message', { msg: msg.text, user: userNickname, own: socket.id });
-    console.log(`Message in ${roomToEmit}: ${msg.text}`);
+    console.log(`Message in ${roomToEmit}:${userNickname}: ${msg.text}`);
   });
 
   // 사용자 연결 해제 처리
@@ -135,5 +135,15 @@ io.on('connection', async (socket) => {
     if (currentRoom) {
       socket.leave(currentRoom); // 연결 해제 시 현재 방에서 나감
     }
+  });
+  // 사용자 타이핑 인디케이터
+  socket.on('typing', () => {
+    const roomToEmit = currentRoom || 'main'; // 현재 방이 없으면 기본 방으로 설정
+    socket.to(roomToEmit).emit('typing', { user: userNickname, isTyping: true });
+  });
+
+  socket.on('typing stopped', () => {
+    const roomToEmit = currentRoom || 'main';
+    socket.to(roomToEmit).emit('typing', { user: userNickname, isTyping: false });
   });
 });
