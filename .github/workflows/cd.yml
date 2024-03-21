@@ -56,7 +56,7 @@ jobs:
             --build-arg USER=${{ secrets.USER }} \
             --build-arg GOOGLE_ID=${{ secrets.GOOGLE_ID }} \
             --build-arg S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }} \
-            --build-arg GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} .
+            --build-arg GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} \
             --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
             --build-arg REDIS_HOST=${{ secrets.REDIS_HOST }} \
             --build-arg REDIS_PORT=${{ secrets.REDIS_PORT }} \
