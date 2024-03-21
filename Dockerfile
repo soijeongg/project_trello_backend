@@ -1,5 +1,5 @@
 # 부모 이미지 지정
-FROM node:20.11.1
+FROM node:alpine
 # app 디렉토리 생성
 
 # ARG로 빌드 시점 변수를 선언
