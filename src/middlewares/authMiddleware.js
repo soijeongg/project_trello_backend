@@ -1,5 +1,3 @@
-import passport from 'passport';
-import { prisma } from '../utils/prisma/index.js';
 export default async function authMiddleware(req, res, next) {
   if (req.isAuthenticated()) {
     res.locals.user = req.user;
