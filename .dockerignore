@@ -6,4 +6,5 @@ node_modules
 jest.config
 .prettierrc
 .readme
+
 __test__

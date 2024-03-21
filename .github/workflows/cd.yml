@@ -1,4 +1,5 @@
 name: Deploy to EC2 with ECR
+#ECRd∂S
 on:
   push:
     branches:
@@ -12,7 +13,7 @@ jobs:
 
       # AWS에 로그인
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,12 +32,14 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          mask-password: 'true'
 
       # Docker 이미지 빌드 및 푸시
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          ECR_REPOSITORY: trello
           IMAGE_TAG: latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
@@ -61,7 +64,15 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           port: 22
           script: |
-            sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            sudo docker stop ${{ secrets.DOCKER_CONTAINER_NAME }} || true
-            sudo docker rm ${{ secrets.DOCKER_CONTAINER_NAME }} || true
-            sudo docker run -d --name ${{ secrets.DOCKER_CONTAINER_NAME }} -p 3000:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ steps.login-ecr.outputs.registry }}
+            docker pull ${{ steps.login-ecr.outputs.registry }}/trello:latest
+            sudo docker ps -a
+            sudo docker stop $(docker ps -a -q)
+            sudo docker ps -a
+            sudo docker rm $(docker ps -a -q)
+            sudo docker ps -a
+            sudo docker images
+            sudo docker run -d --name trello -p 3000:3000 ${{ steps.login-ecr.outputs.registry }}/trello:latest
+            sudo docker ps -a
+            sudo docker system prune -a -f
+            sudo docker images
