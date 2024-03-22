@@ -61,7 +61,7 @@ COPY . .
 # 현재 디렉터리에 있는 파일들을 이미지 내부 /app 디렉터리에 추가함
 
 ADD     . /app
-RUN cd main
+
 RUN yarn prisma generate
 # 하기 포트를 외부로 노출합니다.
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { prisma } from "../../utils/prisma/index.js";
+import { prisma } from '../../utils/prisma/index.js';
 import { BoardRepository } from './board.repository.js';
 import { BoardService } from './board.service.js';
 import { BoardController } from './board.controller.js';
