@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendVerificationEmail = (userEmail, verificationToken) => {
   const mailOptions = {
-    from: 'writer__soi@naver.com',
+    from: `${process.env.USER}@naver.com`,
     to: userEmail,
     subject: '트렐로 회원가입 인증 이메일입니다',
     html: `<p>아래의 링크를 클릭하여 회원가입을 완료하세요.</p>
