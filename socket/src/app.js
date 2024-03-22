@@ -8,7 +8,6 @@ import { prisma } from '../src/utils/prisma/index.js';
 import LogMiddleware from './middlewares/logMiddleware.js';
 import notFoundErrorHandler from './middlewares/notFoundErrorMiddleware.js';
 import generalErrorHandler from './middlewares/generalErrorMiddleware.js';
-import router from './routes/index.js';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import sharedsession from 'express-socket.io-session';
@@ -68,11 +67,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 passportConfig(passport);
 
-app.use('/api', router);
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = 4000;
 
 httpServer.listen(PORT, () => {
   console.log(PORT, '포트로 서버가 열렸어요!');
