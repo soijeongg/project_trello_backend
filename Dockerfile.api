@@ -63,6 +63,6 @@ COPY . .
 ADD     . /app
 RUN yarn prisma generate
 # 하기 포트를 외부로 노출합니다.
-EXPOSE 3000
+
 
 CMD [ "yarn","dev" ]
