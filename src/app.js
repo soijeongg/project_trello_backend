@@ -22,9 +22,9 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: true,
-    methods: ['GET', 'POST'],
-    credentials: true,
+    origin: ['https://nodejstrello.com', 'http://localhost:5000'], // 허용할 도메인 목록
+    methods: ['GET', 'POST'], // 허용할 HTTP 메소드
+    credentials: true, // 쿠키를 포함한 요청을 허용할지 여부
   },
 });
 
@@ -51,7 +51,7 @@ app.use(sessionMiddleware);
 app.use(LogMiddleware);
 app.use(
   cors({
-    origin: true, // 프론트엔드 서버 주소
+    origin: ['https://nodejstrello.com', 'http://localhost:5000'], // 허용할 도메인 목록
     credentials: true, // 쿠키를 포함한 요청을 허용
   })
 );
