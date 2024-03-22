@@ -87,7 +87,6 @@ jobs:
             sudo docker stop $(docker ps -a -q)
             sudo docker ps -a
             sudo docker rm $(docker ps -a -q)
-            sudp docker run ${ECR_REGISTRY}/trello:late
-            sudo docker run ${ECR_REGISTRY}/trello:latest
-            docker-compose up -d
+            sudo docker run ${{ steps.login-ecr.outputs.registry }}/trello:late
+            sudo docker run ${{ steps.login-ecr.outputs.registry }}/trello:latest
             docker system prune -af
