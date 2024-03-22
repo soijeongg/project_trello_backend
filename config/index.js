@@ -73,6 +73,7 @@ export default function passportConfig() {
                 nickname: profile.displayName,
                 provider: 'google', // 사용자가 Google을 통해 인증되었음을 나타내는 필드 추가
                 isVerified: true,
+                verificationToken: generateRandomPassword(),
               },
             });
             done(null, newUser);
