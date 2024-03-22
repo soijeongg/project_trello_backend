@@ -30,7 +30,7 @@ services:
       REMOTE_PRIVATE_KEY: ${REMOTE_PRIVATE_KEY}
       EC2_HOST: ${EC2_HOST}
       EC2_USERNAME: ${EC2_USERNAME}
-    image: ${ECR_REGISTRY}/trello:latest
+    image: ${ECR_REGISTRY}/trello:late
   service2:
     build:
       context: .
