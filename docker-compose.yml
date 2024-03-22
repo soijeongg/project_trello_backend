@@ -30,7 +30,7 @@ services:
       REMOTE_PRIVATE_KEY: ${REMOTE_PRIVATE_KEY}
       EC2_HOST: ${EC2_HOST}
       EC2_USERNAME: ${EC2_USERNAME}
-  image: "${steps.login-ecr.outputs.registry}/trello:latest"
+  image: " ${ECR_REGISTRY}/trello:latest"
   service2:
     build:
       context: .
@@ -39,4 +39,4 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-    image: "${steps.login-ecr.outputs.registry}/trello:latest"
+    image: " ${ECR_REGISTRY}/trello:latest"
