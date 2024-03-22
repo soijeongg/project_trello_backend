@@ -10,7 +10,9 @@ function generateRandomPassword() {
 }
 
 // 사용자 정보를 세션에 저장
+
 export default function passportConfig() {
+  
   passport.serializeUser((user, done) => {
     done(null, user.userId);
   });
