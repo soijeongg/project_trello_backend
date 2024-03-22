@@ -44,7 +44,7 @@ router.get('/verify', UserController.getVerifyController);
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get(
   '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }), //? 그리고 passport 로그인 전략에 의해 googleStrategy로 가서 구글계정 정보와 DB를 비교해서 회원가입시키거나 로그인 처리하게 한다.
+  passport.authenticate('google', { failureRedirect: 'https://www.nodejstrello.site/login' }), //? 그리고 passport 로그인 전략에 의해 googleStrategy로 가서 구글계정 정보와 DB를 비교해서 회원가입시키거나 로그인 처리하게 한다.
   (req, res) => {
     res.redirect('https://www.nodejstrello.site/');
   }
