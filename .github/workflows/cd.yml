@@ -81,8 +81,10 @@ jobs:
           port: 22
           script: |
             docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ steps.login-ecr.outputs.registry }}
-            docker-compose down
-            docker-compose pull'
+            sudo docker ps -a
+            sudo docker stop $(docker ps -a -q)
+            sudo docker ps -a
+            sudo docker rm $(docker ps -a -q)
             sudp docker run ${ECR_REGISTRY}/trello:late
             sudo docker run ${ECR_REGISTRY}/trello:latest
             docker-compose up -d
