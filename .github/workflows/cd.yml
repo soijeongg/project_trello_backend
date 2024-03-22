@@ -1,5 +1,5 @@
 name: Deploy to EC2 with ECR
-#이미 도커파일이 이미지화되어 넘어감
+#이미 도커파일이 이미지화되어 넘어감-> 자꾸 없다고 컴포즈 파일 없다고 뜸
 on:
   push:
     branches:
