@@ -22,4 +22,6 @@ COPY yarn.lock .
 RUN  yarn install
 
 COPY socket .
+RUN yarn prisma generate
+EXPOSE 4000
 CMD [ "nodemon", "socket/src/app.js" ]
