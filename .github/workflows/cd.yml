@@ -43,56 +43,57 @@ jobs:
           IMAGE_TAG: latest
           SOCKET_IO_PORT: 4000
           PORT: 3000
-          DATABASE_URL:  ${{ secrets.DATABASE_URL}}
-          DATABASE_HOST :  ${{ secrets.DATABASE_HOST}}
-          DATABASE_PORT :  ${{ secrets.DATABASE_PORT}}
-          DATABASE_NAME : ${{ secrets.DATABASE_NAME}}
-          DATABASE_USERNAME : ${{ secrets.DATABASE_USERNAME}}
-          DATABASE_PASSWORD : ${{ secrets.DATABASE_PASSWORD}}
-          JWT_SECRET : ${{ secrets.JWT_SECRET}}
-          S3_ACCESS_KEY : ${{ secrets.S3_ACCESS_KEY}}
-          S3_SECRET_ACCESS_KEY :  ${{ secrets.S3_SECRET_ACCESS_KEY}}
-          REDIS_HOST : ${{ secrets.REDIS_HOST}}
-          REDIS_PORT : ${{ secrets.REDIS_PORT}}
-          REDIS_PASSWORD : ${{ secrets.REDIS_PASSWORD}}
-          GOOGLE_ID :  ${{ secrets.GOOGLE_ID}}
-          GOOGLE_SECRET : ${{ secrets.GOOGLE_SECRET}}
-          USER : ${{ secrets.USER}}
-          PASS : ${{ secrets.PASS}}!
-          AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          AWS_REGION : ${{ secrets.AWS_REGION}}
-          REMOTE_PRIVATE_KEY : ${{ secrets.REMOTE_PRIVATE_KEY}}
-          EC2_HOST : ${{ secrets.EC2_HOST}}
-          EC2_USERNAME : ${{ secrets.EC2_USERNAME}}
-
+          DATABASE_URL: ${{ secrets.DATABASE_URL}}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST}}
+          DATABASE_PORT: ${{ secrets.DATABASE_PORT}}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME}}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME}}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD}}
+          JWT_SECRET: ${{ secrets.JWT_SECRET}}
+          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY}}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY}}
+          REDIS_HOST: ${{ secrets.REDIS_HOST}}
+          REDIS_PORT: ${{ secrets.REDIS_PORT}}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD}}
+          GOOGLE_ID: ${{ secrets.GOOGLE_ID}}
+          GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET}}
+          USER: ${{ secrets.USER}}
+          PASS: ${{ secrets.PASS}}!
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_REGION: ${{ secrets.AWS_REGION}}
+          REMOTE_PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY}}
+          EC2_HOST: ${{ secrets.EC2_HOST}}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME}}
 
         run: |
-          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
-          echo "ECR_REPOSITORY=trello" >> $GITHUB_ENV
-          echo "IMAGE_TAG=latest" >> $GITHUB_ENV
-          echo "SOCKET_IO_PORT=4000" >> $GITHUB_ENV
-          echo "PORT=3000" >> $GITHUB_ENV
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-          echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> $GITHUB_ENV
-          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> $GITHUB_ENV
-          echo "DATABASE_PORT=${{ secrets.DATABASE_NAME }}" >> $GITHUB_ENV
-          echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> $GITHUB_ENV
-          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-          echo "S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}" >> $GITHUB_ENV
-          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
-          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
-          echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> $GITHUB_ENV
-          echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> $GITHUB_ENV
-          echo "USER=${{ secrets.USER }}" >> $GITHUB_ENV
-          echo "PASS=${{ secrets.PASS }}" >> $GITHUB_ENV
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
-          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
-          echo "REMOTE_PRIVATE_KEY=${{ secrets.REMOTE_PRIVATE_KEY }}" >> $GITHUB_ENV
-          echo "EC2_HOST=${{ secrets.EC2_HOST }}" >> $GITHUB_ENV
-          echo "EC2_USERNAME=${{ secrets.EC2_USERNAME }}" >> $GITHUB_ENV
+          export ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          export ECR_REPOSITORY=trello
+          export IMAGE_TAG=latest
+          export SOCKET_IO_PORT=4000
+          export PORT=3000
+          export DATABASE_URL=${{ secrets.DATABASE_URL }}
+          export DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+          export DATABASE_PORT=${{ secrets.DATABASE_PORT }}
+          export DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+          export DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+          export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+          export JWT_SECRET=${{ secrets.JWT_SECRET }}
+          export S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}
+          export S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
+          export REDIS_HOST=${{ secrets.REDIS_HOST }}
+          export REDIS_PORT=${{ secrets.REDIS_PORT }}
+          export REDIS_PASSWORD=${{secrets.REDIS_PASSWORD}}
+          export GOOGLE_ID=${{ secrets.GOOGLE_ID }}
+          export GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}
+          export USER=${{ secrets.USER }}
+          export PASS=${{ secrets.PASS }}
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export AWS_REGION=${{ secrets.AWS_REGION }}
+          export REMOTE_PRIVATE_KEY=${{ secrets.REMOTE_PRIVATE_KEY }}
+          export EC2_HOST=${{ secrets.EC2_HOST }}
+          export EC2_USERNAME=${{ secrets.EC2_USERNAME }}
           docker-compose build
           docker-compose push
 
