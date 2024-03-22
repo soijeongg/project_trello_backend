@@ -23,6 +23,7 @@ RUN  yarn install
 
 COPY socket .
 ADD     . /app
+RUN cd socket
 RUN yarn global add prisma
 RUN yarn prisma generate
 EXPOSE 4000
