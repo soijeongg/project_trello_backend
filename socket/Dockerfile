@@ -26,4 +26,4 @@ ADD     . /app
 
 RUN yarn prisma generate
 EXPOSE 4000
-CMD [ "nodemon", "socket/src/app.js" ]
+CMD [ "nodemon", "src/app.js" ]
