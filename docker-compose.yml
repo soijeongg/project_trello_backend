@@ -2,13 +2,13 @@ version: '3.8'
 services:
   api:
     build:
-      context: .
+      context: ./main
       dockerfile: Dockerfile.api
     environment:
       - SOCKET_IO_PORT
       - PORT
       - DATABASE_URL
-      - DTABASE_HOST
+      - DATABASE_HOST
       - DATABASE_PORT
       - DATABASE_NAME
       - DATABASE_USERNAME
@@ -32,8 +32,8 @@ services:
     image: ${ECR_REGISTRY}/trello:late
   service2:
     build:
-      context: .
-      dockerfile: Dockerfile.socket
+      context: ./socket
+      dockerfile: Dockerfile
     environment:
       - REDIS_HOST
       - REDIS_PORT
