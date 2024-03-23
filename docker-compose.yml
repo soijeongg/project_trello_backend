@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: ./main
-      dockerfile: Dockerfile.api
+      dockerfile: Dockerfile
     environment:
       - SOCKET_IO_PORT
       - PORT
