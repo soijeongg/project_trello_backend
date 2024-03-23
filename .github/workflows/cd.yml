@@ -61,7 +61,7 @@ jobs:
             --build-arg REDIS_HOST=${{ secrets.REDIS_HOST }} \
             --build-arg REDIS_PORT=${{ secrets.REDIS_PORT }} \
             --build-arg REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} \
-          -f main/Dockerfile
+          -f main/Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
           # Docker 이미지 빌드 및 푸시
@@ -89,7 +89,8 @@ jobs:
             --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
             --build-arg REDIS_HOST=${{ secrets.REDIS_HOST }} \
             --build-arg REDIS_PORT=${{ secrets.REDIS_PORT }} \
-            --build-arg REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} .
+            --build-arg REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} \
+          -f socket/Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       # SSH로 EC2 인스턴스에 접속하여 Docker 컨테이너 재시작
