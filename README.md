@@ -170,6 +170,7 @@ export default router;
 ```
 <ul>
 상위 라우터의 params에 접근하지 못하는 경우에는 router를 선언할 때 mergeParams:true를 넣어주면 된다.
+
 </ul>
 
 ```javascript
