@@ -21,7 +21,7 @@ COPY yarn.lock .
 # 패키지 설치
 RUN  yarn install
 
-COPY socket .
+COPY . .
 ADD     . /app
 
 RUN yarn prisma generate
