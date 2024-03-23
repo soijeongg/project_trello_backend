@@ -66,4 +66,4 @@ RUN yarn prisma generate
 # 하기 포트를 외부로 노출합니다.
 
 
-CMD [ "nodemon","src/app.js" ]
+CMD [ "node","src/app.js" ]
