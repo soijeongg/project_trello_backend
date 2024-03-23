@@ -42,7 +42,7 @@ jobs:
           ECR_REPOSITORY: trello
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ../../main/Dockerfile \
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ../../main/Dockerfile . \
             --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
             --build-arg PORT=${{ secrets.PORT }} \
             --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
@@ -70,7 +70,7 @@ jobs:
           ECR_REPOSITORY: trello
           IMAGE_TAG: late
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  -f ../../socket/Dockerfile\
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  -f ../../socket/Dockerfile .\
             --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
             --build-arg PORT=${{ secrets.PORT }} \
             --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
