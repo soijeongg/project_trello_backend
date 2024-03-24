@@ -4,6 +4,7 @@ services:
     build:
       context: ./main
       dockerfile: Dockerfile
+    image: ${ECR_REGISTRY}/trello:late
     environment:
       SOCKET_IO_PORT: $SOCKET_IO_PORT
       PORT: $PORT
@@ -29,12 +30,12 @@ services:
       REMOTE_PRIVATE_KEY: $REMOTE_PRIVATE_KEY
       EC2_HOST: $EC2_HOST
       EC2_USERNAME: $EC2_USERNAME
-    image: ${ECR_REGISTRY}/trello:late
   service2:
     build:
       image: ${ECR_REGISTRY}/trello:latest
       context: ./socket
       dockerfile: Dockerfile
+    image: ${ECR_REGISTRY}/trello:latest
     environment:
       REDIS_HOST: $REDIS_HOST
       REDIS_PORT: $REDIS_PORT
