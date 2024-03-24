@@ -31,11 +31,12 @@ services:
       EC2_HOST: $EC2_HOST
       EC2_USERNAME: $EC2_USERNAME
 service2:
-  build:
-    context: ./socket
-    dockerfile: Dockerfile
-  image: ${ECR_REGISTRY}/trello:latest
-  environment:
-    REDIS_HOST: $REDIS_HOST
-    REDIS_PORT: $REDIS_PORT
-    REDIS_PASSWORD: $REDIS_PASSWORD
+  socket:
+    build:
+      context: ./socket
+      dockerfile: Dockerfile
+    image: ${ECR_REGISTRY}/trello:latest
+    environment:
+      REDIS_HOST: $REDIS_HOST
+      REDIS_PORT: $REDIS_PORT
+      REDIS_PASSWORD: $REDIS_PASSWORD
