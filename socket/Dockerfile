@@ -57,5 +57,5 @@ LABEL version="1.0.0"
 
 
 RUN yarn prisma generate
-EXPOSE 4000
+
 CMD [ "node", "src/app.js" ]
