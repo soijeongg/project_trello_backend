@@ -29,8 +29,6 @@ services:
       AWS_REGION: $AWS_REGION
       REMOTE_PRIVATE_KEY: $REMOTE_PRIVATE_KEY
       EC2_HOST: $EC2_HOST
-      EC2_USERNAME: $EC2_USERNAME
-service2:
   socket:
     build:
       context: ./socket
