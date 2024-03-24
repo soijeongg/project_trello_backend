@@ -13,10 +13,6 @@ RUN  yarn install
 COPY . .
 ADD     . /app
 
-ENV REDIS_HOST=$REDIS_HOST \
-    REDIS_PORT=$REDIS_PORT \
-    REDIS_PASSWORD=$REDIS_PASSWORD
-
 LABEL creator="no6_socket@trello"
 LABEL version="1.0.0"
 
