@@ -18,7 +18,7 @@
     <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://www.nodejstrello.site/">트렐로</a></td>
   </tr>
   <tr align="center">
-    <img src="https://raw.githubusercontent.com/norwegianwood97/project_trello_backend_personal
+    <td><img src="https://raw.githubusercontent.com/norwegianwood97/project_trello_backend_personal
 /dev/icons/FeGithub.png" alt="Github 아이콘" style="width: 25px;"></td>
     <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/norwegianwood97/project_trello_frontend">FE Github</a></td>
   </tr>
