@@ -30,13 +30,12 @@ services:
       REMOTE_PRIVATE_KEY: $REMOTE_PRIVATE_KEY
       EC2_HOST: $EC2_HOST
       EC2_USERNAME: $EC2_USERNAME
-  service2:
-    build:
-      image: ${ECR_REGISTRY}/trello:latest
-      context: ./socket
-      dockerfile: Dockerfile
-    image: ${ECR_REGISTRY}/trello:latest
-    environment:
-      REDIS_HOST: $REDIS_HOST
-      REDIS_PORT: $REDIS_PORT
-      REDIS_PASSWORD: $REDIS_PASSWORD
+service2:
+  build:
+    context: ./socket
+    dockerfile: Dockerfile
+  image: ${ECR_REGISTRY}/trello:latest
+  environment:
+    REDIS_HOST: $REDIS_HOST
+    REDIS_PORT: $REDIS_PORT
+    REDIS_PASSWORD: $REDIS_PASSWORD
