@@ -2,17 +2,6 @@
 FROM node:alpine
 # app 디렉토리 생성
 
-ARG REDIS_HOST
-ARG REDIS_PORT
-ARG REDIS_PASSWORD
-
-ENV REDIS_HOST=$REDIS_HOST \
-    REDIS_PORT=$REDIS_PORT \
-    REDIS_PASSWORD=$REDIS_PASSWORD
-
-LABEL creator="no6_socket@trello"
-LABEL version="1.0.0"
-
 WORKDIR /app
 
 COPY package.json .
@@ -23,6 +12,16 @@ RUN  yarn install
 
 COPY . .
 ADD     . /app
+
+ENV REDIS_HOST=$REDIS_HOST \
+    REDIS_PORT=$REDIS_PORT \
+    REDIS_PASSWORD=$REDIS_PASSWORD
+
+LABEL creator="no6_socket@trello"
+LABEL version="1.0.0"
+
+
+
 
 RUN yarn prisma generate
 EXPOSE 4000
