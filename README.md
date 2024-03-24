@@ -18,11 +18,13 @@
     <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://www.nodejstrello.site/">트렐로</a></td>
   </tr>
   <tr align="center">
-    <td><img src="https://user-images.githubusercontent.com/389021/165723723-c93929a5-01d9-49e1-907b-43669d8089e6.png" alt="리액트 아이콘" style="width: 25px;"></td>
+    <img src="https://raw.githubusercontent.com/norwegianwood97/project_trello_backend_personal
+/dev/icons/FeGithub.png" alt="Github 아이콘" style="width: 25px;"></td>
     <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/norwegianwood97/project_trello_frontend">FE Github</a></td>
   </tr>
   <tr align="center">
-    <td><img src="https://static-00.iconduck.com/assets.00/node-js-icon-454x512-nztofx17.png" alt="노드js 아이콘" style="width: 20px;"></td>
+    <td><img src="https://raw.githubusercontent.com/norwegianwood97/project_trello_backend_personal
+/dev/icons/BeGithub.png" alt="노드js 아이콘" style="width: 20px;"></td>
     <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/jovid18/project_trello_backend">BE Github</td>
   </tr>
   <tr align="center">
